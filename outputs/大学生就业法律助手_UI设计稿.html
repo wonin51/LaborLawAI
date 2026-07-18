@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>大学生就业法律助手 UI 设计稿</title>
+<style>
+  :root{
+    --ink:#172A45;
+    --ink-2:#243B5A;
+    --paper:#F8F4E9;
+    --paper-deep:#EFE5D0;
+    --contract:#FFFDF8;
+    --blue:#2E6B9A;
+    --teal:#0B8C8C;
+    --verdict:#C13A2C;
+    --amber:#D99A22;
+    --green:#3F8A57;
+    --violet:#6E4BA7;
+    --line:#D6CAB6;
+    --muted:#6A7381;
+    --shadow:0 24px 80px rgba(23,42,69,.16);
+    --radius:26px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 12% 3%, rgba(193,58,44,.14), transparent 28%),
+      radial-gradient(circle at 94% 8%, rgba(11,140,140,.16), transparent 26%),
+      linear-gradient(135deg,#fbf6eb 0%,#eef5f7 52%,#f7efe5 100%);
+    font-family:"Microsoft YaHei UI","Microsoft YaHei","PingFang SC",system-ui,sans-serif;
+    line-height:1.55;
+  }
+  body:before{
+    content:""; position:fixed; inset:0; pointer-events:none; opacity:.42;
+    background-image:linear-gradient(rgba(23,42,69,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(23,42,69,.035) 1px,transparent 1px);
+    background-size:38px 38px;
+    mask-image:linear-gradient(to bottom, black, transparent 85%);
+  }
+  .page{max-width:1500px;margin:0 auto;padding:42px 34px 80px;position:relative}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:26px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .seal{
+    width:54px;height:54px;border-radius:18px;background:var(--ink);color:#fff;display:grid;place-items:center;
+    box-shadow:0 10px 30px rgba(23,42,69,.25);position:relative;overflow:hidden;font-weight:900;letter-spacing:.08em;
+  }
+  .seal:after{content:"";position:absolute;inset:8px;border:1px solid rgba(255,255,255,.48);border-radius:13px}
+  .brand h1{margin:0;font-size:24px;letter-spacing:.02em}
+  .brand p{margin:2px 0 0;color:var(--muted);font-size:13px}
+  .nav{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+  .nav a{color:var(--ink);text-decoration:none;border:1px solid rgba(23,42,69,.14);padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.5);font-size:13px}
+  .hero{display:grid;grid-template-columns:1.02fr .98fr;gap:26px;align-items:stretch;margin-bottom:34px}
+  .hero-card,.contract-hero,.board,.screen,.spec-card{border:1px solid rgba(23,42,69,.12);background:rgba(255,255,255,.72);backdrop-filter:blur(10px);border-radius:var(--radius);box-shadow:var(--shadow)}
+  .hero-card{padding:38px;position:relative;overflow:hidden}
+  .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--verdict);font-weight:900;margin-bottom:14px}
+  .hero-card h2{font-size:58px;line-height:1.03;margin:0 0 20px;letter-spacing:-.055em}
+  .hero-card h2 span{color:var(--verdict);font-family:"KaiTi","STKaiti",serif;font-weight:700;letter-spacing:-.02em}
+  .hero-card .lead{font-size:18px;color:#3b4654;max-width:760px;margin:0 0 24px}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+  .btn{border:0;border-radius:16px;padding:13px 18px;font-weight:800;font-size:14px;display:inline-flex;gap:8px;align-items:center;color:#fff;background:var(--ink);box-shadow:0 14px 30px rgba(23,42,69,.18)}
+  .btn.secondary{background:#fff;color:var(--ink);border:1px solid rgba(23,42,69,.16);box-shadow:none}
+  .mini-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:26px}
+  .metric{background:#fff;border:1px solid rgba(23,42,69,.1);border-radius:18px;padding:14px}
+  .metric b{display:block;font-size:28px;letter-spacing:-.04em}.metric span{font-size:12px;color:var(--muted)}
+  .contract-hero{background:var(--contract);padding:24px 24px 24px 34px;position:relative;overflow:hidden;min-height:450px}
+  .contract-hero:before{content:"";position:absolute;left:18px;top:0;bottom:0;width:4px;background:linear-gradient(var(--verdict),#e98730,var(--teal));border-radius:99px}
+  .doc-head{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:16px}
+  .doc-head h3{margin:0;font-size:24px;font-family:"SimSun","Songti SC",serif;letter-spacing:.16em}.doc-head small{color:var(--muted)}
+  .clause{position:relative;padding:12px 130px 12px 14px;border-bottom:1px dashed var(--line);font-family:"SimSun","Songti SC",serif;font-size:15px;color:#333;background:linear-gradient(90deg,rgba(255,255,255,.6),rgba(248,244,233,.2))}
+  .clause strong{color:var(--ink)}
+  .tag{position:absolute;right:0;top:12px;font-family:"Microsoft YaHei";font-size:12px;border-radius:999px;padding:4px 9px;font-weight:800}
+  .tag.high{background:#F8D7D3;color:var(--verdict)}.tag.mid{background:#FFF0C7;color:#946209}.tag.ok{background:#DDF0E2;color:var(--green)}
+  .marginalia{position:absolute;right:26px;bottom:28px;width:300px;border-radius:22px;background:var(--ink);color:#fff;padding:18px;box-shadow:0 18px 42px rgba(23,42,69,.25)}
+  .marginalia .risk-line{height:8px;background:linear-gradient(90deg,var(--verdict) 0 62%,var(--amber) 62% 84%,var(--green) 84%);border-radius:99px;margin:12px 0}
+  .marginalia h4{margin:0;font-size:16px}.marginalia p{margin:8px 0 0;color:#dce6f0;font-size:13px}
+  .section-title{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:42px 0 18px}
+  .section-title h2{font-size:32px;margin:0;letter-spacing:-.04em}.section-title p{margin:0;color:var(--muted);max-width:620px}
+  .board{padding:24px;margin-bottom:30px}
+  .tokens{display:grid;grid-template-columns:1.2fr .9fr .9fr;gap:18px}
+  .swatches{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.swatch{border-radius:16px;overflow:hidden;border:1px solid rgba(23,42,69,.1);background:#fff}.swatch i{display:block;height:54px}.swatch span{display:block;font-size:12px;padding:8px;color:var(--muted)}
+  .type-card{background:#fff;border:1px solid rgba(23,42,69,.1);border-radius:18px;padding:16px}.display-type{font-size:34px;line-height:1.1;font-family:"KaiTi","STKaiti",serif;color:var(--verdict)}.body-type{font-size:15px;color:#364354}.utility-type{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);font-weight:900}
+  .signature{background:var(--ink);color:#fff;border-radius:22px;padding:20px;position:relative;overflow:hidden}.signature:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 14px,rgba(255,255,255,.05) 14px 15px)}.signature>*{position:relative}.signature h3{margin:0 0 8px}.signature p{color:#d8e0ea;margin:0}
+  .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.flow-step{background:#fff;border:1px solid rgba(23,42,69,.1);border-radius:18px;padding:16px;position:relative}.flow-step b{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:12px;color:#fff;background:var(--blue);margin-bottom:10px}.flow-step h3{margin:0 0 6px;font-size:16px}.flow-step p{margin:0;color:var(--muted);font-size:13px}
+  .screens{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}.screen{background:#eff4f4;padding:18px;min-height:720px}.screen.wide{grid-column:1/-1;min-height:650px}.app-frame{height:100%;border-radius:24px;background:#fff;overflow:hidden;border:1px solid rgba(23,42,69,.16);box-shadow:0 20px 60px rgba(23,42,69,.12)}
+  .app-top{height:58px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 18px}.app-logo{display:flex;align-items:center;gap:10px;font-weight:900}.dot-logo{width:28px;height:28px;border-radius:10px;background:var(--verdict);display:grid;place-items:center}.app-menu{display:flex;gap:14px;font-size:12px;color:#d4deea}.app-menu span.active{color:#fff;border-bottom:2px solid var(--amber);padding-bottom:4px}
+  .app-main{padding:22px}.app-main.split{display:grid;grid-template-columns:.72fr 1.28fr;gap:18px}.panel{background:#fbfcfd;border:1px solid #e1e8ef;border-radius:20px;padding:18px}.panel h3{margin:0 0 12px;font-size:18px}.input-box{min-height:360px;border:1.5px dashed #b6c3cf;border-radius:18px;background:#fffdf8;padding:16px;font-family:"SimSun";color:#3f4650}.hint{font-size:12px;color:var(--muted);margin-top:10px}.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.chip{border-radius:999px;padding:6px 10px;background:#eef5f7;color:var(--blue);font-size:12px;font-weight:800}.chip.red{background:#f8ded9;color:var(--verdict)}.chip.green{background:#dff1e4;color:var(--green)}.chip.amber{background:#fff0c7;color:#946209}
+  .risk-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.risk-card{border-radius:18px;padding:14px;color:#fff}.risk-card b{font-size:30px}.risk-card span{display:block;font-size:12px;opacity:.86}.risk-card.high{background:var(--verdict)}.risk-card.mid{background:var(--amber)}.risk-card.low{background:var(--green)}.risk-card.total{background:var(--ink)}
+  .risk-item{display:grid;grid-template-columns:70px 1fr 150px;gap:14px;background:#fff;border:1px solid #e7edf2;border-radius:18px;padding:14px;margin-bottom:12px}.risk-level{border-radius:14px;display:grid;place-items:center;font-weight:900;color:#fff}.risk-level.high{background:var(--verdict)}.risk-level.mid{background:var(--amber)}.risk-level.low{background:var(--green)}.risk-item h4{margin:0 0 6px}.risk-item p{margin:0;color:#596575;font-size:13px}.law-ref{font-size:12px;background:#f1f6fb;border-radius:12px;padding:10px;color:var(--blue);font-weight:800}
+  .chat{display:grid;grid-template-columns:1fr;gap:12px}.bubble{max-width:82%;border-radius:20px;padding:14px 16px;font-size:14px}.bubble.user{justify-self:end;background:var(--ink);color:#fff;border-bottom-right-radius:6px}.bubble.bot{background:#f6f1e8;border:1px solid #e4d7c0;border-bottom-left-radius:6px}.source-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.source{font-size:11px;border-radius:999px;background:#fff;border:1px solid #d9cab2;padding:4px 8px;color:var(--blue);font-weight:800}.askbar{display:flex;gap:10px;margin-top:16px}.askbar input{flex:1;border:1px solid #d7e0e8;border-radius:16px;padding:12px}.askbar button{background:var(--verdict);color:#fff;border:0;border-radius:16px;padding:0 16px;font-weight:900}
+  .checklist{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.check{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid #e5ebef;border-radius:16px;padding:13px}.check i{width:24px;height:24px;border-radius:9px;background:#e5f4eb;color:var(--green);display:grid;place-items:center;font-style:normal;font-weight:900;flex:0 0 auto}.check b{display:block}.check span{font-size:12px;color:var(--muted)}
+  .side-note{border-left:4px solid var(--verdict);background:#fff8f5;border-radius:16px;padding:14px;margin-top:14px;color:#78352d;font-size:13px}.persona-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.persona{background:#fff;border:1px solid rgba(23,42,69,.1);border-radius:18px;padding:16px}.persona .avatar{width:42px;height:42px;border-radius:15px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:900;margin-bottom:10px}.persona h3{margin:0 0 6px}.persona p{margin:0;color:var(--muted);font-size:13px}
+  .spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.spec-card{padding:18px;background:#fff}.spec-card h3{margin:0 0 8px}.spec-card ul{margin:8px 0 0;padding-left:18px;color:#4c5968}.spec-card li{margin:6px 0}.footer-note{text-align:center;color:var(--muted);font-size:13px;margin-top:36px}
+  @media (max-width:1100px){.hero,.screens,.tokens{grid-template-columns:1fr}.flow,.persona-grid,.spec-grid{grid-template-columns:repeat(2,1fr)}.hero-card h2{font-size:44px}.screen.wide{grid-column:auto}.app-main.split{grid-template-columns:1fr}.risk-summary{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:720px){.page{padding:24px 14px}.topbar{align-items:flex-start;flex-direction:column}.flow,.persona-grid,.spec-grid,.checklist,.mini-metrics{grid-template-columns:1fr}.hero-card h2{font-size:36px}.screens{grid-template-columns:1fr}.screen{min-height:auto}.risk-item{grid-template-columns:1fr}.contract-hero{padding-left:26px}.clause{padding-right:0}.tag{position:static;display:inline-block;margin-top:8px}.marginalia{position:static;width:auto;margin-top:16px}}
+  @media print{body{background:#fff}.page{max-width:none;padding:0}.screen,.board,.hero-card,.contract-hero{break-inside:avoid;box-shadow:none}.nav{display:none}}
+</style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand"><div class="seal">法</div><div><h1>大学生就业法律助手 UI 设计稿</h1><p>需求文档驱动 · 高保真界面方向 · 适合小组汇报</p></div></div>
+      <nav class="nav"><a href="#tokens">设计系统</a><a href="#flow">产品流程</a><a href="#screens">核心界面</a><a href="#spec">交付说明</a></nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-card">
+        <div class="eyebrow">Employment legal copilot for students</div>
+        <h2>把一份合同，变成一张<span>可行动</span>的风险地图。</h2>
+        <p class="lead">面向大学生求职、实习、兼职、校招签约场景：系统不是泛泛“普法”，而是像在合同边上做批注一样，标出工资、社保、试用期、违约金、工伤免责等关键风险，并给出法律依据与下一步建议。</p>
+        <div class="hero-actions"><button class="btn">查看合同风险报告</button><button class="btn secondary">进入法律问答</button></div>
+        <div class="mini-metrics"><div class="metric"><b>15+</b><span>合同风险规则</span></div><div class="metric"><b>30+</b><span>高频法律问答</span></div><div class="metric"><b>8周</b><span>MVP原型计划</span></div></div>
+      </div>
+      <div class="contract-hero">
+        <div class="doc-head"><h3>劳动/劳务合同审阅稿</h3><small>AI 批注预览</small></div>
+        <div class="clause"><strong>第三条 工作报酬：</strong>乙方工资按甲方制度及绩效情况发放，具体金额另行通知。<span class="tag high">高风险｜工资不明确</span></div>
+        <div class="clause"><strong>第四条 社会保险：</strong>乙方自愿放弃缴纳社保，甲方以补贴形式发放。<span class="tag high">高风险｜社保缺失</span></div>
+        <div class="clause"><strong>第五条 试用期：</strong>试用期六个月，试用期内甲方可随时解除协议。<span class="tag mid">中高风险｜试用期异常</span></div>
+        <div class="clause"><strong>第八条 争议解决：</strong>发生争议，双方应优先协商处理。<span class="tag ok">低风险｜需补充路径</span></div>
+        <div class="marginalia"><h4>本稿签前警戒线</h4><div class="risk-line"></div><p>共发现 6 个风险点，其中 2 个高风险。建议签前重点核实工资标准、社保缴纳和解除条件。</p></div>
+      </div>
+    </section>
+
+    <section id="tokens" class="board">
+      <div class="section-title"><h2>设计系统</h2><p>视觉关键词：合同纸张、红线批注、法条索引、校园可理解。整体克制，唯一冒险点是“合同边栏批注带”作为品牌记忆点。</p></div>
+      <div class="tokens">
+        <div><h3>颜色令牌</h3><div class="swatches"><div class="swatch"><i style="background:#172A45"></i><span>墨蓝 Ink<br>#172A45</span></div><div class="swatch"><i style="background:#F8F4E9"></i><span>合同纸 Paper<br>#F8F4E9</span></div><div class="swatch"><i style="background:#C13A2C"></i><span>风险红 Verdict<br>#C13A2C</span></div><div class="swatch"><i style="background:#0B8C8C"></i><span>可信青 Teal<br>#0B8C8C</span></div><div class="swatch"><i style="background:#D99A22"></i><span>提醒金 Amber<br>#D99A22</span></div><div class="swatch"><i style="background:#3F8A57"></i><span>安全绿 Green<br>#3F8A57</span></div></div></div>
+        <div><h3>字体气质</h3><div class="type-card"><div class="display-type">签前警戒线</div><p class="body-type">标题局部使用楷体/宋体感，模拟合同与批注场景；正文用微软雅黑，保证大学生用户快速理解。</p><div class="utility-type">LAW REF · RISK LEVEL · CLAUSE ID</div></div></div>
+        <div class="signature"><h3>记忆点：合同边栏批注带</h3><p>所有关键界面都把风险结果放在“合同边栏”或“法条索引条”里，让用户感觉是在审阅真实合同，而不是看普通聊天机器人。</p></div>
+      </div>
+    </section>
+
+    <section id="flow" class="board">
+      <div class="section-title"><h2>核心产品流程</h2><p>从需求文档的 MVP 闭环提炼：合同输入 → 风险识别 → 依据引用 → 追问问答 → 行动清单。</p></div>
+      <div class="flow"><div class="flow-step"><b>1</b><h3>选择场景</h3><p>劳动合同、劳务合同、实习协议、三方协议。</p></div><div class="flow-step"><b>2</b><h3>粘贴合同</h3><p>先脱敏，再分析，保护个人信息。</p></div><div class="flow-step"><b>3</b><h3>生成报告</h3><p>按高/中/低风险输出条款批注。</p></div><div class="flow-step"><b>4</b><h3>追问依据</h3><p>引用法条，不虚构条号。</p></div><div class="flow-step"><b>5</b><h3>签前清单</h3><p>给出可执行的下一步动作。</p></div></div>
+    </section>
+
+    <section id="screens">
+      <div class="section-title"><h2>核心界面稿</h2><p>以下为 5 个关键页面高保真设计：适合进入 Figma 复刻，也可直接用于 PPT 展示。</p></div>
+      <div class="screens">
+        <article class="screen wide"><div class="app-frame"><div class="app-top"><div class="app-logo"><div class="dot-logo">法</div>签前法律助手</div><div class="app-menu"><span class="active">首页</span><span>合同解析</span><span>法律问答</span><span>签约清单</span></div></div><div class="app-main"><div class="hero-card" style="box-shadow:none;background:linear-gradient(135deg,#fffdf8,#eef7f7);"><div class="eyebrow">先看清，再签字</div><h2 style="font-size:46px">大学生就业签约的<br><span>第一道风险提示</span></h2><p class="lead">上传或粘贴合同，系统帮你标出高风险条款、解释法律依据，并告诉你签前应该问清什么、保留什么证据。</p><div class="persona-grid"><div class="persona"><div class="avatar">毕</div><h3>毕业入职</h3><p>工资、试用期、社保、违约金</p></div><div class="persona"><div class="avatar">实</div><h3>实习协议</h3><p>实习报酬、保险、工伤边界</p></div><div class="persona"><div class="avatar">兼</div><h3>兼职劳务</h3><p>押金、工资拖欠、免责条款</p></div><div class="persona"><div class="avatar">问</div><h3>法律追问</h3><p>引用依据，通俗解释</p></div></div></div></div></div></article>
+
+        <article class="screen"><div class="app-frame"><div class="app-top"><div class="app-logo"><div class="dot-logo">审</div>合同解析</div><div class="app-menu"><span class="active">输入</span><span>报告</span></div></div><div class="app-main split"><div class="panel"><h3>选择合同类型</h3><div class="chips"><span class="chip red">劳动合同</span><span class="chip">劳务合同</span><span class="chip">实习协议</span><span class="chip">三方协议</span><span class="chip amber">不确定</span></div><h3 style="margin-top:22px">隐私提醒</h3><div class="side-note">粘贴前请删除姓名、身份证号、手机号、银行卡、公司商业秘密等信息。系统仅做一般风险提示。</div><button class="btn" style="margin-top:18px;width:100%;justify-content:center">开始识别风险</button></div><div class="panel"><h3>粘贴合同文本</h3><div class="input-box">第一条 甲方聘用乙方从事运营实习工作。<br><br>第三条 乙方工资按甲方制度及绩效情况发放，具体金额另行通知。<br><br>第四条 乙方自愿放弃缴纳社保，甲方以补贴形式发放……</div><p class="hint">已识别 1,248 字｜可能包含：工资条款、社保条款、解除条款</p></div></div></div></article>
+
+        <article class="screen"><div class="app-frame"><div class="app-top"><div class="app-logo"><div class="dot-logo">险</div>风险报告</div><div class="app-menu"><span>输入</span><span class="active">报告</span></div></div><div class="app-main"><div class="risk-summary"><div class="risk-card total"><b>6</b><span>风险点</span></div><div class="risk-card high"><b>2</b><span>高风险</span></div><div class="risk-card mid"><b>3</b><span>中风险</span></div><div class="risk-card low"><b>1</b><span>提示项</span></div></div><div class="risk-item"><div class="risk-level high">高</div><div><h4>工资报酬不明确</h4><p>条款仅写“按甲方制度及绩效情况发放”，未写明基本工资、发薪日与扣款规则。</p></div><div class="law-ref">依据方向：劳动合同法 / 劳动法</div></div><div class="risk-item"><div class="risk-level high">高</div><div><h4>社保缺失或社保折现</h4><p>“自愿放弃缴纳社保”属于高风险表达，建议签前要求明确单位缴纳社保。</p></div><div class="law-ref">依据方向：社会保险法</div></div><div class="risk-item"><div class="risk-level mid">中</div><div><h4>试用期解除条件过宽</h4><p>“可随时解除协议”需要结合合同期限、岗位与考核条件进一步核实。</p></div><div class="law-ref">依据方向：劳动合同法</div></div></div></div></article>
+
+        <article class="screen"><div class="app-frame"><div class="app-top"><div class="app-logo"><div class="dot-logo">问</div>法律问答</div><div class="app-menu"><span class="active">依据问答</span><span>证据建议</span></div></div><div class="app-main"><div class="chat"><div class="bubble user">公司让我签劳务合同，但每天固定打卡、由主管安排工作，这样有风险吗？</div><div class="bubble bot">有风险。合同名称不一定决定真实法律关系。如果你持续接受公司管理、按固定时间工作、领取相对固定报酬，可能需要结合实际情况判断是否存在劳动关系。<div class="source-strip"><span class="source">劳动合同法</span><span class="source">劳动争议司法解释</span><span class="source">劳动关系判断线索</span></div></div><div class="bubble bot">建议保留：考勤记录、工作安排聊天记录、工资流水、工牌或工作邮箱等证据。若涉及解除、社保或工伤，建议咨询学校就业部门或专业律师。</div></div><div class="askbar"><input value="继续问：如果不给缴社保怎么办？"/><button>追问</button></div></div></div></article>
+
+        <article class="screen"><div class="app-frame"><div class="app-top"><div class="app-logo"><div class="dot-logo">清</div>签约检查清单</div><div class="app-menu"><span class="active">签前</span><span>签中</span><span>争议</span></div></div><div class="app-main"><div class="checklist"><div class="check"><i>✓</i><div><b>合同类型是否一致</b><span>不要只看标题，要看是否存在固定管理、考勤、工资等劳动关系特征。</span></div></div><div class="check"><i>✓</i><div><b>工资是否写清楚</b><span>金额、结构、发薪日、绩效规则、扣款条件都要明确。</span></div></div><div class="check"><i>✓</i><div><b>社保是否缴纳</b><span>警惕“自愿放弃社保”“社保补贴”等表述。</span></div></div><div class="check"><i>✓</i><div><b>是否收押金</b><span>保证金、培训费、扣证件等条款需要重点核实。</span></div></div><div class="check"><i>✓</i><div><b>违约金是否过高</b><span>普通离职高额违约金通常需要谨慎。</span></div></div><div class="check"><i>✓</i><div><b>争议路径是否清楚</b><span>保存证据，必要时咨询劳动监察、仲裁或律师。</span></div></div></div><div class="side-note">界面语气原则：不制造恐慌，不承诺胜诉，只告诉学生“哪里要问清楚、什么要保留、何时该找专业人士”。</div></div></div></article>
+      </div>
+    </section>
+
+    <section id="spec" class="board">
+      <div class="section-title"><h2>设计交付说明</h2><p>根据需求文档拆分为可落地组件，后续可直接进入前端原型或 Figma 细化。</p></div>
+      <div class="spec-grid"><div class="spec-card"><h3>核心组件</h3><ul><li>合同文本输入框</li><li>风险等级卡片</li><li>法条来源标签</li><li>边栏批注卡</li><li>签约检查项</li></ul></div><div class="spec-card"><h3>内容规则</h3><ul><li>回答必须包含依据方向</li><li>高风险优先展示</li><li>复杂问题提示人工咨询</li><li>隐私提醒始终可见</li></ul></div><div class="spec-card"><h3>后续扩展</h3><ul><li>上传 Word/PDF</li><li>风险报告导出</li><li>OCR 拍照识别</li><li>学校就业指导后台</li></ul></div></div>
+    </section>
+    <p class="footer-note">UI设计稿生成于 2026-07-16 ｜ 文件可直接用浏览器打开、截图或打印为 PDF。</p>
+  </main>
+</body>
+</html>
