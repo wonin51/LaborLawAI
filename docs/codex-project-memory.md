@@ -31,6 +31,7 @@ Last updated: 2026-07-18
 - Git works: `git version 2.53.0.windows.1`.
 - Java available: Oracle JDK `23.0.1`; backend Maven project targets Java 17 via compiler release.
 - Maven available: Apache Maven `3.9.16`.
+- MySQL available as project-local portable install: `.local/mysql/mysql-8.4.10-winx64`; server verified alive on port `3306`.
 - npm works via `npm.cmd`: version `10.9.4`.
 - Feishu/Lark tools installed:
   - `lark-cli version 1.0.70`
@@ -53,6 +54,7 @@ Last updated: 2026-07-18
 - `frontend/`: Vue 3 + Vite + Element Plus frontend skeleton and legal consultation workstation prototype.
 - `backend/src/main/resources/db/init.sql`: initial MySQL database and table skeleton for legal documents, chunks, QA sessions, and feedback.
 - `docs/mysql-setup.md`: MySQL setup and database initialization notes.
+- `scripts/start-local-mysql.ps1`: starts project-local portable MySQL on port `3306`.
 - `README.md`: current project startup, frontend/backend verification, CORS, and troubleshooting instructions.
 - `.gitignore`: excludes Maven, frontend, logs, IDE, and local secret artifacts.
 - `docs/internship-collab-playbook.md`: frontend/Git/Feishu team workflow playbook.
@@ -65,8 +67,7 @@ Last updated: 2026-07-18
 
 ## Open Tasks
 
-- Install MySQL on this Windows machine. Current checks found no `mysql` command, no MySQL service, and no process listening on port `3306`.
-- After MySQL is installed, initialize `legal_contract_assistant` with `backend/src/main/resources/db/init.sql`.
+- Await project data from the user/team for import into MySQL.
 - Later implement legal RAG modules: knowledge ingestion, document chunking, Elasticsearch retrieval, structured answer API, legal source citation, feedback/history.
 - Keep `docs/ai-project-resume-worklog.md` updated whenever AI project scope, implementation progress, UI artifacts, RAG backend work, or measurable results change.
 - Complete Feishu authorization interactively if the user wants live Feishu messaging.
@@ -88,6 +89,12 @@ Last updated: 2026-07-18
 - `OPENAI_API_KEY` defaults to non-secret `demo-key` so the skeleton can start without a real key; real model calls must override it with environment variables.
 - Added `WebMvcConfig` CORS handling for `/api/**`, allowing local Vite origins `localhost:5173`, `127.0.0.1:5173`, `localhost:4173`, and `127.0.0.1:4173`.
 - Added initial MySQL schema for `legal_contract_assistant`; it is ready for later data import once MySQL is installed and running on port `3306`.
+- Project-local MySQL 8.4.10 was downloaded from official MySQL CDN, initialized with root empty password for local development, started on port `3306`, and verified with database/tables:
+  - `kb_document`
+  - `kb_chunk`
+  - `qa_session`
+  - `qa_feedback`
+- Backend was temporarily started on port `8081` while MySQL was running; `GET /api/health` returned `{"status":"ok"}`.
 
 ## Frontend Status
 

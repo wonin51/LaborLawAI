@@ -19,3 +19,6 @@ dist/
 .env
 .env.*
 !.env.example
+
+# Local runtime tools and databases
+.local/

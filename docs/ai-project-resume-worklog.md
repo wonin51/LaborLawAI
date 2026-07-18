@@ -213,6 +213,8 @@ Last updated: 2026-07-18
 
 - 检查本机环境时未发现 `mysql` 命令、MySQL Windows 服务或 `3306` 端口占用。
 - 后端配置已默认指向 `localhost:3306/legal_contract_assistant`。
+- 下载并初始化项目本地 MySQL 8.4.10，监听端口 `3306`。
+- 使用 root 空密码作为本地开发配置，数据库文件位于 `.local/`，不提交到 Git。
 - 新增数据库初始化脚本：`backend/src/main/resources/db/init.sql`。
 - 初始表结构覆盖：
   - `kb_document`：知识库文档元数据。
@@ -220,6 +222,8 @@ Last updated: 2026-07-18
   - `qa_session`：问答会话。
   - `qa_feedback`：问答反馈。
 - 新增 MySQL 准备说明：`docs/mysql-setup.md`。
+- 新增本地 MySQL 启动脚本：`scripts/start-local-mysql.ps1`。
+- 验证后端在 MySQL 已运行时可正常启动并返回健康检查结果。
 
 可写入简历的表达：
 
@@ -298,6 +302,7 @@ Last updated: 2026-07-18
 | 2026-07-18 | 完成后端 Spring Boot 骨架搭建、健康检查接口与 Maven 验证 | `backend/`、`README.md` |
 | 2026-07-18 | 完成前端 Vue 工作台原型、Vite 代理、后端 CORS 配置和前后端健康检查联调 | `frontend/`、`backend/src/main/java/com/teddy/legal/config/WebMvcConfig.java` |
 | 2026-07-18 | 准备 MySQL 初始化脚本和数据库连接说明 | `backend/src/main/resources/db/init.sql`、`docs/mysql-setup.md` |
+| 2026-07-18 | 下载并初始化项目本地 MySQL 8.4.10，验证 3306 端口、数据库表和后端健康检查 | `.local/mysql/`、`scripts/start-local-mysql.ps1` |
 
 ## 下一步建议
 
