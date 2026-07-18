@@ -1,0 +1,43 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-width: 1080px;
+  min-height: 100vh;
+  font-family: Inter, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  color: #172033;
+  background: radial-gradient(circle at 16% 18%, rgba(255, 183, 77, 0.24), transparent 30%), radial-gradient(circle at 82% 12%, rgba(74, 144, 226, 0.18), transparent 28%), linear-gradient(135deg, #f7f1e7 0%, #edf4ff 48%, #f9fbf7 100%);
+}
+button, input, textarea { font: inherit; }
+.app-shell { min-height: 100vh; display: grid; grid-template-columns: 300px 1fr; padding: 24px; gap: 24px; }
+.side-panel { border-radius: 32px; padding: 24px; background: rgba(18, 30, 50, 0.92); color: #fff8ea; box-shadow: 0 26px 70px rgba(23, 32, 51, 0.24); display: flex; flex-direction: column; }
+.brand-card { display: flex; gap: 16px; align-items: center; padding-bottom: 24px; border-bottom: 1px solid rgba(255, 248, 234, 0.16); }
+.brand-mark { width: 58px; height: 58px; border-radius: 20px 20px 6px 20px; background: linear-gradient(145deg, #ffd36a, #ff8f5a); color: #172033; font-size: 30px; font-weight: 900; display: grid; place-items: center; box-shadow: inset 0 -8px 18px rgba(99, 46, 0, 0.15); }
+.brand-card h1 { margin: 4px 0 0; font-size: 22px; line-height: 1.2; }
+.eyebrow { margin: 0; letter-spacing: 0.14em; text-transform: uppercase; font-size: 12px; color: #d58b3a; font-weight: 800; }
+.main-menu { margin-top: 26px; border-right: 0; background: transparent; }
+.main-menu .el-menu-item { color: rgba(255, 248, 234, 0.78); border-radius: 18px; margin: 8px 0; height: 52px; }
+.main-menu .el-menu-item.is-active, .main-menu .el-menu-item:hover { background: rgba(255, 211, 106, 0.16); color: #ffd36a; }
+.side-note { margin-top: auto; padding: 18px; border-radius: 22px; background: rgba(255, 255, 255, 0.08); color: rgba(255, 248, 234, 0.74); line-height: 1.7; font-size: 14px; }
+.content-panel { border-radius: 34px; padding: 28px; background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(18px); box-shadow: 0 26px 80px rgba(39, 70, 118, 0.16); }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+.topbar h2 { margin: 6px 0 0; font-size: 34px; letter-spacing: -0.04em; }
+.health-box { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.76); }
+.page-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(280px, 0.8fr); gap: 24px; }
+.hero-card, .info-card { border: 0; border-radius: 30px; overflow: hidden; }
+.hero-card :deep(.el-card__body), .info-card :deep(.el-card__body) { padding: 30px; }
+.hero-card h3 { margin: 8px 0 14px; font-size: 42px; line-height: 1.08; letter-spacing: -0.05em; }
+.hero-card p, .info-card p, .info-card li { color: #566173; line-height: 1.8; }
+.contract-card { background: linear-gradient(135deg, #fffaf1, #fff1df); }
+.knowledge-card { background: linear-gradient(135deg, #effbf4, #e6f5ff); }
+.ai-card { background: linear-gradient(135deg, #f7f0ff, #fff5df); }
+.contract-paper { margin: 28px 0; padding: 22px; border-radius: 24px; background: repeating-linear-gradient(0deg, #fff 0 22px, #fff7e9 23px 24px); border-left: 8px solid #ff9f43; display: flex; justify-content: space-between; align-items: center; }
+.contract-paper span, .contract-paper strong { color: #172033; }
+.knowledge-list { margin: 28px 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.knowledge-list span { padding: 14px 16px; border-radius: 18px; background: rgba(255, 255, 255, 0.7); font-weight: 700; }
+.chat-preview { margin: 28px 0; display: grid; gap: 14px; }
+.bubble { max-width: 78%; padding: 16px 18px; border-radius: 20px; line-height: 1.7; }
+.bubble.user { justify-self: end; background: #172033; color: #fff8ea; border-bottom-right-radius: 6px; }
+.bubble.assistant { justify-self: start; background: rgba(255, 255, 255, 0.78); color: #364154; border-bottom-left-radius: 6px; }
+.info-card { background: rgba(255, 255, 255, 0.8); }
+.info-card h4 { margin: 0 0 14px; font-size: 22px; }
+.info-card ul { padding-left: 20px; margin: 0; }

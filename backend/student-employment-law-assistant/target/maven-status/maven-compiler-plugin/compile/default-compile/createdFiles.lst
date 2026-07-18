@@ -1,0 +1,11 @@
+com\example\studentemploymentlawassistant\StudentEmploymentLawAssistantApplication.class
+com\example\studentemploymentlawassistant\entity\package-info.class
+com\example\studentemploymentlawassistant\vo\package-info.class
+com\example\studentemploymentlawassistant\dto\package-info.class
+com\example\studentemploymentlawassistant\mapper\package-info.class
+com\example\studentemploymentlawassistant\common\package-info.class
+com\example\studentemploymentlawassistant\config\package-info.class
+com\example\studentemploymentlawassistant\service\package-info.class
+com\example\studentemploymentlawassistant\controller\HealthController.class
+com\example\studentemploymentlawassistant\config\WebCorsConfig.class
+com\example\studentemploymentlawassistant\exception\package-info.class

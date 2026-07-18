@@ -1,0 +1,22 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.7)
+
+2026-07-18T09:26:14.062+08:00  INFO 21024 --- [student-employment-law-assistant] [           main] StudentEmploymentLawAssistantApplication : Starting StudentEmploymentLawAssistantApplication v0.0.1-SNAPSHOT using Java 17.0.11 with PID 21024 (C:\Users\утн╟\Documents\Codex\2026-07-16\w\backend\student-employment-law-assistant\target\student-employment-law-assistant-0.0.1-SNAPSHOT.jar started by утн╟ in C:\Users\утн╟\Documents\Codex\2026-07-16\w\backend\student-employment-law-assistant)
+2026-07-18T09:26:14.063+08:00  INFO 21024 --- [student-employment-law-assistant] [           main] StudentEmploymentLawAssistantApplication : No active profile set, falling back to 1 default profile: "default"
+2026-07-18T09:26:15.880+08:00  INFO 21024 --- [student-employment-law-assistant] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-07-18T09:26:15.897+08:00  INFO 21024 --- [student-employment-law-assistant] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-07-18T09:26:15.897+08:00  INFO 21024 --- [student-employment-law-assistant] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.42]
+2026-07-18T09:26:15.940+08:00  INFO 21024 --- [student-employment-law-assistant] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-07-18T09:26:15.940+08:00  INFO 21024 --- [student-employment-law-assistant] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1795 ms
+2026-07-18T09:26:17.441+08:00  INFO 21024 --- [student-employment-law-assistant] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-07-18T09:26:17.466+08:00  INFO 21024 --- [student-employment-law-assistant] [           main] StudentEmploymentLawAssistantApplication : Started StudentEmploymentLawAssistantApplication in 4.155 seconds (process running for 4.869)
+2026-07-18T09:26:29.869+08:00  INFO 21024 --- [student-employment-law-assistant] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-18T09:26:29.869+08:00  INFO 21024 --- [student-employment-law-assistant] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-07-18T09:26:29.877+08:00  INFO 21024 --- [student-employment-law-assistant] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 8 ms

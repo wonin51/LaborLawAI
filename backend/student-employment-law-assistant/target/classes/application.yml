@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: student-employment-law-assistant
+  ai:
+    # ??????????? OpenAI ???? Bean?????? API Key ?????????? AI ?????? openai ??? OPENAI_API_KEY?
+    model:
+      chat: none
+      embedding: none
+      image: none
+      moderation: none
+      audio:
+        speech: none
+        transcription: none
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+
+server:
+  port: 8080
