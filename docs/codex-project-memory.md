@@ -95,6 +95,12 @@ Last updated: 2026-07-18
   - `qa_session`
   - `qa_feedback`
 - Backend was temporarily started on port `8081` while MySQL was running; `GET /api/health` returned `{"status":"ok"}`.
+- Teacher database notes recorded for later backend work:
+  - Avoid full table scans where possible; `EXPLAIN type = ALL` is a warning sign.
+  - Use selective `WHERE` conditions and indexes for frequent query paths, but avoid excessive indexes.
+  - MySQL InnoDB default isolation is usually Repeatable Read.
+  - Spring transaction propagation defaults to `REQUIRED`; use `REQUIRES_NEW` carefully for independent side effects such as logs/audits.
+  - Main transactions should not be rolled back casually by non-core side transactions.
 
 ## Frontend Status
 
