@@ -1,9 +1,24 @@
 spring:
   application:
     name: rag-kb-demo
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:legal_assistant}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      base-url: ${OPENAI_BASE_URL:https://api.openai.com}
 
 server:
   port: 8080
 
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: com.laborlaw.ragkbdemo.entity
+  configuration:
+    map-underscore-to-camel-case: true
+
 rag-kb-demo:
-  scenario: eos-repair-work-order-and-enterprise-maintenance-documents
+  scenario: labor-contract-legal-assistant
