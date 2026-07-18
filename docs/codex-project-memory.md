@@ -24,6 +24,7 @@ Last updated: 2026-07-18
 - Git/collaboration: `using-git-worktrees`, `requesting-code-review`, `receiving-code-review`, `gh-address-comments`, `gh-fix-ci`.
 - Planning and delivery: `writing-plans`, `executing-plans`, `verification-before-completion`, `doc-coauthoring`, `internal-comms`.
 - Feishu/Lark: `codex-lark-deliver`.
+- Research paper reading: installed `pdf`, `jupyter-notebook`, `notion-research-documentation`, and third-party `academic-research-suite` from `Imbad0202/academic-research-skills-codex` for PDF reading, technical novelty extraction, reviewer-style critique, reproducibility checks, and interview-style questioning.
 
 ## Installed Tools
 
@@ -66,6 +67,7 @@ Last updated: 2026-07-18
 - Keep `docs/ai-project-resume-worklog.md` updated whenever AI project scope, implementation progress, UI artifacts, RAG backend work, or measurable results change.
 - Complete Feishu authorization interactively if the user wants live Feishu messaging.
 - Consider installing GitHub CLI later if PR workflow needs `gh`.
+- When the user provides a paper PDF, title, DOI, arXiv link, or asks Codex to search for a paper, use the research paper reading skills to produce expert-reviewer and postgraduate-interview style analysis: problem setting, method pipeline, technical innovation, assumptions, experiments, weaknesses, reproducibility risks, and targeted oral-defense questions.
 
 ## Backend Status
 
