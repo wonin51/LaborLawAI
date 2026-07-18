@@ -10,4 +10,5 @@ public class RagKbDemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(RagKbDemoApplication.class, args);
     }
+
 }
