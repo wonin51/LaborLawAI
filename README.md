@@ -1,244 +1,128 @@
-# LaborLawAI
+# 劳动合同法律助手
 
-劳动合同法律助手 AI + RAG 实训项目。当前项目包含一个 Spring Boot 后端和一个 Vue 3 + Vite 前端，先完成基础启动、页面入口和后端健康检查联通。
+本项目是基于大模型与 RAG 的劳动合同法律信息检索与咨询辅助工具。本课完成前后端基础工程、三个功能入口和服务健康检查，不包含登录或实际业务功能。
+
+> 本系统用于劳动合同法律信息检索与咨询辅助，不替代律师、仲裁机构或法院意见。
 
 ## 项目结构
 
 ```text
-LaborLawAI/
-├─ backend/    # Java 17 + Spring Boot 后端项目，项目名 rag-kb-demo
-├─ frontend/   # Vue 3 + Vite 前端项目，项目名 rag-kb-web
-├─ stitch_ui/  # UI 设计参考
-└─ pom.xml     # Maven 聚合入口，包含 backend 模块
+.
+├─ backend/   Java 17 + Spring Boot 后端
+├─ frontend/  Vue 3 + Vite 前端
+└─ README.md  启动与联调说明
 ```
 
 ## 环境要求
 
-```bash
+- JDK 17
+- Maven 3.9 或更高版本
+- Node.js 20 或更高版本
+- npm 10 或更高版本
+
+可使用以下命令确认版本：
+
+```powershell
 java -version
 mvn -version
 node -v
 npm -v
 ```
 
-建议版本：
-
-| 工具 | 要求 |
-| --- | --- |
-| JDK | 17 或更高，推荐 JDK 17 |
-| Maven | 3.9.x |
-| Node.js | 20 或更高，推荐 22.x |
-| npm | 10.x |
-
-注意：后端使用 Java 17 编译，不能用 Java 8 启动。
-
 ## 启动后端
 
-方式一：从项目根目录启动。
+在项目根目录执行：
 
-```bash
-cd D:\2026-shixi\LaborLawAI
-mvn -pl backend spring-boot:run
-```
-
-方式二：进入后端目录启动。
-
-```bash
-cd D:\2026-shixi\LaborLawAI\backend
+```powershell
+cd backend
 mvn spring-boot:run
 ```
 
-后端默认端口：
+后端默认监听 `http://localhost:8080`。浏览器访问或使用命令检查健康状态：
 
-```text
-http://localhost:8080
+```powershell
+Invoke-RestMethod http://localhost:8080/api/health
 ```
 
-## 启动前端
-
-首次启动前安装依赖：
-
-```bash
-cd D:\2026-shixi\LaborLawAI\frontend
-npm install
-```
-
-启动开发服务器：
-
-```bash
-npm run dev
-```
-
-前端默认访问地址：
-
-```text
-http://localhost:5173
-```
-
-前端默认后端地址配置在：
-
-```text
-frontend/.env
-```
-
-默认值：
-
-```env
-VITE_API_BASE_URL=http://localhost:8080
-```
-
-## 健康检查接口
-
-后端健康检查：
-
-```bash
-curl http://localhost:8080/api/health
-```
-
-正常返回：
+原始响应为：
 
 ```json
 {"status":"ok"}
 ```
 
-浏览器也可以直接打开：
+执行测试和打包：
 
-```text
-http://localhost:8080/api/health
-```
-
-前端页面会自动请求该接口。后端未启动或连接失败时，页面会显示：
-
-```text
-后端服务未连接
-```
-
-## 构建验证
-
-后端测试：
-
-```bash
-cd D:\2026-shixi\LaborLawAI
+```powershell
+cd backend
 mvn test
+mvn package
 ```
 
-后端打包：
-
-```bash
-cd D:\2026-shixi\LaborLawAI
-mvn package -DskipTests
-```
-
-前端构建：
-
-```bash
-cd D:\2026-shixi\LaborLawAI\frontend
-npm run build
-```
-
-## 常见问题
-
-### 1. 8080 端口被占用
-
-现象：
-
-```text
-Web server failed to start. Port 8080 was already in use.
-```
-
-查看占用进程：
+课程目录附带 Maven 3.9.9 和离线依赖仓库。无网络环境可从 `backend/` 执行：
 
 ```powershell
-Get-NetTCPConnection -LocalPort 8080
+$env:JAVA_HOME = "C:\path\to\jdk-17"
+& "..\course-materials\lesson-01-project-bootstrap\resources\toolchain\apache-maven-3.9.9\bin\mvn.cmd" -o "-Dmaven.repo.local=../course-materials/lesson-01-project-bootstrap/resources/maven-offline-repository" test
 ```
 
-结束占用进程，将 `<PID>` 替换为 `OwningProcess` 对应的进程号：
+## 启动前端
+
+新开一个终端，在项目根目录执行：
 
 ```powershell
-Stop-Process -Id <PID> -Force
-```
-
-也可以临时换端口启动：
-
-```bash
-cd D:\2026-shixi\LaborLawAI\backend
-mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8081
-```
-
-如果后端改为 `8081`，前端也要修改：
-
-```env
-VITE_API_BASE_URL=http://localhost:8081
-```
-
-### 2. Node 版本不符合要求
-
-现象：`npm install` 或 `npm run dev` 报 Node 版本不支持。
-
-检查版本：
-
-```bash
-node -v
-```
-
-处理方式：安装 Node.js 20 或更高版本，然后重新安装依赖。
-
-```bash
-cd D:\2026-shixi\LaborLawAI\frontend
+cd frontend
 npm install
 npm run dev
 ```
 
-### 3. Maven 依赖下载失败
+浏览器访问 `http://localhost:5173`。页面顶部或侧栏会显示“后端服务已连接”；若后端未启动，则显示“后端服务未连接”。
 
-现象：插件或依赖 unresolved，或者下载中断。
-
-先确认 Maven 能正常联网并重新下载：
-
-```bash
-cd D:\2026-shixi\LaborLawAI
-mvn -U test
-```
-
-如果提示锁或下载残留，关闭 IDEA 的 Maven 导入任务后重试：
-
-```bash
-mvn -U package -DskipTests
-```
-
-如果本机默认 Java 是 8，需要先切换到 JDK 17：
+前端默认请求 `http://localhost:8080`。如需更改后端地址，在启动前设置环境变量：
 
 ```powershell
-$env:JAVA_HOME="C:\Program Files\Eclipse Adoptium\jdk-17.0.19\OpenJDK17U-jdk_x64_windows_hotspot_17.0.19_10\jdk-17.0.19+10"
-$env:Path="$env:JAVA_HOME\bin;$env:Path"
-mvn -version
-```
-
-### 4. 前端无法访问后端接口
-
-检查后端是否启动：
-
-```bash
-curl http://localhost:8080/api/health
-```
-
-检查前端环境变量：
-
-```text
-D:\2026-shixi\LaborLawAI\frontend\.env
-```
-
-应包含：
-
-```env
-VITE_API_BASE_URL=http://localhost:8080
-```
-
-修改 `.env` 后需要重启前端：
-
-```bash
-cd D:\2026-shixi\LaborLawAI\frontend
+$env:VITE_API_BASE_URL = "http://localhost:8080"
 npm run dev
 ```
 
-如果浏览器控制台出现跨域错误，确认后端已包含 CORS 配置，并重新启动后端。
+执行测试和生产构建：
+
+```powershell
+cd frontend
+npm test
+npm run build
+```
+
+## 联调验证
+
+1. 启动后端，确认 `http://localhost:8080/api/health` 返回 `{"status":"ok"}`。
+2. 启动前端并访问 `http://localhost:5173`。
+3. 确认页面显示“后端服务已连接”。
+4. 点击“法律咨询”“知识库管理”“问答记录”，确认内容区可切换。
+
+## 常见问题
+
+### 8080 端口被占用
+
+查找占用进程：
+
+```powershell
+Get-NetTCPConnection -LocalPort 8080 | Select-Object OwningProcess
+```
+
+结束确认无误的进程，或在 `backend/src/main/resources/application.yml` 中修改 `server.port`。若端口改变，还需同步设置前端的 `VITE_API_BASE_URL`。
+
+### Node 版本不符合要求
+
+执行 `node -v`，确认主版本不低于 20。升级 Node.js 后删除旧的 `frontend/node_modules`，再执行 `npm install`。
+
+### Maven 依赖下载失败
+
+先确认 Maven 能访问中央仓库，并检查代理或镜像配置。无网络环境可使用上文课程离线仓库命令；若仍提示缺少依赖，需要联网执行一次相同命令并移除 `-o`，补齐仓库后再恢复离线构建。
+
+### 前端无法访问后端接口
+
+- 确认后端已经启动且健康接口可以直接访问。
+- 确认 `VITE_API_BASE_URL` 与后端协议、主机和端口一致。
+- 修改环境变量后重新启动 Vite。
+- 检查浏览器开发者工具中的 Network 和 Console 信息。
+- 本项目默认允许 `http://localhost:5173` 与 `http://127.0.0.1:5173` 跨域访问 `/api/**`。

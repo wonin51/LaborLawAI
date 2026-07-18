@@ -1,12 +1,9 @@
 spring:
   application:
-    name: rag-kb-demo
+    name: legal-contract-assistant
   ai:
     openai:
-      api-key: ${OPENAI_API_KEY:local-placeholder-key}
+      api-key: ${OPENAI_API_KEY:bootstrap-placeholder}
 
 server:
   port: 8080
-
-mybatis-plus:
-  mapper-locations: classpath*:/mapper/**/*.xml
