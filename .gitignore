@@ -1,0 +1,21 @@
+# Java / Maven
+target/
+*.class
+
+# Logs
+*.log
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Frontend build artifacts
+node_modules/
+dist/
+
+# Local secrets
+.env
+.env.*
+!.env.example

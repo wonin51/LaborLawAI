@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: legal-contract-assistant
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/legal_contract_assistant?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:demo-key}
+      base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+      embedding:
+        options:
+          model: ${OPENAI_EMBEDDING_MODEL:Qwen/Qwen3-Embedding-4B}
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+elasticsearch:
+  uris: ${ELASTICSEARCH_URIS:http://localhost:9200}
