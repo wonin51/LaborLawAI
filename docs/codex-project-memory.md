@@ -51,6 +51,8 @@ Last updated: 2026-07-18
 
 - `backend/`: Spring Boot backend skeleton for `legal-contract-assistant`.
 - `frontend/`: Vue 3 + Vite + Element Plus frontend skeleton and legal consultation workstation prototype.
+- `backend/src/main/resources/db/init.sql`: initial MySQL database and table skeleton for legal documents, chunks, QA sessions, and feedback.
+- `docs/mysql-setup.md`: MySQL setup and database initialization notes.
 - `README.md`: current project startup, frontend/backend verification, CORS, and troubleshooting instructions.
 - `.gitignore`: excludes Maven, frontend, logs, IDE, and local secret artifacts.
 - `docs/internship-collab-playbook.md`: frontend/Git/Feishu team workflow playbook.
@@ -63,6 +65,8 @@ Last updated: 2026-07-18
 
 ## Open Tasks
 
+- Install MySQL on this Windows machine. Current checks found no `mysql` command, no MySQL service, and no process listening on port `3306`.
+- After MySQL is installed, initialize `legal_contract_assistant` with `backend/src/main/resources/db/init.sql`.
 - Later implement legal RAG modules: knowledge ingestion, document chunking, Elasticsearch retrieval, structured answer API, legal source citation, feedback/history.
 - Keep `docs/ai-project-resume-worklog.md` updated whenever AI project scope, implementation progress, UI artifacts, RAG backend work, or measurable results change.
 - Complete Feishu authorization interactively if the user wants live Feishu messaging.
@@ -83,6 +87,7 @@ Last updated: 2026-07-18
 - Spring AI version adjusted from `2.0.0` to `1.1.8` because `2.0.0` brought Spring Boot 4 auto-config classes that conflicted with Spring Boot 3.5.3.
 - `OPENAI_API_KEY` defaults to non-secret `demo-key` so the skeleton can start without a real key; real model calls must override it with environment variables.
 - Added `WebMvcConfig` CORS handling for `/api/**`, allowing local Vite origins `localhost:5173`, `127.0.0.1:5173`, `localhost:4173`, and `127.0.0.1:4173`.
+- Added initial MySQL schema for `legal_contract_assistant`; it is ready for later data import once MySQL is installed and running on port `3306`.
 
 ## Frontend Status
 

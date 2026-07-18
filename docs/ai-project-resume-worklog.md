@@ -209,6 +209,22 @@ Last updated: 2026-07-18
 
 - 解决前后端分离开发中的跨域问题，通过 Vite dev proxy 与 Spring Boot CORS 配置实现本地开发联调，补充端口占用排查和运行文档，提升小组成员与评审环境中的可运行性。
 
+### 9. MySQL 数据库准备
+
+- 检查本机环境时未发现 `mysql` 命令、MySQL Windows 服务或 `3306` 端口占用。
+- 后端配置已默认指向 `localhost:3306/legal_contract_assistant`。
+- 新增数据库初始化脚本：`backend/src/main/resources/db/init.sql`。
+- 初始表结构覆盖：
+  - `kb_document`：知识库文档元数据。
+  - `kb_chunk`：文档切分片段。
+  - `qa_session`：问答会话。
+  - `qa_feedback`：问答反馈。
+- 新增 MySQL 准备说明：`docs/mysql-setup.md`。
+
+可写入简历的表达：
+
+- 为法律知识库 RAG 链路设计初始 MySQL 数据结构，覆盖法规文档元数据、文本切分片段、问答会话与反馈记录，为后续文档入库、检索溯源和质量评估打基础。
+
 ## 项目能力点总结
 
 ### 产品与需求分析
@@ -281,6 +297,7 @@ Last updated: 2026-07-18
 | 2026-07-18 | 整理 AI 项目工作记录与保研简历素材 | `docs/ai-project-resume-worklog.md` |
 | 2026-07-18 | 完成后端 Spring Boot 骨架搭建、健康检查接口与 Maven 验证 | `backend/`、`README.md` |
 | 2026-07-18 | 完成前端 Vue 工作台原型、Vite 代理、后端 CORS 配置和前后端健康检查联调 | `frontend/`、`backend/src/main/java/com/teddy/legal/config/WebMvcConfig.java` |
+| 2026-07-18 | 准备 MySQL 初始化脚本和数据库连接说明 | `backend/src/main/resources/db/init.sql`、`docs/mysql-setup.md` |
 
 ## 下一步建议
 

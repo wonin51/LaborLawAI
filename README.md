@@ -145,6 +145,32 @@ $env:ELASTICSEARCH_URIS="http://localhost:9200"
 
 不要把真实密码、Token 或 API Key 写入 Git。
 
+## MySQL 初始化
+
+后端默认连接：
+
+```text
+jdbc:mysql://localhost:3306/legal_contract_assistant
+```
+
+数据库初始化脚本：
+
+```text
+backend/src/main/resources/db/init.sql
+```
+
+MySQL 安装并启动后执行：
+
+```powershell
+mysql -u root -p < backend/src/main/resources/db/init.sql
+```
+
+更多说明见：
+
+```text
+docs/mysql-setup.md
+```
+
 ## 已验证命令
 
 后端：
