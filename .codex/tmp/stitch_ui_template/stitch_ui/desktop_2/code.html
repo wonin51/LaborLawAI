@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>劳动合同审查 - 劳动权益助手</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&amp;family=Noto+Serif+SC:wght@600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary": "#2a1700",
+                      "inverse-surface": "#26323d",
+                      "on-surface": "#111d27",
+                      "on-secondary-container": "#1e6f6c",
+                      "primary": "#001d36",
+                      "surface-container-highest": "#d7e4f2",
+                      "background": "#f7f9ff",
+                      "on-tertiary-container": "#ce8a28",
+                      "on-primary-container": "#819aba",
+                      "on-secondary-fixed": "#00201f",
+                      "primary-container": "#17324d",
+                      "on-secondary-fixed-variant": "#00504d",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container-high": "#ddeaf8",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed": "#d1e4ff",
+                      "secondary-fixed": "#a5f0eb",
+                      "surface-bright": "#f7f9ff",
+                      "surface-container": "#e3effe",
+                      "surface-container-low": "#ecf4ff",
+                      "on-tertiary-fixed": "#2a1700",
+                      "secondary-fixed-dim": "#89d3cf",
+                      "on-error": "#ffffff",
+                      "primary-fixed-dim": "#afc9ea",
+                      "outline": "#74777e",
+                      "surface": "#f7f9ff",
+                      "error-container": "#ffdad6",
+                      "secondary": "#146966",
+                      "surface-dim": "#cfdbea",
+                      "surface-variant": "#d7e4f2",
+                      "error": "#ba1a1a",
+                      "outline-variant": "#c3c6ce",
+                      "on-tertiary-fixed-variant": "#653e00",
+                      "secondary-container": "#a5f0eb",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed-variant": "#2f4865",
+                      "on-tertiary": "#ffffff",
+                      "inverse-primary": "#afc9ea",
+                      "inverse-on-surface": "#e7f2ff",
+                      "on-error-container": "#93000a",
+                      "on-background": "#111d27",
+                      "on-primary-fixed": "#001d36",
+                      "surface-tint": "#47607e",
+                      "tertiary-container": "#472a00",
+                      "tertiary-fixed": "#ffddb7",
+                      "on-surface-variant": "#43474d",
+                      "tertiary-fixed-dim": "#ffb95e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "32px",
+                      "2xl": "48px",
+                      "gutter": "24px",
+                      "lg": "24px",
+                      "max-width": "1200px",
+                      "margin-desktop": "auto",
+                      "xs": "8px",
+                      "base": "4px",
+                      "sm": "12px",
+                      "3xl": "64px",
+                      "md": "16px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "display-lg-mobile": [
+                              "Noto Serif SC"
+                      ],
+                      "headline-sm": [
+                              "Noto Serif SC"
+                      ],
+                      "body-sm": [
+                              "Noto Sans SC"
+                      ],
+                      "body-md": [
+                              "Noto Sans SC"
+                      ],
+                      "label-mono": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-md": [
+                              "Noto Serif SC"
+                      ],
+                      "display-lg": [
+                              "Noto Serif SC"
+                      ],
+                      "caption": [
+                              "Noto Sans SC"
+                      ],
+                      "body-lg": [
+                              "Noto Sans SC"
+                      ]
+              },
+              "fontSize": {
+                      "display-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-sm": [
+                              "22px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-mono": [
+                              "13px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-md": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "40px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "caption": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+          .bg-risk-red-10 { background-color: rgba(183, 71, 58, 0.1); }
+          .text-risk-red { color: #B7473A; }
+          .border-risk-red { border-color: #B7473A; }
+          .bg-judicial-teal-10 { background-color: rgba(23, 107, 104, 0.1); }
+          .text-judicial-teal { color: #176B68; }
+          
+          /* Custom Scrollbar for Textarea */
+          ::-webkit-scrollbar {
+              width: 8px;
+          }
+          ::-webkit-scrollbar-track {
+              background: #F7F8F6;
+          }
+          ::-webkit-scrollbar-thumb {
+              background: #c3c6ce;
+              border-radius: 4px;
+          }
+          ::-webkit-scrollbar-thumb:hover {
+              background: #74777e;
+          }
+      </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md min-h-screen flex antialiased">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-lowest dark:bg-inverse-surface border-r border-outline-variant dark:border-outline h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-50">
+<div class="px-gutter mb-2xl">
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed">劳动权益助手</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Modern Institutional</p>
+</div>
+<div class="flex-1 overflow-y-auto flex flex-col gap-base px-sm">
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container dark:hover:bg-surface-variant transition-colors rounded" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">add_comment</span>
+<span class="font-body-md text-body-md">发起咨询</span>
+</a>
+<a class="text-primary font-bold border-l-4 border-primary bg-surface-container-high dark:bg-primary-container dark:text-on-primary-container flex items-center gap-3 px-4 py-3 hover:bg-surface-container dark:hover:bg-surface-variant transition-colors rounded-r opacity-90 transition-opacity" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">description</span>
+<span class="font-body-md text-body-md">合同审查</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container dark:hover:bg-surface-variant transition-colors rounded" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">history</span>
+<span class="font-body-md text-body-md">咨询历史</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container dark:hover:bg-surface-variant transition-colors rounded" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">bookmark</span>
+<span class="font-body-md text-body-md">收藏答案</span>
+</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container dark:hover:bg-surface-variant transition-colors rounded" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">help</span>
+<span class="font-body-md text-body-md">帮助说明</span>
+</a>
+</div>
+<div class="px-gutter mt-auto flex flex-col gap-sm">
+<button class="w-full py-2 px-4 border-[1.5px] border-primary-container text-primary-container bg-transparent rounded-lg font-body-sm text-body-sm hover:bg-surface-container transition-colors text-center">全局免责声明</button>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container dark:hover:bg-surface-variant transition-colors rounded mt-4" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_circle</span>
+<span class="font-body-md text-body-md">个人中心</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col ml-64 min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-on-surface border-b border-outline-variant dark:border-outline docked full-width top-0 flex justify-between items-center h-16 px-gutter w-full z-40 sticky">
+<div class="flex items-center gap-4 hidden">
+<!-- Logo/Brand hidden per JSON -->
+</div>
+<div class="flex-1"></div> <!-- Spacer for center alignment if search was active, but it's hidden -->
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-sm text-on-surface-variant font-label-mono text-label-mono">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span>2024-05-20</span>
+</div>
+<div class="flex items-center gap-sm text-on-surface-variant font-label-mono text-label-mono">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>全国性法规为主</span>
+</div>
+<img alt="用户登录入口" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A small, minimalist circular user avatar placeholder. White background, light gray subtle border, featuring a highly abstracted, modern geometric representation of a person in a corporate legal setting. Professional, clean, low contrast." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8t37Sop6EQnx-kZ7eWvEt6w1j9fQrOSLU0aojI9qRtJf1d0aoFp9j7rMqCdwDSvOwsjZVEssV0pFQ-zMhNpWIYL7SJ6CVmwo_j8i0Kai1RgKdNUn4WPThigLuQdZQ2VoslCSDQfkYnhP42kIVO57k8M_gYS89Mcq5qczCCksXi3UEi6AOivFPypkUQwwZSRfgXa1VcvDJVdQms9ZkNG4DLbW6Fz2n3qkBtUZrts8pe-FIZwu5GKr_"/>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 p-2xl w-full max-w-max-width mx-margin-desktop">
+<header class="mb-xl">
+<h2 class="font-headline-md text-headline-md text-primary mb-xs">检查劳动合同条款中的常见风险</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">仅识别常见明显风险，不替代完整的律师合同审查。</p>
+</header>
+<div class="flex flex-col lg:flex-row gap-xl h-[calc(100vh-250px)]">
+<!-- Left Panel: Input Area -->
+<section class="flex-1 flex flex-col bg-surface-container-lowest border border-[#E8ECEF] rounded-lg overflow-hidden">
+<div class="p-lg border-b border-[#E8ECEF] bg-surface flex justify-between items-center">
+<label class="font-body-md text-body-md font-bold text-primary" for="contract-text">输入条款文本</label>
+<button class="text-primary-container font-body-sm text-body-sm flex items-center gap-2 hover:bg-surface-container px-3 py-1.5 rounded transition-colors">
+<span class="material-symbols-outlined text-[18px]">upload_file</span>
+                            上传文本
+                        </button>
+</div>
+<textarea class="flex-1 w-full p-lg resize-none focus:outline-none focus:ring-0 border-none font-body-sm text-body-sm text-on-surface bg-surface-container-lowest placeholder-on-surface-variant/50" id="contract-text" placeholder="在此粘贴您的劳动合同条款..."></textarea>
+<div class="p-lg border-t border-[#E8ECEF] bg-surface flex justify-between items-center gap-4">
+<button class="text-primary-container font-body-sm text-body-sm hover:underline py-2 px-4 rounded transition-colors">清空</button>
+<button class="bg-primary-container text-on-primary py-2 px-xl rounded-lg font-body-sm text-body-sm font-bold shadow-sm hover:opacity-90 transition-opacity">开始检查</button>
+</div>
+</section>
+<!-- Right Panel: Results Area -->
+<section class="flex-1 flex flex-col bg-surface-container-lowest border border-[#E8ECEF] rounded-lg overflow-hidden">
+<div class="p-lg border-b border-[#E8ECEF] bg-surface">
+<h3 class="font-body-md text-body-md font-bold text-primary">审查结果</h3>
+</div>
+<div class="flex-1 overflow-y-auto p-lg flex flex-col gap-lg bg-background">
+<!-- Risk Card: High -->
+<article class="bg-surface-container-lowest border border-risk-red rounded-lg overflow-hidden relative shadow-[0_8px_24px_rgba(23,50,77,0.06)]">
+<!-- Risk Indicator Bar -->
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-[#B7473A]"></div>
+<div class="p-lg pl-6">
+<header class="flex justify-between items-start mb-sm">
+<h4 class="font-headline-sm text-headline-sm text-primary font-bold">竞业限制补偿约定不明确</h4>
+<span class="bg-risk-red-10 text-risk-red font-label-mono text-label-mono px-3 py-1 rounded-full border border-risk-red/20 font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span> 高风险
+                                    </span>
+</header>
+<div class="mb-sm">
+<p class="font-caption text-caption text-on-surface-variant mb-1">原始片段</p>
+<div class="bg-surface-container-low p-sm border border-outline-variant rounded font-body-sm text-body-sm text-on-surface">
+                                        “乙方离职后两年内不得从事同类业务，甲方视情况给予一定补偿。”
+                                    </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-sm mb-sm">
+<div>
+<p class="font-caption text-caption text-on-surface-variant mb-1">风险类型</p>
+<p class="font-body-sm text-body-sm text-on-surface">约定不明 / 显失公平</p>
+</div>
+<div>
+<p class="font-caption text-caption text-on-surface-variant mb-1">原因</p>
+<p class="font-body-sm text-body-sm text-on-surface">未明确具体补偿金额和发放方式。</p>
+</div>
+</div>
+<div class="mb-sm">
+<p class="font-caption text-caption text-on-surface-variant mb-1">修改建议</p>
+<p class="font-body-sm text-body-sm text-primary-container font-bold bg-surface-container p-sm rounded border border-surface-tint/20">建议补充明确的月度补偿标准（通常不低于离职前十二个月平均工资的30%）。</p>
+</div>
+<div>
+<p class="font-caption text-caption text-on-surface-variant mb-1">法律依据</p>
+<p class="font-label-mono text-label-mono text-on-surface bg-surface-variant/50 p-2 rounded border border-[#E8ECEF]">《最高人民法院关于审理劳动争议案件适用法律问题的解释（一）》第三十六条</p>
+</div>
+</div>
+</article>
+<!-- Risk Card: Low -->
+<article class="bg-surface-container-lowest border border-[#E8ECEF] rounded-lg overflow-hidden relative">
+<!-- Risk Indicator Bar -->
+<div class="absolute left-0 top-0 bottom-0 w-[4px] bg-outline-variant"></div>
+<div class="p-lg pl-6">
+<header class="flex justify-between items-start mb-sm">
+<h4 class="font-headline-sm text-headline-sm text-primary font-bold">工作地点表述宽泛</h4>
+<span class="bg-surface-container-highest text-on-surface-variant font-label-mono text-label-mono px-3 py-1 rounded-full border border-outline-variant/30 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">info</span> 低风险
+                                    </span>
+</header>
+<div class="mb-sm">
+<p class="font-caption text-caption text-on-surface-variant mb-1">原始片段</p>
+<div class="bg-surface-container-low p-sm border border-outline-variant rounded font-body-sm text-body-sm text-on-surface">
+                                        “工作地点：全国范围内根据公司业务需要调配。”
+                                    </div>
+</div>
+<div class="mb-sm">
+<p class="font-caption text-caption text-on-surface-variant mb-1">修改建议</p>
+<p class="font-body-sm text-body-sm text-primary-container font-bold bg-surface-container p-sm rounded border border-surface-tint/20">虽属常见，但建议尽可能细化核心工作常驻地，避免未来跨省调岗引发争议。</p>
+</div>
+</div>
+</article>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer implied but not requested in active rendering instructions, omitting to focus on the canvas requirements -->
+</div>
+</body></html>

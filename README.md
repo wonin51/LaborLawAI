@@ -1,51 +1,69 @@
-# LaborLawAI
+# EOS 维修 RAG 知识库实训项目
 
-劳动合同法律助手 AI + RAG 实训项目。当前项目包含一个 Spring Boot 后端和一个 Vue 3 + Vite 前端，先完成基础启动、页面入口和后端健康检查联通。
+## 项目简介
 
-## 项目结构
+本项目是一个企业 AI RAG 知识库实训工程，当前包含：
+
+- `backend`：Java 17 + Spring Boot 后端项目，项目名 `rag-kb-demo`
+- `frontend`：Vue 3 + Vite 前端项目，项目名 `rag-kb-web`
+
+当前阶段只搭建基础前后端工程、健康检查接口和前端基础入口，不包含复杂业务功能。
+
+## 目录结构
 
 ```text
-LaborLawAI/
-├─ backend/    # Java 17 + Spring Boot 后端项目，项目名 rag-kb-demo
-├─ frontend/   # Vue 3 + Vite 前端项目，项目名 rag-kb-web
-├─ stitch_ui/  # UI 设计参考
-└─ pom.xml     # Maven 聚合入口，包含 backend 模块
+G:\AI-law-creater
+├─ backend      # Spring Boot 后端
+├─ frontend     # Vue 3 + Vite 前端
+├─ 需求文档      # 本地需求材料
+└─ README.md
 ```
 
-## 环境要求
+## 环境版本要求
 
-```bash
+建议使用以下版本或兼容版本：
+
+| 工具 | 要求 | 当前验证版本 |
+| --- | --- | --- |
+| JDK | 17 | 17.0.8 |
+| Maven | 3.8+ | 3.9.15 |
+| Node.js | 20+，建议 22+ 或 24+ | 24.18.0 |
+| npm | 10+ | 11.16.0 |
+
+检查命令：
+
+```powershell
 java -version
 mvn -version
 node -v
 npm -v
 ```
 
-建议版本：
+## 后端启动方式
 
-| 工具 | 要求 |
-| --- | --- |
-| JDK | 17 或更高，推荐 JDK 17 |
-| Maven | 3.9.x |
-| Node.js | 20 或更高，推荐 22.x |
-| npm | 10.x |
+进入后端目录：
 
-注意：后端使用 Java 17 编译，不能用 Java 8 启动。
-
-## 启动后端
-
-方式一：从项目根目录启动。
-
-```bash
-cd D:\2026-shixi\LaborLawAI
-mvn -pl backend spring-boot:run
+```powershell
+cd /d G:\AI-law-creater\backend
 ```
 
-方式二：进入后端目录启动。
+安装依赖并运行测试：
 
-```bash
-cd D:\2026-shixi\LaborLawAI\backend
+```powershell
+mvn test
+```
+
+启动后端服务：
+
+```powershell
 mvn spring-boot:run
+```
+
+也可以先打包再启动：
+
+```powershell
+mvn package -DskipTests
+java -jar target\rag-kb-demo-0.0.1-SNAPSHOT.jar
 ```
 
 后端默认端口：
@@ -54,34 +72,39 @@ mvn spring-boot:run
 http://localhost:8080
 ```
 
-## 启动前端
+## 前端启动方式
 
-首次启动前安装依赖：
+进入前端目录：
 
-```bash
-cd D:\2026-shixi\LaborLawAI\frontend
+```powershell
+cd /d G:\AI-law-creater\frontend
+```
+
+安装依赖：
+
+```powershell
 npm install
 ```
 
-启动开发服务器：
+启动前端开发服务：
 
-```bash
+```powershell
 npm run dev
 ```
 
 前端默认访问地址：
 
 ```text
-http://localhost:5173
+http://127.0.0.1:5173/
 ```
 
 前端默认后端地址配置在：
 
 ```text
-frontend/.env
+G:\AI-law-creater\frontend\.env
 ```
 
-默认值：
+默认内容：
 
 ```env
 VITE_API_BASE_URL=http://localhost:8080
@@ -89,143 +112,160 @@ VITE_API_BASE_URL=http://localhost:8080
 
 ## 健康检查接口
 
-后端健康检查：
+后端健康检查接口：
 
-```bash
-curl http://localhost:8080/api/health
+```http
+GET /api/health
 ```
 
-正常返回：
-
-```json
-{"status":"ok"}
-```
-
-浏览器也可以直接打开：
+直接访问：
 
 ```text
 http://localhost:8080/api/health
 ```
 
-前端页面会自动请求该接口。后端未启动或连接失败时，页面会显示：
+PowerShell 验证命令：
+
+```powershell
+Invoke-RestMethod http://localhost:8080/api/health
+```
+
+预期返回类似：
+
+```json
+{"status":"ok"}
+```
+
+如果当前环境中后端返回 `{"status":"UP"}`，前端也已兼容显示为后端已连接。
+
+## 前端如何访问后端健康检查
+
+前端开发环境通过 Vite 代理访问后端：
 
 ```text
-后端服务未连接
+http://127.0.0.1:5173/api/health
 ```
 
-## 构建验证
+验证命令：
 
-后端测试：
-
-```bash
-cd D:\2026-shixi\LaborLawAI
-mvn test
+```powershell
+Invoke-RestMethod http://127.0.0.1:5173/api/health
 ```
 
-后端打包：
+页面右上角会显示后端连接状态：
 
-```bash
-cd D:\2026-shixi\LaborLawAI
-mvn package -DskipTests
-```
+- 后端可访问：`后端服务已连接`
+- 后端不可访问：`后端服务未连接`
 
-前端构建：
-
-```bash
-cd D:\2026-shixi\LaborLawAI\frontend
-npm run build
-```
-
-## 常见问题
+## 常见启动问题
 
 ### 1. 8080 端口被占用
 
-现象：
-
-```text
-Web server failed to start. Port 8080 was already in use.
-```
+现象：后端启动失败，提示端口 `8080` 已被占用。
 
 查看占用进程：
 
 ```powershell
-Get-NetTCPConnection -LocalPort 8080
+netstat -ano | findstr :8080
 ```
 
-结束占用进程，将 `<PID>` 替换为 `OwningProcess` 对应的进程号：
+结束对应进程，将 `<PID>` 替换为实际进程号：
 
 ```powershell
-Stop-Process -Id <PID> -Force
+taskkill /PID <PID> /F
 ```
 
-也可以临时换端口启动：
+或者修改后端端口：
 
-```bash
-cd D:\2026-shixi\LaborLawAI\backend
-mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8081
+```text
+G:\AI-law-creater\backend\src\main\resources\application.yml
 ```
 
-如果后端改为 `8081`，前端也要修改：
+示例：
+
+```yaml
+server:
+  port: 8081
+```
+
+如果修改了后端端口，也要同步修改前端配置：
+
+```text
+G:\AI-law-creater\frontend\.env
+```
+
+示例：
 
 ```env
 VITE_API_BASE_URL=http://localhost:8081
 ```
 
+修改 `.env` 后需要重启前端：
+
+```powershell
+cd /d G:\AI-law-creater\frontend
+npm run dev
+```
+
 ### 2. Node 版本不符合要求
 
-现象：`npm install` 或 `npm run dev` 报 Node 版本不支持。
+现象：`npm install` 或 `npm run dev` 报 Node 版本过低。
 
 检查版本：
 
-```bash
+```powershell
 node -v
+npm -v
 ```
 
-处理方式：安装 Node.js 20 或更高版本，然后重新安装依赖。
+建议安装 Node.js 20+，推荐 22+ 或 24+。升级后重新执行：
 
-```bash
-cd D:\2026-shixi\LaborLawAI\frontend
+```powershell
+cd /d G:\AI-law-creater\frontend
 npm install
 npm run dev
 ```
 
 ### 3. Maven 依赖下载失败
 
-现象：插件或依赖 unresolved，或者下载中断。
+现象：`mvn test`、`mvn package` 或 `mvn spring-boot:run` 下载依赖失败。
 
-先确认 Maven 能正常联网并重新下载：
-
-```bash
-cd D:\2026-shixi\LaborLawAI
-mvn -U test
-```
-
-如果提示锁或下载残留，关闭 IDEA 的 Maven 导入任务后重试：
-
-```bash
-mvn -U package -DskipTests
-```
-
-如果本机默认 Java 是 8，需要先切换到 JDK 17：
+先确认网络可用，然后重试：
 
 ```powershell
-$env:JAVA_HOME="C:\Program Files\Eclipse Adoptium\jdk-17.0.19\OpenJDK17U-jdk_x64_windows_hotspot_17.0.19_10\jdk-17.0.19+10"
-$env:Path="$env:JAVA_HOME\bin;$env:Path"
-mvn -version
+cd /d G:\AI-law-creater\backend
+mvn -U clean test
+```
+
+如果是本地 Maven 缓存损坏，可以删除对应依赖目录后重试。例如删除某个失败依赖缓存：
+
+```powershell
+Remove-Item -Recurse -Force "$env:USERPROFILE\.m2\repository\失败依赖路径"
+mvn -U clean test
+```
+
+如果公司网络需要代理或私服，请检查 Maven 配置文件：
+
+```text
+%USERPROFILE%\.m2\settings.xml
 ```
 
 ### 4. 前端无法访问后端接口
 
-检查后端是否启动：
+现象：页面显示 `后端服务未连接`。
 
-```bash
-curl http://localhost:8080/api/health
+按顺序检查：
+
+1. 后端是否启动：
+
+```powershell
+Invoke-RestMethod http://localhost:8080/api/health
 ```
 
-检查前端环境变量：
+2. 前端环境变量是否正确：
 
-```text
-D:\2026-shixi\LaborLawAI\frontend\.env
+```powershell
+Get-Content G:\AI-law-creater\frontend\.env
 ```
 
 应包含：
@@ -234,11 +274,42 @@ D:\2026-shixi\LaborLawAI\frontend\.env
 VITE_API_BASE_URL=http://localhost:8080
 ```
 
-修改 `.env` 后需要重启前端：
+3. 前端是否重启过：
 
-```bash
-cd D:\2026-shixi\LaborLawAI\frontend
+修改 `.env` 后必须重启前端：
+
+```powershell
+cd /d G:\AI-law-creater\frontend
 npm run dev
 ```
 
-如果浏览器控制台出现跨域错误，确认后端已包含 CORS 配置，并重新启动后端。
+4. Vite 代理是否可访问：
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:5173/api/health
+```
+
+如果第 1 步成功但第 4 步失败，通常是前端未重启或 Vite 代理配置未生效。
+
+## 快速启动顺序
+
+先启动后端：
+
+```powershell
+cd /d G:\AI-law-creater\backend
+mvn spring-boot:run
+```
+
+再启动前端：
+
+```powershell
+cd /d G:\AI-law-creater\frontend
+npm install
+npm run dev
+```
+
+访问前端：
+
+```text
+http://127.0.0.1:5173/
+```

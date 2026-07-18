@@ -1,0 +1,98 @@
+0 verbose cli D:\Node.js\node.exe D:\Node.js\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.16.0
+2 info using node@v24.18.0
+3 silly config load:file:D:\Node.js\node_modules\npm\npmrc
+4 silly config load:file:C:\Users\火狐\.npmrc
+5 silly config load:file:G:\AI-law-creater\.npm-global\etc\npmrc
+6 verbose title npm install @larksuite/cli@latest
+7 verbose argv "install" "--global" "@larksuite/cli@latest" "--prefix" "G:\\AI-law-creater\\.npm-global"
+8 verbose logfile logs-max:10 dir:G:\AI-law-creater\.npm-cache\_logs\2026-07-15T08_46_22_552Z-
+9 verbose logfile G:\AI-law-creater\.npm-cache\_logs\2026-07-15T08_46_22_552Z-debug-0.log
+10 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+11 silly logfile done cleaning log files
+12 silly packumentCache corgi:https://registry.npmjs.org/@larksuite%2fcli cache-miss
+13 http fetch GET 200 https://registry.npmjs.org/@larksuite%2fcli 1312ms (cache miss)
+14 silly packumentCache corgi:https://registry.npmjs.org/@larksuite%2fcli set size:undefined disposed:false
+15 silly idealTree buildDeps
+16 silly fetch manifest @larksuite/cli@1.0.69
+17 silly packumentCache full:https://registry.npmjs.org/@larksuite%2fcli cache-miss
+18 http fetch GET 200 https://registry.npmjs.org/@larksuite%2fcli 534ms (cache miss)
+19 silly packumentCache full:https://registry.npmjs.org/@larksuite%2fcli set size:undefined disposed:false
+20 silly placeDep ROOT @larksuite/cli@1.0.69 OK for:  want: 1.0.69
+21 silly fetch manifest @clack/prompts@^1.2.0
+22 silly packumentCache full:https://registry.npmjs.org/@clack%2fprompts cache-miss
+23 http fetch GET 200 https://registry.npmjs.org/npm 2396ms
+24 http fetch GET 200 https://registry.npmjs.org/@clack%2fprompts 594ms (cache miss)
+25 silly packumentCache full:https://registry.npmjs.org/@clack%2fprompts set size:undefined disposed:false
+26 silly placeDep node_modules/@larksuite/cli @clack/prompts@1.7.0 OK for: @larksuite/cli@1.0.69 want: ^1.2.0
+27 silly fetch manifest fast-string-width@^3.0.2
+28 silly packumentCache full:https://registry.npmjs.org/fast-string-width cache-miss
+29 silly fetch manifest fast-wrap-ansi@^0.2.0
+30 silly packumentCache full:https://registry.npmjs.org/fast-wrap-ansi cache-miss
+31 silly fetch manifest sisteransi@^1.0.5
+32 silly packumentCache full:https://registry.npmjs.org/sisteransi cache-miss
+33 silly fetch manifest @clack/core@1.4.3
+34 silly packumentCache full:https://registry.npmjs.org/@clack%2fcore cache-miss
+35 http fetch GET 200 https://registry.npmjs.org/fast-string-width 186ms (cache miss)
+36 silly packumentCache full:https://registry.npmjs.org/fast-string-width set size:undefined disposed:false
+37 http fetch GET 200 https://registry.npmjs.org/fast-wrap-ansi 279ms (cache miss)
+38 silly packumentCache full:https://registry.npmjs.org/fast-wrap-ansi set size:undefined disposed:false
+39 http fetch GET 200 https://registry.npmjs.org/@clack%2fcore 679ms (cache miss)
+40 silly packumentCache full:https://registry.npmjs.org/@clack%2fcore set size:undefined disposed:false
+41 http fetch GET 200 https://registry.npmjs.org/sisteransi 681ms (cache miss)
+42 silly packumentCache full:https://registry.npmjs.org/sisteransi set size:undefined disposed:false
+43 silly placeDep node_modules/@larksuite/cli @clack/core@1.4.3 OK for: @clack/prompts@1.7.0 want: 1.4.3
+44 silly placeDep node_modules/@larksuite/cli fast-string-width@3.0.2 OK for: @clack/prompts@1.7.0 want: ^3.0.2
+45 silly placeDep node_modules/@larksuite/cli fast-wrap-ansi@0.2.2 OK for: @clack/prompts@1.7.0 want: ^0.2.0
+46 silly placeDep node_modules/@larksuite/cli sisteransi@1.0.5 OK for: @clack/prompts@1.7.0 want: ^1.0.5
+47 silly fetch manifest fast-string-truncated-width@^3.0.2
+48 silly packumentCache full:https://registry.npmjs.org/fast-string-truncated-width cache-miss
+49 http fetch GET 200 https://registry.npmjs.org/fast-string-truncated-width 212ms (cache miss)
+50 silly packumentCache full:https://registry.npmjs.org/fast-string-truncated-width set size:undefined disposed:false
+51 silly placeDep node_modules/@larksuite/cli fast-string-truncated-width@3.0.3 OK for: fast-string-width@3.0.2 want: ^3.0.2
+52 silly reify moves {}
+53 http cache @larksuite/cli@https://registry.npmjs.org/@larksuite/cli/-/cli-1.0.69.tgz 0ms (cache hit)
+54 http cache sisteransi@https://registry.npmjs.org/sisteransi/-/sisteransi-1.0.5.tgz 0ms (cache hit)
+55 http cache fast-wrap-ansi@https://registry.npmjs.org/fast-wrap-ansi/-/fast-wrap-ansi-0.2.2.tgz 0ms (cache hit)
+56 http cache fast-string-width@https://registry.npmjs.org/fast-string-width/-/fast-string-width-3.0.2.tgz 0ms (cache hit)
+57 http cache fast-string-truncated-width@https://registry.npmjs.org/fast-string-truncated-width/-/fast-string-truncated-width-3.0.3.tgz 0ms (cache hit)
+58 silly tarball no local data for @larksuite/cli@https://registry.npmjs.org/@larksuite/cli/-/cli-1.0.69.tgz. Extracting by manifest.
+59 http cache @clack/prompts@https://registry.npmjs.org/@clack/prompts/-/prompts-1.7.0.tgz 0ms (cache hit)
+60 silly tarball no local data for sisteransi@https://registry.npmjs.org/sisteransi/-/sisteransi-1.0.5.tgz. Extracting by manifest.
+61 http cache @clack/core@https://registry.npmjs.org/@clack/core/-/core-1.4.3.tgz 0ms (cache hit)
+62 silly tarball no local data for fast-wrap-ansi@https://registry.npmjs.org/fast-wrap-ansi/-/fast-wrap-ansi-0.2.2.tgz. Extracting by manifest.
+63 silly tarball no local data for fast-string-width@https://registry.npmjs.org/fast-string-width/-/fast-string-width-3.0.2.tgz. Extracting by manifest.
+64 silly tarball no local data for fast-string-truncated-width@https://registry.npmjs.org/fast-string-truncated-width/-/fast-string-truncated-width-3.0.3.tgz. Extracting by manifest.
+65 silly tarball no local data for @clack/prompts@https://registry.npmjs.org/@clack/prompts/-/prompts-1.7.0.tgz. Extracting by manifest.
+66 silly tarball no local data for @clack/core@https://registry.npmjs.org/@clack/core/-/core-1.4.3.tgz. Extracting by manifest.
+67 http fetch GET 200 https://registry.npmjs.org/sisteransi/-/sisteransi-1.0.5.tgz 306ms (cache miss)
+68 http fetch GET 200 https://registry.npmjs.org/fast-wrap-ansi/-/fast-wrap-ansi-0.2.2.tgz 498ms (cache miss)
+69 http fetch GET 200 https://registry.npmjs.org/@larksuite/cli/-/cli-1.0.69.tgz 740ms (cache miss)
+70 http fetch GET 200 https://registry.npmjs.org/@clack/prompts/-/prompts-1.7.0.tgz 1560ms (cache miss)
+71 http fetch GET 200 https://registry.npmjs.org/fast-string-truncated-width/-/fast-string-truncated-width-3.0.3.tgz 1761ms (cache miss)
+72 http fetch GET 200 https://registry.npmjs.org/fast-string-width/-/fast-string-width-3.0.2.tgz 2470ms (cache miss)
+73 http fetch GET 200 https://registry.npmjs.org/@clack/core/-/core-1.4.3.tgz 2827ms (cache miss)
+74 info run @larksuite/cli@1.0.69 postinstall node_modules/@larksuite/cli node scripts/install.js
+75 info run @larksuite/cli@1.0.69 postinstall { code: 0, signal: null }
+76 silly ADD node_modules/@larksuite/cli
+77 silly ADD node_modules/@larksuite/cli/node_modules/fast-string-truncated-width
+78 silly ADD node_modules/@larksuite/cli/node_modules/sisteransi
+79 silly ADD node_modules/@larksuite/cli/node_modules/fast-wrap-ansi
+80 silly ADD node_modules/@larksuite/cli/node_modules/fast-string-width
+81 silly ADD node_modules/@larksuite/cli/node_modules/@clack/core
+82 silly ADD node_modules/@larksuite/cli/node_modules/@clack/prompts
+83 warn allow-scripts 1 package has install scripts not yet covered by allowScripts:
+83 warn allow-scripts   @larksuite/cli@1.0.69 (postinstall: node scripts/install.js)
+83 warn allow-scripts
+83 warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+84 verbose cwd G:\AI-law-creater
+85 verbose os Windows_NT 10.0.26200
+86 verbose node v24.18.0
+87 verbose npm  v11.16.0
+88 notice
+88 notice New major version of npm available! 11.16.0 -> 12.0.1
+88 notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.1
+88 notice To update run: npm install -g npm@12.0.1
+88 notice  { force: true, Symbol(proc-log.meta): true }
+89 verbose exit 0
+90 info ok

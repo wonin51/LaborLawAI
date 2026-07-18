@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>劳动权益助手 - 咨询结果</title>
+<!-- Google Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;family=Noto+Serif+SC:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary": "#2a1700",
+                        "inverse-surface": "#26323d",
+                        "on-surface": "#111d27",
+                        "on-secondary-container": "#1e6f6c",
+                        "primary": "#001d36",
+                        "surface-container-highest": "#d7e4f2",
+                        "background": "#f7f9ff",
+                        "on-tertiary-container": "#ce8a28",
+                        "on-primary-container": "#819aba",
+                        "on-secondary-fixed": "#00201f",
+                        "primary-container": "#17324d",
+                        "on-secondary-fixed-variant": "#00504d",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#ddeaf8",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#d1e4ff",
+                        "secondary-fixed": "#a5f0eb",
+                        "surface-bright": "#f7f9ff",
+                        "surface-container": "#e3effe",
+                        "surface-container-low": "#ecf4ff",
+                        "on-tertiary-fixed": "#2a1700",
+                        "secondary-fixed-dim": "#89d3cf",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#afc9ea",
+                        "outline": "#74777e",
+                        "surface": "#f7f9ff",
+                        "error-container": "#ffdad6",
+                        "secondary": "#146966",
+                        "surface-dim": "#cfdbea",
+                        "surface-variant": "#d7e4f2",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#c3c6ce",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "secondary-container": "#a5f0eb",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#2f4865",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#afc9ea",
+                        "inverse-on-surface": "#e7f2ff",
+                        "on-error-container": "#93000a",
+                        "on-background": "#111d27",
+                        "on-primary-fixed": "#001d36",
+                        "surface-tint": "#47607e",
+                        "tertiary-container": "#472a00",
+                        "tertiary-fixed": "#ffddb7",
+                        "on-surface-variant": "#43474d",
+                        "tertiary-fixed-dim": "#ffb95e"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "xl": "32px",
+                        "2xl": "48px",
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "max-width": "1200px",
+                        "margin-desktop": "auto",
+                        "xs": "8px",
+                        "base": "4px",
+                        "sm": "12px",
+                        "3xl": "64px",
+                        "md": "16px",
+                        "margin-mobile": "16px"
+                    },
+                    fontFamily: {
+                        "display-lg-mobile": ["Noto Serif SC"],
+                        "headline-sm": ["Noto Serif SC"],
+                        "body-sm": ["Noto Sans SC"],
+                        "body-md": ["Noto Sans SC"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-md": ["Noto Serif SC"],
+                        "display-lg": ["Noto Serif SC"],
+                        "caption": ["Noto Sans SC"],
+                        "body-lg": ["Noto Sans SC"]
+                    },
+                    fontSize: {
+                        "display-lg-mobile": ["32px", { lineHeight: "1.2", fontWeight: "700" }],
+                        "headline-sm": ["22px", { lineHeight: "1.4", fontWeight: "600" }],
+                        "body-sm": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "label-mono": ["13px", { lineHeight: "1.0", letterSpacing: "0.05em", fontWeight: "500" }],
+                        "headline-md": ["28px", { lineHeight: "1.4", fontWeight: "600" }],
+                        "display-lg": ["40px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "caption": ["12px", { lineHeight: "1.4", fontWeight: "500" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom Scrollbar for inner columns */
+        .scroller::-webkit-scrollbar {
+            width: 6px;
+        }
+        .scroller::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .scroller::-webkit-scrollbar-thumb {
+            background-color: #c3c6ce;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md h-screen overflow-hidden flex selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- SideNavBar (Shared Component) -->
+<nav class="h-screen w-64 fixed left-0 top-0 border-r border-outline-variant bg-surface-container-lowest flex flex-col py-6 z-20">
+<!-- Brand -->
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined icon-fill">gavel</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-primary">劳动权益助手</h1>
+<p class="font-caption text-caption text-on-surface-variant mt-1">Modern Institutional</p>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<div class="flex-1 flex flex-col gap-1 mt-4">
+<!-- Active Tab: 发起咨询 (Start Consultation) -->
+<a class="text-primary font-bold border-l-4 border-primary bg-surface-container-high flex items-center gap-3 px-4 py-3 opacity-90 transition-opacity" href="#">
+<span class="material-symbols-outlined icon-fill" data-icon="add_comment">add_comment</span>
+<span class="font-body-md text-body-md">发起咨询</span>
+</a>
+<a class="text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container transition-colors ml-[4px]" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-body-md text-body-md">合同审查</span>
+</a>
+<a class="text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container transition-colors ml-[4px]" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-body-md text-body-md">咨询历史</span>
+</a>
+<a class="text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container transition-colors ml-[4px]" href="#">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+<span class="font-body-md text-body-md">收藏答案</span>
+</a>
+<a class="text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container transition-colors ml-[4px]" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-body-md text-body-md">帮助说明</span>
+</a>
+</div>
+<!-- Footer Actions -->
+<div class="mt-auto px-4 flex flex-col gap-2">
+<button class="w-full text-left text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container transition-colors rounded">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="font-body-md text-body-md">个人中心</span>
+</button>
+<div class="px-4 py-2 mt-2 border-t border-outline-variant pt-4">
+<a class="font-caption text-caption text-on-surface-variant hover:text-primary transition-colors" href="#">全局免责声明</a>
+</div>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 ml-64 flex flex-col h-screen max-w-[calc(100%-16rem)]">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-surface flex justify-between items-center h-16 px-gutter w-full border-b border-outline-variant z-10 shrink-0">
+<div class="flex items-center gap-4">
+<span class="font-label-mono text-label-mono text-on-surface-variant bg-surface-container px-3 py-1 rounded-full">ID: CX-20240520-091A</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2 text-secondary font-body-sm text-body-sm bg-secondary-container/20 px-3 py-1.5 rounded">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>全国性法规为主</span>
+</div>
+<span class="font-label-mono text-label-mono text-on-surface-variant">2024-05-20</span>
+<button class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center hover:text-primary transition-all duration-200">
+<img alt="用户登录入口" class="w-8 h-8 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3TBPh2NpWLjzLU1VTWgmgnKDXFXsliLZZbF08Pl_KgXMwLjg-Y54SMRNoEk-CFDzUr6wMy7qkwfTSjRElQqH9925YsoYo2qSXBD8mLAqpuceKSbar-J4IFHEXNDzQZvotrSJ6oMUtYy3nJkDoHc4DJWwQuK-9Uvv0Wtc6-kBqZGC5Wn3q_mxZSYcX2Euzua3cIQ9z3hVZ8aq7GJ40i6JT8947yaFfBxTk9BRjLQo_u3F4AzxlBp9M"/>
+</button>
+</div>
+</header>
+<!-- Three Column Layout Layout Below Header -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Column 1: Session History (Left) -->
+<aside class="w-64 border-r border-outline-variant bg-surface-container-lowest flex flex-col shrink-0 scroller overflow-y-auto">
+<div class="p-4 border-b border-outline-variant sticky top-0 bg-surface-container-lowest z-10">
+<h2 class="font-headline-sm text-headline-sm text-primary">当前会话记录</h2>
+</div>
+<div class="p-4 flex flex-col gap-3">
+<button class="text-left p-3 rounded bg-surface border border-outline-variant hover:border-primary transition-colors">
+<p class="font-body-sm text-body-sm text-on-surface line-clamp-2">入职三个月未签订书面劳动合同，现在公司要辞退我，我能要求双倍工资赔偿吗？</p>
+<span class="font-caption text-caption text-on-surface-variant mt-2 block">10:42 AM</span>
+</button>
+<!-- More history items could go here -->
+</div>
+</aside>
+<!-- Column 2: Main Answer Area (Middle) -->
+<section class="flex-1 bg-surface flex flex-col scroller overflow-y-auto relative">
+<div class="max-w-3xl w-full mx-auto p-8 flex flex-col gap-8 pb-32">
+<!-- Question Header -->
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<span class="bg-primary-container text-on-primary-container font-label-mono text-label-mono px-2 py-1 rounded">未签订书面劳动合同</span>
+<span class="font-caption text-caption text-on-surface-variant">生成时间: 10:45 AM · 综合 4 篇相关法规生成</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-primary">入职三个月未签订书面劳动合同，现在公司要辞退我，我能要求双倍工资赔偿吗？</h2>
+<div class="flex items-center gap-4 pt-2 border-t border-outline-variant">
+<button class="flex items-center gap-1.5 font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">content_copy</span> 复制
+                            </button>
+<button class="flex items-center gap-1.5 font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">bookmark_add</span> 收藏
+                            </button>
+<button class="flex items-center gap-1.5 font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span> 导出PDF
+                            </button>
+</div>
+</div>
+<!-- Module 1: Conclusion -->
+<div class="bg-surface-container-lowest border-l-4 border-secondary p-6 rounded-r-lg shadow-[0_2px_12px_rgba(23,50,77,0.04)]">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-secondary icon-fill">gavel</span>
+<h3 class="font-headline-sm text-[18px] text-on-surface font-semibold">权威结论摘要</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+<strong class="text-primary font-bold">可以要求。</strong>根据《劳动合同法》规定，用人单位自用工之日起超过一个月不满一年未与劳动者订立书面劳动合同的，应当向劳动者每月支付二倍的工资 <sup class="text-secondary font-label-mono cursor-pointer hover:underline">[1]</sup>。同时，若公司单方面违法辞退，您还可以要求支付违法解除劳动合同的赔偿金（即经济补偿金的二倍）<sup class="text-secondary font-label-mono cursor-pointer hover:underline">[2]</sup>。
+                        </p>
+</div>
+<!-- Module 3: Timeline / Process -->
+<div class="space-y-4">
+<h3 class="font-headline-sm text-[18px] text-on-surface font-semibold border-b border-outline-variant pb-2">建议处理流程</h3>
+<div class="relative pl-6 space-y-6 before:absolute before:inset-0 before:ml-[11px] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-outline-variant">
+<!-- Step 1 -->
+<div class="relative flex items-start gap-4">
+<div class="absolute left-0 -ml-6 mt-1 w-3 h-3 rounded-full bg-secondary border-2 border-surface-container-lowest z-10"></div>
+<div class="bg-surface-container-lowest border border-outline-variant p-4 rounded w-full">
+<h4 class="font-bold text-primary mb-1">第一步：固定证据（核心关键）</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">在与公司交涉前，务必先收集能证明存在劳动关系的证据，以及实际工资标准的证据。切勿冲动先办离职手续。</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative flex items-start gap-4">
+<div class="absolute left-0 -ml-6 mt-1 w-3 h-3 rounded-full bg-surface-container-highest border-2 border-outline-variant z-10"></div>
+<div class="bg-surface-container-lowest border border-outline-variant p-4 rounded w-full opacity-80">
+<h4 class="font-bold text-primary mb-1">第二步：协商或投诉</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">携带证据与人事部门沟通，或前往当地劳动监察大队进行投诉调解。</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Module 4: Evidence Checklist -->
+<div class="space-y-4 bg-surface-container-lowest border border-outline-variant p-6 rounded-lg">
+<h3 class="font-headline-sm text-[18px] text-on-surface font-semibold">证据清单准备表</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-4">请核对您目前掌握的材料，勾选以评估胜诉率：</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+<label class="flex items-center gap-3 p-3 border border-outline-variant rounded hover:bg-surface-container cursor-pointer transition-colors">
+<input class="form-checkbox text-primary rounded border-outline-variant focus:ring-primary h-5 w-5" type="checkbox"/>
+<span class="font-body-sm text-body-sm">工资发放记录 (银行流水/转账截图)</span>
+</label>
+<label class="flex items-center gap-3 p-3 border border-outline-variant rounded hover:bg-surface-container cursor-pointer transition-colors">
+<input class="form-checkbox text-primary rounded border-outline-variant focus:ring-primary h-5 w-5" type="checkbox"/>
+<span class="font-body-sm text-body-sm">考勤打卡记录</span>
+</label>
+<label class="flex items-center gap-3 p-3 border border-outline-variant rounded hover:bg-surface-container cursor-pointer transition-colors">
+<input class="form-checkbox text-primary rounded border-outline-variant focus:ring-primary h-5 w-5" type="checkbox"/>
+<span class="font-body-sm text-body-sm">工作群聊天记录 (需显示汇报关系)</span>
+</label>
+<label class="flex items-center gap-3 p-3 border border-outline-variant rounded hover:bg-surface-container cursor-pointer transition-colors">
+<input class="form-checkbox text-primary rounded border-outline-variant focus:ring-primary h-5 w-5" type="checkbox"/>
+<span class="font-body-sm text-body-sm">工牌、制服或盖章的工作证件</span>
+</label>
+</div>
+</div>
+<!-- Module 5: Notices / Risks -->
+<div class="bg-[#fff8e6] border border-[#f5c77e] p-5 rounded-lg flex items-start gap-4">
+<span class="material-symbols-outlined text-[#ce8a28] icon-fill mt-0.5">warning</span>
+<div>
+<h4 class="font-bold text-[#b87612] mb-1">关键时效与风险提示</h4>
+<ul class="list-disc pl-4 font-body-sm text-body-sm text-[#8c5709] space-y-1">
+<li><strong>仲裁时效：</strong>劳动争议申请仲裁的时效期间为一年。从当事人知道或者应当知道其权利被侵害之日起计算。</li>
+<li><strong>双倍工资限制：</strong>要求支付二倍工资的最长支持期限通常为11个月。</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Sticky Follow-up Input -->
+<div class="absolute bottom-0 w-full bg-surface/90 backdrop-blur-sm border-t border-outline-variant p-4">
+<div class="max-w-3xl mx-auto flex flex-col gap-2">
+<div class="flex items-center justify-between px-2 mb-1">
+<span class="font-caption text-caption text-on-surface-variant">连续追问，深入解析</span>
+<div class="flex gap-2">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-[20px]">thumb_up</span></button>
+<button class="text-on-surface-variant hover:text-error"><span class="material-symbols-outlined text-[20px]">thumb_down</span></button>
+</div>
+</div>
+<div class="relative">
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-3 pr-12 resize-none focus:ring-1 focus:ring-primary focus:border-primary font-body-sm text-body-sm" placeholder="例如：如果公司现在补签合同，我还能要双倍工资吗？" rows="2"></textarea>
+<button class="absolute right-3 bottom-3 w-8 h-8 bg-primary text-on-primary rounded flex items-center justify-center hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Column 3: Legal Basis Sidebar (Right) -->
+<aside class="w-80 border-l border-outline-variant bg-surface-container-lowest flex flex-col shrink-0 scroller overflow-y-auto p-5">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-on-surface-variant">menu_book</span>
+<h2 class="font-headline-sm text-[18px] text-primary">相关法律依据</h2>
+</div>
+<div class="space-y-6">
+<!-- Citation 1 -->
+<div class="border border-outline-variant rounded bg-surface p-4" id="ref-1">
+<div class="flex items-start justify-between mb-2">
+<span class="bg-secondary/10 text-secondary font-label-mono text-[12px] px-2 py-0.5 rounded font-bold">引用 [1]</span>
+<span class="font-caption text-caption text-on-surface-variant">现行有效</span>
+</div>
+<h4 class="font-bold text-on-surface text-body-md mb-2 leading-tight">《中华人民共和国劳动合同法》<br/><span class="font-normal text-body-sm">第八十二条</span></h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant bg-surface-container-lowest p-3 border border-outline-variant/50 rounded">
+                            用人单位自用工之日起超过一个月不满一年未与劳动者订立书面劳动合同的，应当向劳动者每月支付二倍的工资。
+                        </p>
+<div class="mt-3 text-right">
+<a class="font-caption text-caption text-primary hover:underline flex items-center justify-end gap-1" href="#">查看完整法条 <span class="material-symbols-outlined text-[14px]">open_in_new</span></a>
+</div>
+</div>
+<!-- Citation 2 -->
+<div class="border border-outline-variant rounded bg-surface p-4" id="ref-2">
+<div class="flex items-start justify-between mb-2">
+<span class="bg-secondary/10 text-secondary font-label-mono text-[12px] px-2 py-0.5 rounded font-bold">引用 [2]</span>
+<span class="font-caption text-caption text-on-surface-variant">现行有效</span>
+</div>
+<h4 class="font-bold text-on-surface text-body-md mb-2 leading-tight">《中华人民共和国劳动合同法》<br/><span class="font-normal text-body-sm">第四十七条、第八十七条</span></h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant bg-surface-container-lowest p-3 border border-outline-variant/50 rounded line-clamp-4">
+                            用人单位违反本法规定解除或者终止劳动合同的，应当依照本法第四十七条规定的经济补偿标准的二倍向劳动者支付赔偿金。经济补偿按劳动者在本单位工作的年限，每满一年支付一个月工资的标准向劳动者支付...
+                        </p>
+<div class="mt-3 text-right">
+<a class="font-caption text-caption text-primary hover:underline flex items-center justify-end gap-1" href="#">查看完整法条 <span class="material-symbols-outlined text-[14px]">open_in_new</span></a>
+</div>
+</div>
+</div>
+</aside>
+</main>
+</div>
+</body></html>
