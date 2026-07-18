@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>劳动权益助手 - 智能咨询</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&amp;family=Noto+Sans+SC:wght@400;500&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#2a1700",
+                        "inverse-surface": "#26323d",
+                        "on-surface": "#111d27",
+                        "on-secondary-container": "#1e6f6c",
+                        "primary": "#001d36",
+                        "surface-container-highest": "#d7e4f2",
+                        "background": "#f7f9ff",
+                        "on-tertiary-container": "#ce8a28",
+                        "on-primary-container": "#819aba",
+                        "on-secondary-fixed": "#00201f",
+                        "primary-container": "#17324d",
+                        "on-secondary-fixed-variant": "#00504d",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#ddeaf8",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#d1e4ff",
+                        "secondary-fixed": "#a5f0eb",
+                        "surface-bright": "#f7f9ff",
+                        "surface-container": "#e3effe",
+                        "surface-container-low": "#ecf4ff",
+                        "on-tertiary-fixed": "#2a1700",
+                        "secondary-fixed-dim": "#89d3cf",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#afc9ea",
+                        "outline": "#74777e",
+                        "surface": "#f7f9ff",
+                        "error-container": "#ffdad6",
+                        "secondary": "#146966",
+                        "surface-dim": "#cfdbea",
+                        "surface-variant": "#d7e4f2",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#c3c6ce",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "secondary-container": "#a5f0eb",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#2f4865",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#afc9ea",
+                        "inverse-on-surface": "#e7f2ff",
+                        "on-error-container": "#93000a",
+                        "on-background": "#111d27",
+                        "on-primary-fixed": "#001d36",
+                        "surface-tint": "#47607e",
+                        "tertiary-container": "#472a00",
+                        "tertiary-fixed": "#ffddb7",
+                        "on-surface-variant": "#43474d",
+                        "tertiary-fixed-dim": "#ffb95e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "2xl": "48px",
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "max-width": "1200px",
+                        "margin-desktop": "auto",
+                        "xs": "8px",
+                        "base": "4px",
+                        "sm": "12px",
+                        "3xl": "64px",
+                        "md": "16px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Noto Serif SC"],
+                        "headline-sm": ["Noto Serif SC"],
+                        "body-sm": ["Noto Sans SC"],
+                        "body-md": ["Noto Sans SC"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-md": ["Noto Serif SC"],
+                        "display-lg": ["Noto Serif SC"],
+                        "caption": ["Noto Sans SC"],
+                        "body-lg": ["Noto Sans SC"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-sm": ["22px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-mono": ["13px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-md": ["28px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "display-lg": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "caption": ["12px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #F7F8F6; /* Paper White Override */
+            -webkit-tap-highlight-color: transparent;
+        }
+        .structural-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E8ECEF; /* Fog Gray Override */
+        }
+        .structural-layer-2 {
+            background-color: #FFFFFF;
+            border: 1px solid #E8ECEF;
+            box-shadow: 0 8px 24px rgba(23, 50, 77, 0.06);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md md:hidden relative h-screen w-screen overflow-hidden flex flex-col">
+<!-- Mobile Top Header (TopNavBar Replacement for Mobile) -->
+<header class="flex justify-between items-center h-16 px-margin-mobile w-full bg-surface-container-lowest border-b border-outline-variant z-30 shrink-0">
+<div class="flex items-center gap-sm">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-2 -ml-2 rounded-full" id="menu-btn">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm text-primary">劳动权益助手</h1>
+</div>
+<div class="flex items-center gap-sm">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[24px]">verified_user</span>
+</button>
+<img alt="用户头像" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A minimalist circular avatar placeholder icon in subtle gray tones on a clean white background, reflecting a modern UI design aesthetic for user profiles." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6brxG7eknRrMik0LyQwdmstJ_viXFjokFa7ydpWaUr4NU0ANH2yGBfvvdRV-2dUpGl6xPKjbUP_WidNhUkNP-ZmwIoYYMnXnH1GG2sEsc_R30olgNMexjcQGG5xMi5sMx6CCw3kyGdR2y6ZVQXrb31LRTb5FOT2bxD5jGMdArqsGKyVrhUmJDVwTth4AsV9iRkjmrHwurNPcjkhLrRHADKAedk2LH1SagQ98o5LzaIlOhQkDbjOej"/>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto pb-[120px] px-margin-mobile pt-lg relative z-10 hide-scrollbar">
+<!-- Welcome Section -->
+<div class="mb-xl">
+<h2 class="font-display-lg-mobile text-display-lg-mobile text-primary mb-2">您好，需要什么帮助？</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">请描述您的劳动争议或法律问题，我们将提供专业信息辅助。</p>
+</div>
+<!-- High-Frequency Questions (2x3 Grid / Vertical List on Mobile) -->
+<div class="mb-xl">
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-[20px] text-primary">psychiatry</span>
+<h3 class="font-headline-sm text-[18px] font-semibold text-primary">常见问题</h3>
+</div>
+<div class="grid grid-cols-1 gap-sm">
+<!-- Card 1 -->
+<button class="structural-card rounded-lg p-md flex items-start gap-sm text-left hover:bg-surface-container-lowest transition-colors group w-full">
+<div class="bg-surface-container p-xs rounded-full shrink-0 group-hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-[20px] text-primary group-hover:text-on-primary-container">money_off</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">公司拖欠工资怎么办？</p>
+<p class="font-caption text-caption text-on-surface-variant mt-1">了解讨薪途径与证据收集</p>
+</div>
+</button>
+<!-- Card 2 -->
+<button class="structural-card rounded-lg p-md flex items-start gap-sm text-left hover:bg-surface-container-lowest transition-colors group w-full">
+<div class="bg-surface-container p-xs rounded-full shrink-0 group-hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-[20px] text-primary group-hover:text-on-primary-container">gavel</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">如何申请劳动仲裁？</p>
+<p class="font-caption text-caption text-on-surface-variant mt-1">流程解析与时效规定</p>
+</div>
+</button>
+<!-- Card 3 -->
+<button class="structural-card rounded-lg p-md flex items-start gap-sm text-left hover:bg-surface-container-lowest transition-colors group w-full">
+<div class="bg-surface-container p-xs rounded-full shrink-0 group-hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-[20px] text-primary group-hover:text-on-primary-container">description</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">未签订书面劳动合同赔偿</p>
+<p class="font-caption text-caption text-on-surface-variant mt-1">双倍工资的适用条件</p>
+</div>
+</button>
+<!-- Card 4 -->
+<button class="structural-card rounded-lg p-md flex items-start gap-sm text-left hover:bg-surface-container-lowest transition-colors group w-full">
+<div class="bg-surface-container p-xs rounded-full shrink-0 group-hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-[20px] text-primary group-hover:text-on-primary-container">work_history</span>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-medium">试用期被辞退有补偿吗？</p>
+<p class="font-caption text-caption text-on-surface-variant mt-1">合法解除与非法解除判定</p>
+</div>
+</button>
+</div>
+</div>
+<!-- Spacing for fixed bottom elements -->
+<div class="h-[60px]"></div>
+</main>
+<!-- Fixed Bottom Consultation Input -->
+<div class="fixed bottom-0 left-0 w-full structural-layer-2 rounded-t-xl z-40 bg-surface-container-lowest pb-6 pt-4 px-margin-mobile">
+<form class="flex items-center gap-sm" onsubmit="event.preventDefault();">
+<div class="flex-1 relative">
+<input class="w-full bg-surface-container-lowest border border-outline-variant focus:border-primary focus:ring-0 rounded-lg py-3 pl-4 pr-10 font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant transition-colors" placeholder="输入您遇到的劳动纠纷..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-on-surface-variant hover:text-primary" type="button">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+</button>
+</div>
+<button class="bg-primary text-on-primary rounded-lg px-md py-3 font-body-md text-body-md font-medium shrink-0 flex items-center justify-center" type="submit">
+                发送
+            </button>
+</form>
+<p class="font-caption text-caption text-on-surface-variant text-center mt-3 px-4">
+            本工具提供法律信息辅助，不构成正式法律意见。
+        </p>
+</div>
+<!-- Mobile Drawer Overlay -->
+<div class="fixed inset-0 bg-[#111d27]/40 z-40 opacity-0 pointer-events-none transition-opacity duration-300" id="drawer-overlay"></div>
+<!-- Mobile Side Drawer (SideNavBar translation for Mobile) -->
+<aside class="fixed top-0 left-0 h-full w-[280px] bg-surface-container-lowest z-50 transform -translate-x-full transition-transform duration-300 flex flex-col structural-layer-2 rounded-r-xl" id="side-drawer">
+<div class="p-lg flex items-center justify-between border-b border-outline-variant">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-primary">劳动权益助手</h2>
+<p class="font-caption text-caption text-on-surface-variant mt-1">Modern Institutional</p>
+</div>
+<button class="text-on-surface-variant p-1 -mr-1" id="close-menu-btn">
+<span class="material-symbols-outlined text-[24px]">close</span>
+</button>
+</div>
+<nav class="flex-1 overflow-y-auto py-md">
+<ul class="flex flex-col">
+<li>
+<a class="text-primary font-bold border-l-4 border-primary bg-surface-container-high dark:bg-primary-container dark:text-on-primary-container flex items-center gap-3 px-4 py-3" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_comment</span>
+<span class="font-body-md text-body-md">发起咨询</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container transition-colors ml-1" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-body-md text-body-md">合同审查</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container transition-colors ml-1" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-body-md text-body-md">咨询历史</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container transition-colors ml-1" href="#">
+<span class="material-symbols-outlined">bookmark</span>
+<span class="font-body-md text-body-md">收藏答案</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container transition-colors ml-1" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-md text-body-md">帮助说明</span>
+</a>
+</li>
+</ul>
+</nav>
+<div class="p-4 border-t border-outline-variant">
+<a class="text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container transition-colors rounded-md ml-1" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-body-md text-body-md">个人中心</span>
+</a>
+<div class="mt-4 px-4">
+<button class="w-full border border-primary text-primary py-2 rounded-lg font-body-sm text-body-sm hover:bg-surface-container transition-colors">
+                    全局免责声明
+                </button>
+</div>
+</div>
+</aside>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.getElementById('menu-btn');
+            const closeBtn = document.getElementById('close-menu-btn');
+            const drawer = document.getElementById('side-drawer');
+            const overlay = document.getElementById('drawer-overlay');
+
+            function openDrawer() {
+                drawer.classList.remove('-translate-x-full');
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+            }
+
+            function closeDrawer() {
+                drawer.classList.add('-translate-x-full');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+            }
+
+            menuBtn.addEventListener('click', openDrawer);
+            closeBtn.addEventListener('click', closeDrawer);
+            overlay.addEventListener('click', closeDrawer);
+        });
+    </script>
+</body></html>

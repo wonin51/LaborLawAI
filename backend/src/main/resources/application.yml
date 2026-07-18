@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: rag-kb-demo
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:local-placeholder-key}
+
+server:
+  port: 8080
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml

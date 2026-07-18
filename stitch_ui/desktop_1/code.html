@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>劳动权益助手 - 智能咨询首页</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&amp;family=Noto+Sans+SC:wght@400;500&amp;family=Noto+Serif+SC:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#2a1700",
+                        "inverse-surface": "#26323d",
+                        "on-surface": "#111d27",
+                        "on-secondary-container": "#1e6f6c",
+                        "primary": "#001d36",
+                        "surface-container-highest": "#d7e4f2",
+                        "background": "#f7f9ff",
+                        "on-tertiary-container": "#ce8a28",
+                        "on-primary-container": "#819aba",
+                        "on-secondary-fixed": "#00201f",
+                        "primary-container": "#17324d",
+                        "on-secondary-fixed-variant": "#00504d",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#ddeaf8",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#d1e4ff",
+                        "secondary-fixed": "#a5f0eb",
+                        "surface-bright": "#f7f9ff",
+                        "surface-container": "#e3effe",
+                        "surface-container-low": "#ecf4ff",
+                        "on-tertiary-fixed": "#2a1700",
+                        "secondary-fixed-dim": "#89d3cf",
+                        "on-error": "#ffffff",
+                        "primary-fixed-dim": "#afc9ea",
+                        "outline": "#74777e",
+                        "surface": "#f7f9ff",
+                        "error-container": "#ffdad6",
+                        "secondary": "#146966",
+                        "surface-dim": "#cfdbea",
+                        "surface-variant": "#d7e4f2",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#c3c6ce",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "secondary-container": "#a5f0eb",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed-variant": "#2f4865",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#afc9ea",
+                        "inverse-on-surface": "#e7f2ff",
+                        "on-error-container": "#93000a",
+                        "on-background": "#111d27",
+                        "on-primary-fixed": "#001d36",
+                        "surface-tint": "#47607e",
+                        "tertiary-container": "#472a00",
+                        "tertiary-fixed": "#ffddb7",
+                        "on-surface-variant": "#43474d",
+                        "tertiary-fixed-dim": "#ffb95e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "2xl": "48px",
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "max-width": "1200px",
+                        "margin-desktop": "auto",
+                        "xs": "8px",
+                        "base": "4px",
+                        "sm": "12px",
+                        "3xl": "64px",
+                        "md": "16px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg-mobile": ["Noto Serif SC"],
+                        "headline-sm": ["Noto Serif SC"],
+                        "body-sm": ["Noto Sans SC"],
+                        "body-md": ["Noto Sans SC"],
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-md": ["Noto Serif SC"],
+                        "display-lg": ["Noto Serif SC"],
+                        "caption": ["Noto Sans SC"],
+                        "body-lg": ["Noto Sans SC"]
+                    },
+                    "fontSize": {
+                        "display-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-sm": ["22px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-mono": ["13px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-md": ["28px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "display-lg": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "caption": ["12px", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #f7f8f6; }
+        .paper-card { background: #ffffff; border: 1px solid #e8ecef; }
+        .paper-shadow { box-shadow: 0 8px 24px rgba(23, 50, 77, 0.06); }
+        .ambient-mist { box-shadow: 0 8px 24px rgba(23, 50, 77, 0.06); border: 1px solid #e8ecef; }
+        .ink-primary { background-color: #17324d; color: #ffffff; }
+        .ink-text { color: #17324d; }
+    </style>
+</head>
+<body class="font-body-md text-on-surface bg-[#F7F8F6] antialiased selection:bg-primary-container selection:text-white flex min-h-screen">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-lowest dark:bg-inverse-surface border-r border-outline-variant dark:border-outline h-screen w-64 fixed left-0 top-0 flex flex-col py-6 z-50">
+<div class="px-6 mb-8 flex flex-col gap-2">
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed">劳动权益助手</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Modern Institutional</p>
+</div>
+<ul class="flex flex-col flex-grow font-body-md text-body-md">
+<li>
+<a class="text-primary font-bold border-l-4 border-primary bg-surface-container-high dark:bg-primary-container dark:text-on-primary-container flex items-center gap-3 px-4 py-3 opacity-90 transition-opacity" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_comment</span>
+                    发起咨询
+                </a>
+</li>
+<li>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container dark:hover:bg-surface-variant transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+                    合同审查
+                </a>
+</li>
+<li>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container dark:hover:bg-surface-variant transition-colors" href="#">
+<span class="material-symbols-outlined">history</span>
+                    咨询历史
+                </a>
+</li>
+<li>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container dark:hover:bg-surface-variant transition-colors" href="#">
+<span class="material-symbols-outlined">bookmark</span>
+                    收藏答案
+                </a>
+</li>
+<li>
+<a class="text-on-surface-variant dark:text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container dark:hover:bg-surface-variant transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+                    帮助说明
+                </a>
+</li>
+</ul>
+<div class="mt-auto px-4 flex flex-col gap-4">
+<button class="w-full text-center font-label-mono text-label-mono text-primary py-2 border border-primary rounded hover:bg-surface-container transition-colors">
+                全局免责声明
+            </button>
+<a class="text-on-surface-variant flex items-center gap-3 px-4 py-3 hover:bg-surface-container transition-colors" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+                个人中心
+            </a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 ml-64 flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-on-surface border-b border-outline-variant dark:border-outline flex justify-between items-center h-16 px-gutter w-full z-40 sticky top-0 transition-all duration-200">
+<div class="font-headline-sm text-headline-sm text-primary font-bold hidden">劳动权益助手</div>
+<div class="flex-1"></div>
+<div class="flex items-center gap-6 font-label-mono text-label-mono">
+<span class="text-on-surface-variant">全国性法规为主</span>
+<span class="text-on-surface-variant">2024-05-20</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors flex items-center">
+<span class="material-symbols-outlined">verified_user</span>
+</button>
+<button aria-label="用户登录入口" class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden border border-outline-variant">
+<span class="material-symbols-outlined text-primary">person</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 flex justify-center py-2xl px-gutter pb-3xl">
+<div class="w-full max-w-[800px] flex flex-col gap-2xl">
+<!-- Hero Section -->
+<section class="text-center flex flex-col gap-lg items-center">
+<h2 class="font-display-lg text-display-lg ink-text tracking-tight">把劳动合同问题说清楚</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-[600px]">
+                        根据现行法律法规、司法解释和人社政策，为你整理判断依据、处理步骤和证据清单。
+                    </p>
+</section>
+<!-- Input Section -->
+<section class="paper-card rounded-lg p-lg ambient-mist flex flex-col gap-md relative transition-shadow focus-within:shadow-md">
+<textarea class="w-full h-32 resize-none border-none focus:ring-0 p-0 text-body-lg font-body-lg placeholder-outline-variant text-on-surface bg-transparent" placeholder="例如：入职两个月还没有签劳动合同，我可以要求公司赔偿吗？"></textarea>
+<div class="flex justify-between items-end pt-sm border-t border-outline-variant/30">
+<div class="flex flex-col gap-xs">
+<div class="flex gap-sm">
+<button class="text-sm font-label-mono ink-text flex items-center gap-2 hover:bg-surface-container-high px-2 py-1 rounded transition-colors">
+<span class="material-symbols-outlined text-[18px]">content_paste</span>
+                                    粘贴合同条款
+                                </button>
+<button class="text-sm font-label-mono ink-text flex items-center gap-2 hover:bg-surface-container-high px-2 py-1 rounded transition-colors">
+<span class="material-symbols-outlined text-[18px]">upload_file</span>
+                                    上传示例文本
+                                </button>
+</div>
+<div class="flex items-center gap-2 text-on-tertiary-container font-caption text-caption opacity-80">
+<span class="material-symbols-outlined text-[16px]">info</span>
+                                请勿输入身份证号、银行卡号等敏感信息
+                            </div>
+</div>
+<button class="ink-primary font-body-md text-body-md px-6 py-3 rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined">send</span>
+                            发送咨询
+                        </button>
+</div>
+</section>
+<!-- Frequent Questions Bento Grid -->
+<section class="flex flex-col gap-lg mt-xl">
+<h3 class="font-headline-sm text-headline-sm ink-text">高频问题</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-sm">
+<button class="paper-card p-md rounded flex items-center justify-between hover:bg-surface-container-lowest transition-colors group text-left border border-outline-variant/50 hover:border-primary/30">
+<div>
+<span class="font-label-mono text-label-mono text-secondary mb-1 block">加班费</span>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">周末总是被叫去加班，没给加班费怎么办？</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">arrow_forward</span>
+</button>
+<button class="paper-card p-md rounded flex items-center justify-between hover:bg-surface-container-lowest transition-colors group text-left border border-outline-variant/50 hover:border-primary/30">
+<div>
+<span class="font-label-mono text-label-mono text-secondary mb-1 block">未签合同</span>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">工作半年了公司一直不跟我签合同合法吗？</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">arrow_forward</span>
+</button>
+<button class="paper-card p-md rounded flex items-center justify-between hover:bg-surface-container-lowest transition-colors group text-left border border-outline-variant/50 hover:border-primary/30">
+<div>
+<span class="font-label-mono text-label-mono text-secondary mb-1 block">试用期补偿</span>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">试用期最后一天被辞退，有N+1补偿吗？</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">arrow_forward</span>
+</button>
+<button class="paper-card p-md rounded flex items-center justify-between hover:bg-surface-container-lowest transition-colors group text-left border border-outline-variant/50 hover:border-primary/30">
+<div>
+<span class="font-label-mono text-label-mono text-secondary mb-1 block">拖欠工资</span>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">公司以效益不好为由拖欠工资两个月，如何维权？</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">arrow_forward</span>
+</button>
+<button class="paper-card p-md rounded flex items-center justify-between hover:bg-surface-container-lowest transition-colors group text-left border border-outline-variant/50 hover:border-primary/30">
+<div>
+<span class="font-label-mono text-label-mono text-secondary mb-1 block">违法解除</span>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">公司突然强制解除合同，我该怎么收集证据？</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">arrow_forward</span>
+</button>
+<button class="paper-card p-md rounded flex items-center justify-between hover:bg-surface-container-lowest transition-colors group text-left border border-outline-variant/50 hover:border-primary/30">
+<div>
+<span class="font-label-mono text-label-mono text-secondary mb-1 block">竞业限制</span>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">签了竞业协议但公司没给补偿金，协议还有效吗？</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- What You Get Section -->
+<section class="mt-xl flex flex-col gap-lg">
+<h3 class="font-headline-sm text-headline-sm ink-text border-b border-outline-variant pb-2">你将获得什么</h3>
+<div class="grid grid-cols-1 md:grid-cols-5 gap-0 border-l border-outline-variant/30 pl-4 relative before:absolute before:left-[-1px] before:top-0 before:bottom-0 before:w-[2px] before:bg-surface-container-high">
+<div class="flex flex-col gap-2 py-sm relative group">
+<div class="absolute w-2 h-2 rounded-full bg-outline-variant left-[-21px] top-4 group-hover:bg-primary transition-colors"></div>
+<span class="font-label-mono text-label-mono text-on-surface-variant">01</span>
+<h4 class="font-body-md text-body-md font-bold text-on-surface">结论摘要</h4>
+</div>
+<div class="flex flex-col gap-2 py-sm relative group">
+<div class="absolute w-2 h-2 rounded-full bg-outline-variant left-[-21px] top-4 group-hover:bg-primary transition-colors"></div>
+<span class="font-label-mono text-label-mono text-on-surface-variant">02</span>
+<h4 class="font-body-md text-body-md font-bold text-on-surface">法律依据</h4>
+</div>
+<div class="flex flex-col gap-2 py-sm relative group">
+<div class="absolute w-2 h-2 rounded-full bg-outline-variant left-[-21px] top-4 group-hover:bg-primary transition-colors"></div>
+<span class="font-label-mono text-label-mono text-on-surface-variant">03</span>
+<h4 class="font-body-md text-body-md font-bold text-on-surface">维权流程</h4>
+</div>
+<div class="flex flex-col gap-2 py-sm relative group">
+<div class="absolute w-2 h-2 rounded-full bg-outline-variant left-[-21px] top-4 group-hover:bg-primary transition-colors"></div>
+<span class="font-label-mono text-label-mono text-on-surface-variant">04</span>
+<h4 class="font-body-md text-body-md font-bold text-on-surface">证据清单</h4>
+</div>
+<div class="flex flex-col gap-2 py-sm relative group">
+<div class="absolute w-2 h-2 rounded-full bg-outline-variant left-[-21px] top-4 group-hover:bg-primary transition-colors"></div>
+<span class="font-label-mono text-label-mono text-on-surface-variant">05</span>
+<h4 class="font-body-md text-body-md font-bold text-on-surface">注意事项</h4>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-inverse-surface border-t border-outline-variant fixed bottom-0 right-0 left-64 py-4 px-gutter flex justify-between items-center z-40">
+<div class="font-caption text-caption text-on-surface-variant max-w-[80%]">
+                本工具提供劳动合同相关法律信息辅助，不构成正式法律意见。复杂争议、重大金额或诉讼策略问题，请咨询专业律师或当地劳动保障部门。
+            </div>
+<div class="flex gap-4 font-body-sm text-body-sm text-on-surface-variant">
+<a class="opacity-80 hover:opacity-100 hover:text-on-surface dark:hover:text-inverse-on-surface transition-opacity underline" href="#">免责声明</a>
+<a class="opacity-80 hover:opacity-100 hover:text-on-surface dark:hover:text-inverse-on-surface transition-opacity underline" href="#">隐私政策</a>
+</div>
+</footer>
+</div>
+</body></html>
