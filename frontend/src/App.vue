@@ -1,79 +1,84 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
+import { ElMessage } from 'element-plus'
 import {
   ChatDotRound,
   Collection,
+  DataAnalysis,
+  Document,
   DocumentChecked,
   Files,
-  FolderOpened,
-  Memo,
+  InfoFilled,
+  Link,
   Monitor,
+  Plus,
+  Refresh,
   Search,
-  Warning
+  View
 } from '@element-plus/icons-vue'
-import { getHealthStatus } from './api/http'
+import { configuredBaseUrl } from './api/http'
+import { getHealthStatus, pingDatabase } from './api/health'
+import {
+  createLegalDocument,
+  getLegalDocumentDetail,
+  getLegalDocuments
+} from './api/legalDocuments'
 
-const activeView = ref('consult')
+const activeView = ref('documents')
 const health = ref({ status: 'checking', text: '正在检查后端服务' })
-const question = ref('入职两个月没签劳动合同，我能要求赔偿吗？')
-const reviewText = ref('合同约定：乙方试用期为六个月，试用期工资为正式工资的70%。甲方可根据经营需要随时解除劳动合同。')
+const dbHealth = ref({ status: 'checking', text: '正在检查数据库连接' })
 
 const navItems = [
-  { key: 'consult', label: '智能咨询', icon: ChatDotRound },
-  { key: 'review', label: '合同审查', icon: DocumentChecked },
-  { key: 'sources', label: '法律依据库', icon: Collection },
-  { key: 'history', label: '问答历史', icon: Memo },
-  { key: 'feedback', label: '反馈处理', icon: Warning },
-  { key: 'admin', label: '知识库管理', icon: FolderOpened }
+  { key: 'documents', label: '法律文档', hint: '任务05页面', icon: Files },
+  { key: 'consult', label: '智能问答', hint: '依据溯源', icon: ChatDotRound },
+  { key: 'review', label: '合同审查', hint: '条款风险', icon: DocumentChecked },
+  { key: 'sources', label: '依据收藏', hint: '引用清单', icon: Collection },
+  { key: 'help', label: '使用边界', hint: '免责声明', icon: InfoFilled }
 ]
 
-const quickQuestions = ['未签劳动合同', '试用期解除', '加班工资', '工资拖欠', '经济补偿', '社保公积金', '劳动仲裁', '合同条款风险']
+// Task 05: 查询区状态，字段按法律知识库语义改造。
+const queryForm = reactive({
+  title: '',
+  sourceType: '',
+  jurisdiction: '',
+  effectiveStatus: '',
+  pageNo: 1,
+  pageSize: 10
+})
 
-const sourceCards = [
-  {
-    id: '依据 1',
-    title: '中华人民共和国劳动合同法',
-    article: '第十条、第八十二条',
-    type: '法律法规',
-    status: '现行有效',
-    summary: '建立劳动关系，应当订立书面劳动合同；用人单位超过一个月不满一年未与劳动者订立书面劳动合同的，应向劳动者每月支付二倍工资。',
-    date: '2012-12-28 修正'
-  },
-  {
-    id: '依据 2',
-    title: '劳动争议调解仲裁法',
-    article: '第二十七条',
-    type: '法律法规',
-    status: '现行有效',
-    summary: '劳动争议申请仲裁的时效期间为一年，仲裁时效期间从当事人知道或者应当知道其权利被侵害之日起计算。',
-    date: '2007-12-29 发布'
-  },
-  {
-    id: '依据 3',
-    title: '人社部门劳动保障监察指引',
-    article: '投诉举报、工资支付、用工资料',
-    type: '人社政策',
-    status: '需核对地方政策',
-    summary: '发生工资拖欠、未签合同等争议时，可先保存劳动关系和工资支付证据，再选择投诉或仲裁路径。',
-    date: '示例资料'
-  }
-]
+const sourceTypeOptions = ['法律法规', '司法解释', '人社政策', '项目知识']
+const statusOptions = ['现行有效', '已启用', '草稿', '待复核', '已失效']
+const jurisdictionOptions = ['全国', '项目资料', '北京', '上海', '广东', '浙江']
 
-const processSteps = [
-  { title: '沟通确认', detail: '先与用人单位确认未签合同原因，保留沟通记录。' },
-  { title: '保存证据', detail: '整理工资流水、考勤记录、录用通知、聊天记录和工作成果。' },
-  { title: '投诉举报', detail: '可向当地劳动保障监察部门反映用工问题。' },
-  { title: '劳动仲裁', detail: '准备仲裁申请书和证据材料，关注一年仲裁时效。' },
-  { title: '专业咨询', detail: '金额较大或证据复杂时，建议咨询律师或法律援助机构。' }
-]
+const tableLoading = ref(false)
+const documentRows = ref([])
+const total = ref(0)
 
-const evidenceList = ['劳动合同或录用通知', '工资流水', '考勤记录', '加班通知', '聊天记录', '工作成果', '社保缴纳记录', '离职证明或解除通知']
+const createDialogVisible = ref(false)
+const detailDialogVisible = ref(false)
+const createFormRef = ref()
+const detailLoading = ref(false)
+const selectedDocument = ref(null)
 
-const knowledgeDocs = [
-  { title: '中华人民共和国劳动合同法', type: '法律法规', scope: '全国', chunks: 128, status: '已索引', updated: '2026-07-18' },
-  { title: '劳动争议司法解释汇编', type: '司法解释', scope: '全国', chunks: 86, status: '待复核', updated: '2026-07-17' },
-  { title: '加班工资高频问答', type: 'FAQ', scope: '项目资料', chunks: 24, status: '已启用', updated: '2026-07-16' }
-]
+// Task 05: 新增文档弹窗表单。
+const createForm = reactive({
+  title: '',
+  sourceType: '法律法规',
+  jurisdiction: '全国',
+  publishDate: '',
+  effectiveStatus: '草稿',
+  sourceUrl: '',
+  summary: '',
+  content: ''
+})
+
+const createRules = {
+  title: [{ required: true, message: '请输入文档标题', trigger: 'blur' }],
+  sourceType: [{ required: true, message: '请选择来源类型', trigger: 'change' }],
+  jurisdiction: [{ required: true, message: '请选择适用地区', trigger: 'change' }],
+  summary: [{ required: true, message: '请输入文档摘要', trigger: 'blur' }],
+  content: [{ required: true, message: '请输入正文内容', trigger: 'blur' }]
+}
 
 const healthType = computed(() => {
   if (health.value.status === 'ok') return 'success'
@@ -81,10 +86,23 @@ const healthType = computed(() => {
   return 'danger'
 })
 
-async function checkBackend() {
+const dbHealthType = computed(() => {
+  if (dbHealth.value.status === 'ok') return 'success'
+  if (dbHealth.value.status === 'checking') return 'warning'
+  return 'danger'
+})
+
+function unwrapApiResponse(response) {
+  if (!response || response.code !== 0) {
+    throw new Error(response?.message || '接口请求失败')
+  }
+  return response.data
+}
+
+async function refreshHealth() {
   health.value = { status: 'checking', text: '正在检查后端服务' }
   try {
-    const data = await getHealthStatus()
+    const data = unwrapApiResponse(await getHealthStatus())
     health.value = data?.status === 'ok'
       ? { status: 'ok', text: '后端服务已连接' }
       : { status: 'error', text: '后端状态异常' }
@@ -93,13 +111,115 @@ async function checkBackend() {
   }
 }
 
-function useQuickQuestion(item) {
-  question.value = item === '未签劳动合同'
-    ? '入职两个月没签劳动合同，我能要求赔偿吗？'
-    : `请分析：${item}相关问题应该如何处理？`
+async function refreshDbHealth() {
+  dbHealth.value = { status: 'checking', text: '正在检查数据库连接' }
+  try {
+    const data = unwrapApiResponse(await pingDatabase())
+    dbHealth.value = data?.status === 'ok'
+      ? { status: 'ok', text: `数据库已连接 ${data.timestamp}` }
+      : { status: 'error', text: '数据库状态异常' }
+  } catch (error) {
+    dbHealth.value = { status: 'error', text: '数据库未连接' }
+  }
 }
 
-onMounted(checkBackend)
+async function loadDocuments() {
+  tableLoading.value = true
+  try {
+    const page = unwrapApiResponse(await getLegalDocuments({ ...queryForm }))
+    documentRows.value = page?.list || []
+    total.value = page?.total || 0
+    queryForm.pageNo = page?.pageNo || queryForm.pageNo
+    queryForm.pageSize = page?.pageSize || queryForm.pageSize
+  } catch (error) {
+    ElMessage.error(error.message || '法律文档列表加载失败')
+  } finally {
+    tableLoading.value = false
+  }
+}
+
+function searchDocuments() {
+  queryForm.pageNo = 1
+  loadDocuments()
+}
+
+function resetQuery() {
+  queryForm.title = ''
+  queryForm.sourceType = ''
+  queryForm.jurisdiction = ''
+  queryForm.effectiveStatus = ''
+  queryForm.pageNo = 1
+  loadDocuments()
+}
+
+function openCreateDialog() {
+  createDialogVisible.value = true
+}
+
+function resetCreateForm() {
+  createForm.title = ''
+  createForm.sourceType = '法律法规'
+  createForm.jurisdiction = '全国'
+  createForm.publishDate = ''
+  createForm.effectiveStatus = '草稿'
+  createForm.sourceUrl = ''
+  createForm.summary = ''
+  createForm.content = ''
+}
+
+async function submitCreate() {
+  if (!createFormRef.value) return
+  await createFormRef.value.validate(async (valid) => {
+    if (!valid) return
+    try {
+      unwrapApiResponse(await createLegalDocument({ ...createForm }))
+      ElMessage.success('法律文档新增成功')
+      createDialogVisible.value = false
+      resetCreateForm()
+      searchDocuments()
+    } catch (error) {
+      ElMessage.error(error.message || '新增法律文档失败')
+    }
+  })
+}
+
+async function openDetail(row) {
+  detailDialogVisible.value = true
+  detailLoading.value = true
+  selectedDocument.value = null
+  try {
+    selectedDocument.value = unwrapApiResponse(await getLegalDocumentDetail(row.id))
+  } catch (error) {
+    ElMessage.error(error.message || '文档详情加载失败')
+    detailDialogVisible.value = false
+  } finally {
+    detailLoading.value = false
+  }
+}
+
+function handlePageChange(pageNo) {
+  queryForm.pageNo = pageNo
+  loadDocuments()
+}
+
+function handleSizeChange(pageSize) {
+  queryForm.pageSize = pageSize
+  queryForm.pageNo = 1
+  loadDocuments()
+}
+
+function statusTagType(status) {
+  if (status === '现行有效' || status === '已启用') return 'success'
+  if (status === '待复核' || status === '草稿') return 'warning'
+  if (status === '已失效') return 'danger'
+  return 'info'
+}
+
+onMounted(() => {
+  refreshHealth()
+  refreshDbHealth()
+  loadDocuments()
+})
 </script>
 
 <template>
@@ -109,7 +229,7 @@ onMounted(checkBackend)
         <div class="brand-mark">法</div>
         <div>
           <h1>劳动合同法律助手</h1>
-          <p>RAG Legal Desk</p>
+          <p>Legal Knowledge Desk</p>
         </div>
       </div>
 
@@ -123,184 +243,207 @@ onMounted(checkBackend)
           @click="activeView = item.key"
         >
           <el-icon><component :is="item.icon" /></el-icon>
-          <span>{{ item.label }}</span>
+          <span>
+            <strong>{{ item.label }}</strong>
+            <small>{{ item.hint }}</small>
+          </span>
         </button>
       </nav>
 
       <div class="side-note">
-        <strong>咨询边界</strong>
-        <p>本系统提供法律信息检索与咨询辅助，不构成正式法律意见。</p>
+        <strong>接口联调提示</strong>
+        <p>本页通过 Vite 代理调用 `/api/legal-docs`、`/api/health` 与 `/api/db/ping`，避免本地开发 CORS 问题。</p>
       </div>
     </aside>
 
     <main class="workspace">
       <header class="topbar">
         <div>
-          <p class="eyebrow">法律依据可追溯 · 维权路径可执行</p>
-          <h2>劳动合同智能咨询工作台</h2>
+          <p class="eyebrow">TASK 05 · 法律文档前端页面</p>
+          <h2>{{ activeView === 'documents' ? '法律文档管理与接口联调' : '劳动合同法律助手' }}</h2>
         </div>
         <div class="status-cluster">
           <el-tag :type="healthType" effect="light">{{ health.text }}</el-tag>
-          <el-button :icon="Monitor" @click="checkBackend">重新检查</el-button>
+          <el-tag :type="dbHealthType" effect="light">{{ dbHealth.text }}</el-tag>
+          <el-button :icon="Monitor" @click="refreshHealth">检查后端</el-button>
+          <el-button :icon="Refresh" @click="refreshDbHealth">检查数据库</el-button>
         </div>
       </header>
 
-      <section v-if="activeView === 'consult'" class="consult-grid">
-        <div class="main-column">
-          <section class="panel ask-panel">
-            <div class="panel-heading">
-              <div>
-                <p class="eyebrow">智能咨询</p>
-                <h3>先看结论，再核对依据</h3>
-              </div>
-              <el-tag type="warning">演示问题</el-tag>
-            </div>
-            <el-input
-              v-model="question"
-              type="textarea"
-              :rows="4"
-              resize="none"
-              placeholder="例如：入职两个月没签劳动合同，我能要求赔偿吗？"
-            />
-            <div class="quick-tags">
-              <el-button
-                v-for="item in quickQuestions"
-                :key="item"
-                round
-                size="small"
-                @click="useQuickQuestion(item)"
-              >
-                {{ item }}
-              </el-button>
-            </div>
-          </section>
-
-          <section class="panel answer-panel">
-            <div class="answer-head">
-              <div>
-                <p class="eyebrow">结构化回答</p>
-                <h3>入职两个月未签劳动合同的处理建议</h3>
-              </div>
-              <div class="answer-tags">
-                <el-tag>未签劳动合同</el-tag>
-                <el-tag type="warning">风险等级：中</el-tag>
-                <el-tag type="success">依据较充分</el-tag>
-              </div>
-            </div>
-
-            <div class="answer-block">
-              <h4>结论摘要</h4>
-              <p>如果已经建立劳动关系但入职两个月仍未签书面劳动合同，通常可以主张用人单位补签合同，并结合实际入职时间、工资流水和考勤记录，评估二倍工资差额等请求。<a href="#source-1">[依据 1]</a></p>
-            </div>
-
-            <div class="answer-block">
-              <h4>法律依据</h4>
-              <p>当前示例主要关联《劳动合同法》关于书面劳动合同订立和未签合同责任的条款，同时需要结合仲裁时效判断是否仍可主张权利。<a href="#source-2">[依据 2]</a></p>
-            </div>
-
-            <div class="answer-block">
-              <h4>注意事项</h4>
-              <p>请避免在系统中输入完整身份证号、银行卡号、家庭住址等敏感信息。复杂争议或金额较大时，建议咨询当地劳动保障部门、法律援助机构或律师。</p>
-            </div>
-
-            <div class="answer-actions">
-              <el-button type="primary">继续追问</el-button>
-              <el-button>复制答案</el-button>
-              <el-button>保存会话</el-button>
-              <el-button>反馈有误</el-button>
-            </div>
-          </section>
-
-          <section class="panel process-panel">
-            <div class="panel-heading">
-              <div>
-                <p class="eyebrow">可执行下一步</p>
-                <h3>维权流程与证据清单</h3>
-              </div>
-            </div>
-            <el-steps :active="2" finish-status="success" align-center>
-              <el-step v-for="step in processSteps" :key="step.title" :title="step.title" :description="step.detail" />
-            </el-steps>
-            <div class="evidence-grid">
-              <label v-for="item in evidenceList" :key="item" class="evidence-item">
-                <input type="checkbox" />
-                <span>{{ item }}</span>
-              </label>
-            </div>
-          </section>
-        </div>
-
-        <aside class="right-column">
-          <section class="panel source-panel">
-            <div class="panel-heading">
-              <div>
-                <p class="eyebrow">引用溯源</p>
-                <h3>法律依据</h3>
-              </div>
-              <el-button :icon="Search" circle aria-label="检索依据" />
-            </div>
-            <article
-              v-for="source in sourceCards"
-              :id="source.id === '依据 1' ? 'source-1' : source.id === '依据 2' ? 'source-2' : undefined"
-              :key="source.id"
-              class="source-card"
-            >
-              <div class="source-meta">
-                <el-tag size="small" type="success">{{ source.status }}</el-tag>
-                <span>{{ source.type }}</span>
-              </div>
-              <h4>{{ source.id }} · {{ source.title }}</h4>
-              <p class="article-code">{{ source.article }}</p>
-              <p>{{ source.summary }}</p>
-              <span class="source-date">{{ source.date }}</span>
-            </article>
-          </section>
-        </aside>
-      </section>
-
-      <section v-else-if="activeView === 'review'" class="split-view">
-        <section class="panel">
-          <p class="eyebrow">合同条款审查</p>
-          <h3>粘贴条款，辅助识别明显风险点</h3>
-          <el-input v-model="reviewText" type="textarea" :rows="12" resize="none" />
-        </section>
-        <section class="panel review-result">
-          <p class="eyebrow">审查结果</p>
-          <h3>总体风险等级：中高</h3>
-          <div class="risk-card">
-            <el-tag type="danger">试用期风险</el-tag>
-            <p>六个月试用期需要结合劳动合同期限判断是否合法，试用期工资比例也应核对最低工资和约定工资要求。</p>
-          </div>
-          <div class="risk-card">
-            <el-tag type="warning">解除条款风险</el-tag>
-            <p>“随时解除劳动合同”表述过宽，建议改为符合法定解除条件的具体场景。</p>
-          </div>
-        </section>
-      </section>
-
-      <section v-else-if="activeView === 'admin'" class="panel">
-        <div class="panel-heading">
+      <!-- Task 05: 法律文档页面，迁移自课程“维修工单前端页面”任务要求。 -->
+      <section v-if="activeView === 'documents'" class="document-page">
+        <section class="panel intro-panel">
           <div>
-            <p class="eyebrow">知识库管理</p>
-            <h3>法规、政策、FAQ 入库状态</h3>
+            <el-tag type="success" effect="plain">Task 05 新增</el-tag>
+            <h3>查询、入库与查看法律文档</h3>
+            <p>面向劳动合同法律知识库，支持按标题、来源类型、适用地区和时效状态筛选；新增后会刷新列表，详情弹窗展示来源、摘要和正文。</p>
           </div>
-          <el-button type="primary" :icon="Files">上传资料</el-button>
-        </div>
-        <el-table :data="knowledgeDocs" stripe>
-          <el-table-column prop="title" label="文档标题" min-width="220" />
-          <el-table-column prop="type" label="来源类型" width="120" />
-          <el-table-column prop="scope" label="适用范围" width="120" />
-          <el-table-column prop="chunks" label="片段数" width="100" />
-          <el-table-column prop="status" label="索引状态" width="120" />
-          <el-table-column prop="updated" label="最近更新" width="140" />
-        </el-table>
+          <div class="api-card">
+            <span>API</span>
+            <strong>{{ configuredBaseUrl }}/api/legal-docs</strong>
+          </div>
+        </section>
+
+        <section class="panel query-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">QUERY AREA</p>
+              <h3>查询区</h3>
+            </div>
+            <el-button type="primary" :icon="Plus" @click="openCreateDialog">新增文档</el-button>
+          </div>
+
+          <el-form :model="queryForm" label-width="84px" class="query-form">
+            <el-form-item label="文档标题">
+              <el-input v-model="queryForm.title" clearable placeholder="如：劳动合同法、未签合同" />
+            </el-form-item>
+            <el-form-item label="来源类型">
+              <el-select v-model="queryForm.sourceType" clearable placeholder="全部类型">
+                <el-option v-for="item in sourceTypeOptions" :key="item" :label="item" :value="item" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="适用地区">
+              <el-select v-model="queryForm.jurisdiction" clearable placeholder="全部地区">
+                <el-option v-for="item in jurisdictionOptions" :key="item" :label="item" :value="item" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="时效状态">
+              <el-select v-model="queryForm.effectiveStatus" clearable placeholder="全部状态">
+                <el-option v-for="item in statusOptions" :key="item" :label="item" :value="item" />
+              </el-select>
+            </el-form-item>
+            <div class="query-actions">
+              <el-button type="primary" :icon="Search" @click="searchDocuments">查询</el-button>
+              <el-button :icon="Refresh" @click="resetQuery">重置</el-button>
+            </div>
+          </el-form>
+        </section>
+
+        <section class="panel table-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">LIST AREA</p>
+              <h3>法律文档列表</h3>
+            </div>
+            <span class="list-count">共 {{ total }} 条</span>
+          </div>
+
+          <el-table v-loading="tableLoading" :data="documentRows" stripe class="doc-table">
+            <el-table-column prop="id" label="编号" width="80" />
+            <el-table-column prop="title" label="文档标题" min-width="260" show-overflow-tooltip />
+            <el-table-column prop="sourceType" label="来源类型" width="110" />
+            <el-table-column prop="jurisdiction" label="适用地区" width="110" />
+            <el-table-column prop="publishDate" label="发布日期" width="130" />
+            <el-table-column label="时效状态" width="120">
+              <template #default="{ row }">
+                <el-tag :type="statusTagType(row.effectiveStatus)" effect="plain">{{ row.effectiveStatus }}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="summary" label="摘要" min-width="280" show-overflow-tooltip />
+            <el-table-column label="操作" width="110" fixed="right">
+              <template #default="{ row }">
+                <el-button link type="primary" :icon="View" @click="openDetail(row)">查看详情</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+
+          <div class="pagination-row">
+            <el-pagination
+              v-model:current-page="queryForm.pageNo"
+              v-model:page-size="queryForm.pageSize"
+              :page-sizes="[5, 10, 20]"
+              :total="total"
+              layout="total, sizes, prev, pager, next"
+              @current-change="handlePageChange"
+              @size-change="handleSizeChange"
+            />
+          </div>
+        </section>
       </section>
 
       <section v-else class="panel placeholder-panel">
-        <p class="eyebrow">模块预览</p>
-        <h3>{{ navItems.find((item) => item.key === activeView)?.label }}</h3>
-        <p>该模块已预留入口，后续接入真实接口后可继续扩展，不影响当前前后端健康检查和演示链路。</p>
+        <el-icon><DataAnalysis /></el-icon>
+        <h3>该模块已预留</h3>
+        <p>当前任务重点是“法律文档前端页面”。问答、合同审查、收藏和帮助模块后续接入真实 RAG 接口后继续扩展。</p>
       </section>
     </main>
+
+    <el-dialog v-model="createDialogVisible" title="新增法律文档" width="720px" @closed="resetCreateForm">
+      <el-form ref="createFormRef" :model="createForm" :rules="createRules" label-width="96px">
+        <el-form-item label="文档标题" prop="title">
+          <el-input v-model="createForm.title" placeholder="请输入法规、政策或项目知识标题" />
+        </el-form-item>
+        <div class="dialog-grid">
+          <el-form-item label="来源类型" prop="sourceType">
+            <el-select v-model="createForm.sourceType">
+              <el-option v-for="item in sourceTypeOptions" :key="item" :label="item" :value="item" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="适用地区" prop="jurisdiction">
+            <el-select v-model="createForm.jurisdiction">
+              <el-option v-for="item in jurisdictionOptions" :key="item" :label="item" :value="item" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="发布日期">
+            <el-date-picker
+              v-model="createForm.publishDate"
+              type="date"
+              value-format="YYYY-MM-DD"
+              placeholder="选择日期"
+            />
+          </el-form-item>
+          <el-form-item label="时效状态">
+            <el-select v-model="createForm.effectiveStatus">
+              <el-option v-for="item in statusOptions" :key="item" :label="item" :value="item" />
+            </el-select>
+          </el-form-item>
+        </div>
+        <el-form-item label="来源链接">
+          <el-input v-model="createForm.sourceUrl" placeholder="可填写官方网站、法规库或项目资料链接" />
+        </el-form-item>
+        <el-form-item label="摘要" prop="summary">
+          <el-input v-model="createForm.summary" type="textarea" :rows="3" placeholder="概括该文档适用场景和核心内容" />
+        </el-form-item>
+        <el-form-item label="正文" prop="content">
+          <el-input v-model="createForm.content" type="textarea" :rows="7" placeholder="粘贴条文、政策说明或知识库正文片段" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="createDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="submitCreate">保存并刷新列表</el-button>
+      </template>
+    </el-dialog>
+
+    <el-dialog v-model="detailDialogVisible" title="法律文档详情" width="760px">
+      <div v-loading="detailLoading" class="detail-dialog" v-if="selectedDocument">
+        <div class="detail-title-row">
+          <div>
+            <h3>{{ selectedDocument.title }}</h3>
+            <p>{{ selectedDocument.summary }}</p>
+          </div>
+          <el-tag :type="statusTagType(selectedDocument.effectiveStatus)" effect="plain">{{ selectedDocument.effectiveStatus }}</el-tag>
+        </div>
+
+        <div class="detail-meta-grid">
+          <div><span>来源类型</span><strong>{{ selectedDocument.sourceType }}</strong></div>
+          <div><span>适用地区</span><strong>{{ selectedDocument.jurisdiction }}</strong></div>
+          <div><span>发布日期</span><strong>{{ selectedDocument.publishDate || '未填写' }}</strong></div>
+          <div><span>最近更新</span><strong>{{ selectedDocument.updatedAt }}</strong></div>
+        </div>
+
+        <div class="source-link" v-if="selectedDocument.sourceUrl">
+          <el-icon><Link /></el-icon>
+          <span>{{ selectedDocument.sourceUrl }}</span>
+        </div>
+
+        <section class="content-reader">
+          <div class="reader-heading">
+            <el-icon><Document /></el-icon>
+            <strong>正文内容</strong>
+          </div>
+          <p>{{ selectedDocument.content }}</p>
+        </section>
+      </div>
+    </el-dialog>
   </div>
 </template>

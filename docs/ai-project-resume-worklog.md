@@ -331,6 +331,7 @@ Last updated: 2026-07-18
 | 2026-07-18 | 准备 MySQL 初始化脚本和数据库连接说明 | `backend/src/main/resources/db/init.sql`、`docs/mysql-setup.md` |
 | 2026-07-18 | 下载并初始化项目本地 MySQL 8.4.10，验证 3306 端口、数据库表和后端健康检查 | `.local/mysql/`、`scripts/start-local-mysql.ps1` |
 | 2026-07-18 | 记录老师补充的 SQL 优化、索引设计、事务隔离级别和 Spring 事务传播要点 | `docs/ai-project-resume-worklog.md` |
+| 2026-07-20 | 完成任务 05 法律文档前端页面与接口联调，补充后端统一返回、数据库探活和文档查询接口 | `frontend/src/App.vue`、`frontend/src/api/*`、`backend/src/main/java/com/teddy/legal/*` |
 
 ## 下一步建议
 

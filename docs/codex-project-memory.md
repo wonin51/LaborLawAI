@@ -101,6 +101,11 @@ Last updated: 2026-07-18
   - MySQL InnoDB default isolation is usually Repeatable Read.
   - Spring transaction propagation defaults to `REQUIRED`; use `REQUIRES_NEW` carefully for independent side effects such as logs/audits.
   - Main transactions should not be rolled back casually by non-core side transactions.
+- Task 05 implementation note:
+  - The current branch now contains a legal-document frontend page adapted from the course "repair order" task: search/filter panel, table, add dialog, and detail dialog.
+  - Backend now exposes unified `ApiResponse` wrappers plus `/api/health`, `/api/db/ping`, and `/api/legal-docs`.
+  - Runtime checks on temporary port `18084` confirmed health, DB ping, and legal-document list endpoints.
+  - The page includes visible `Task 05` markers and an API endpoint label to make the changed surface easy to hand off.
 
 ## Frontend Status
 
@@ -127,3 +132,5 @@ Last updated: 2026-07-18
   - Fix: verified that existing `8080` responded to `/api/health`; used temporary port `8081` to validate the newly added CORS config without stopping the user's process.
 - Issue: CORS can fail when frontend and backend run on different local ports.
   - Solution: frontend dev proxy handles `/api` requests during Vite development; backend `WebMvcConfig` also allows local frontend origins for direct API calls.
+- Issue: `git fetch` against the remote `zhhz` branch was blocked by sandbox network limits during this session.
+  - Solution: used the provided `LaborLawAI-zhhz.zip` snapshot as the local reference for that branch’s code shape.

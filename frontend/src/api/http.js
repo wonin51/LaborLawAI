@@ -1,11 +1,17 @@
 import axios from 'axios'
 
+export const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'
+
+const apiBaseUrl = import.meta.env.DEV
+  ? '/api'
+  : `${configuredBaseUrl.replace(/\/$/, '')}/api`
+
 export const http = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '',
-  timeout: 5000
+  baseURL: apiBaseUrl,
+  timeout: 8000
 })
 
-export async function getHealthStatus() {
-  const response = await http.get('/api/health')
-  return response.data
-}
+http.interceptors.response.use(
+  (response) => response.data,
+  (error) => Promise.reject(error)
+)
