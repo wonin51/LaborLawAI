@@ -4,7 +4,6 @@ import { getHealth } from './api/health'
 import { configuredBaseUrl } from './api/http'
 import ConsultView from './views/WorkOrdersView.vue'
 import ContractReviewView from './views/KnowledgeDocsView.vue'
-import AiQaView from './views/AiQaView.vue'
 import HistoryView from './views/HistoryView.vue'
 import FavoritesView from './views/FavoritesView.vue'
 import HelpView from './views/HelpView.vue'
@@ -12,6 +11,7 @@ import HelpView from './views/HelpView.vue'
 const activeEntry = ref('consult')
 const healthStatus = ref('checking')
 const healthText = ref('正在检查后端服务...')
+const healthDetail = ref('')
 
 const entries = [
   {
@@ -48,24 +48,16 @@ const entries = [
     subtitle: '边界与使用规则',
     icon: 'QuestionFilled',
     component: HelpView
-  },
-  {
-    key: 'ai-qa',
-    title: 'AI 问答',
-    subtitle: '法规依据与维权流程',
-    icon: 'ChatDotRound',
-    component: AiQaView,
-    hidden: true
   }
 ]
-
-const visibleEntries = computed(() => entries.filter(item => !item.hidden))
 
 const activeComponent = computed(() => {
   return entries.find(item => item.key === activeEntry.value)?.component || ConsultView
 })
 
-const activeTitle = computed(() => entries.find(item => item.key === activeEntry.value)?.title || '发起咨询')
+const activeTitle = computed(() => {
+  return entries.find(item => item.key === activeEntry.value)?.title || '发起咨询'
+})
 
 const healthTagType = computed(() => {
   if (healthStatus.value === 'ok') return 'success'
@@ -76,19 +68,23 @@ const healthTagType = computed(() => {
 async function refreshHealth() {
   healthStatus.value = 'checking'
   healthText.value = '正在检查后端服务...'
+  healthDetail.value = ''
 
   try {
-    const response = await getHealth()
-    const status = String(response?.data?.status || response?.status || '').toLowerCase()
-    if (status === 'ok' || status === 'up') {
-      healthStatus.value = 'ok'
-      healthText.value = '后端服务已连接'
-      return
+    const data = await getHealth()
+    const status = String(data?.status || '').toLowerCase()
+
+    if (status !== 'ok' && status !== 'up') {
+      throw new Error('Unexpected health response')
     }
-    throw new Error('Unexpected health response')
+
+    healthStatus.value = 'ok'
+    healthText.value = '后端服务已连接'
+    healthDetail.value = `GET ${configuredBaseUrl}/api/health`
   } catch (error) {
     healthStatus.value = 'error'
     healthText.value = '后端服务未连接'
+    healthDetail.value = `请确认 ${configuredBaseUrl}/api/health 可访问`
   }
 }
 
@@ -99,15 +95,17 @@ onMounted(refreshHealth)
   <div class="institutional-shell">
     <aside class="left-rail">
       <div class="brand-block with-seal">
-        <div class="seal-mark"><el-icon><ScaleToOriginal /></el-icon></div>
+        <div class="seal-mark">
+          <el-icon><ScaleToOriginal /></el-icon>
+        </div>
         <div>
           <h1>劳动权益助手</h1>
-          <p>Modern Institutional</p>
+          <p>LaborLawAI</p>
         </div>
       </div>
 
       <el-menu :default-active="activeEntry" class="rail-menu" @select="activeEntry = $event">
-        <el-menu-item v-for="item in visibleEntries" :key="item.key" :index="item.key">
+        <el-menu-item v-for="item in entries" :key="item.key" :index="item.key">
           <el-icon>
             <component :is="item.icon" />
           </el-icon>
@@ -125,7 +123,7 @@ onMounted(refreshHealth)
         </el-button>
         <div class="profile-link">
           <el-icon><User /></el-icon>
-          <span>个人中心</span>
+          <span>无需登录</span>
         </div>
       </div>
     </aside>
@@ -139,13 +137,24 @@ onMounted(refreshHealth)
         </div>
         <div class="topbar-meta">
           <span class="policy-pill"><el-icon><Shield /></el-icon> 全国性法规为主</span>
-          <span class="mono-date">2026-07-18</span>
           <el-tag :type="healthTagType" effect="plain">{{ healthText }}</el-tag>
           <el-button size="small" @click="refreshHealth">重新检查</el-button>
         </div>
       </header>
 
       <main class="content-stage">
+        <section class="health-panel" :class="`is-${healthStatus}`">
+          <div>
+            <span class="health-label">后端健康检查</span>
+            <strong>{{ healthText }}</strong>
+            <p>{{ healthDetail }}</p>
+          </div>
+          <el-button size="small" plain @click="refreshHealth">
+            <el-icon><Refresh /></el-icon>
+            刷新
+          </el-button>
+        </section>
+
         <component :is="activeComponent" />
       </main>
 
