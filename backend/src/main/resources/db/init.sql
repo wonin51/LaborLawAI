@@ -1,0 +1,55 @@
+CREATE DATABASE IF NOT EXISTS legal_contract_assistant
+  DEFAULT CHARACTER SET utf8mb4
+  DEFAULT COLLATE utf8mb4_unicode_ci;
+
+USE legal_contract_assistant;
+
+CREATE TABLE IF NOT EXISTS kb_document (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  source_type VARCHAR(64) NOT NULL,
+  source_url VARCHAR(500) NULL,
+  publish_date DATE NULL,
+  effective_status VARCHAR(64) DEFAULT 'unknown',
+  jurisdiction VARCHAR(128) DEFAULT '全国',
+  enabled TINYINT(1) NOT NULL DEFAULT 1,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS kb_chunk (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  document_id BIGINT NOT NULL,
+  section_title VARCHAR(255) NULL,
+  article_no VARCHAR(64) NULL,
+  content TEXT NOT NULL,
+  chunk_index INT NOT NULL DEFAULT 0,
+  enabled TINYINT(1) NOT NULL DEFAULT 1,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_kb_chunk_document
+    FOREIGN KEY (document_id) REFERENCES kb_document(id)
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS qa_session (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_label VARCHAR(128) NULL,
+  question TEXT NOT NULL,
+  category VARCHAR(128) NULL,
+  answer MEDIUMTEXT NULL,
+  risk_level VARCHAR(32) DEFAULT 'unknown',
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS qa_feedback (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  session_id BIGINT NOT NULL,
+  rating VARCHAR(32) NOT NULL,
+  reason VARCHAR(255) NULL,
+  comment TEXT NULL,
+  status VARCHAR(32) NOT NULL DEFAULT 'pending',
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_qa_feedback_session
+    FOREIGN KEY (session_id) REFERENCES qa_session(id)
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

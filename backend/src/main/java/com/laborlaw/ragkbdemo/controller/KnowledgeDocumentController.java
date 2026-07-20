@@ -26,10 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestController
 @RequestMapping("/api/admin/knowledge/documents")
 public class KnowledgeDocumentController {
 
+    private static final Logger log = LoggerFactory.getLogger(KnowledgeDocumentController.class);
     private static final String NOT_FOUND_MESSAGE = "Knowledge document not found";
     private static final List<String> COLLECTION_METHODS = List.of("POST", "GET", "OPTIONS");
     private static final List<String> ITEM_METHODS = List.of("GET", "PUT", "DELETE", "HEAD", "PATCH", "OPTIONS");
@@ -47,6 +51,7 @@ public class KnowledgeDocumentController {
      */
     @PostMapping
     public ApiResponse<KnowledgeDocumentVO> create(@Valid @RequestBody KnowledgeDocumentCreateDTO dto) {
+        log.info("Admin create knowledge document: title={}, documentType={}, status={}", dto.getTitle(), dto.getDocumentType(), dto.getStatus());
         return ApiResponse.success(knowledgeDocumentService.create(dto));
     }
 
@@ -105,6 +110,7 @@ public class KnowledgeDocumentController {
     public ApiResponse<KnowledgeDocumentVO> update(
             @PathVariable Long id,
             @Valid @RequestBody KnowledgeDocumentUpdateDTO dto) {
+        log.info("Admin update knowledge document: id={}, title={}, documentType={}, status={}", id, dto.getTitle(), dto.getDocumentType(), dto.getStatus());
         KnowledgeDocumentVO document = knowledgeDocumentService.update(id, dto);
         if (document == null) {
             return ApiResponse.error(404, NOT_FOUND_MESSAGE, null);
@@ -119,15 +125,12 @@ public class KnowledgeDocumentController {
      */
     @DeleteMapping("/{id}")
     public ApiResponse<Boolean> delete(@PathVariable Long id) {
-        try {
-            Boolean deleted = knowledgeDocumentService.deleteById(id);
-            if (deleted == null) {
-                return ApiResponse.error(404, NOT_FOUND_MESSAGE, null);
-            }
-            return ApiResponse.success(true);
-        } catch (Exception ex) {
-            return ApiResponse.error(500, ex.getMessage(), false);
+        log.info("Admin delete knowledge document: id={}", id);
+        Boolean deleted = knowledgeDocumentService.deleteById(id);
+        if (deleted == null) {
+            return ApiResponse.error(404, NOT_FOUND_MESSAGE, null);
         }
+        return ApiResponse.success(true);
     }
 
     /**
@@ -173,6 +176,7 @@ public class KnowledgeDocumentController {
     public ApiResponse<KnowledgeDocumentVO> updateStatus(
             @PathVariable Long id,
             @Valid @RequestBody KnowledgeDocumentStatusUpdateDTO dto) {
+        log.info("Admin update knowledge document status: id={}, status={}", id, dto.getStatus());
         KnowledgeDocumentVO document = knowledgeDocumentService.updateStatus(id, dto);
         if (document == null) {
             return ApiResponse.error(404, NOT_FOUND_MESSAGE, null);

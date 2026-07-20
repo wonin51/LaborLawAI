@@ -1,315 +1,271 @@
-# EOS 维修 RAG 知识库实训项目
+# 劳动合同法律助手
 
-## 项目简介
+本项目是一个基于大模型与 RAG 的劳动合同法律信息检索与咨询辅助系统。系统定位为学生实训项目和法律咨询原型，不替代律师、仲裁机构或法院意见。
 
-本项目是一个企业 AI RAG 知识库实训工程，当前包含：
+当前已完成后端知识库文档 CRUD 接口、配置型 RBAC、管理员审计日志，以及前端知识库文档的查询、新增、详情、编辑、删除和状态更新页面。后续可继续补充完整 RAG 入库链路、正式登录中心、依据引用和问答历史。
 
-- `backend`：Java 17 + Spring Boot 后端项目，项目名 `rag-kb-demo`
-- `frontend`：Vue 3 + Vite 前端项目，项目名 `rag-kb-web`
-
-当前阶段只搭建基础前后端工程、健康检查接口和前端基础入口，不包含复杂业务功能。
-
-## 目录结构
+## 项目结构
 
 ```text
-G:\AI-law-creater
-├─ backend      # Spring Boot 后端
-├─ frontend     # Vue 3 + Vite 前端
-├─ 需求文档      # 本地需求材料
+proj1/
+├─ backend/    # Java 17 + Spring Boot 后端
+├─ frontend/   # Vue 3 + Vite + Element Plus 前端
+├─ docs/       # 项目计划、UI 提示词、项目记忆和简历素材
 └─ README.md
 ```
 
-## 环境版本要求
+## 后端技术栈
 
-建议使用以下版本或兼容版本：
+- Java 17 目标版本
+- Spring Boot 3.5.3
+- Spring Web
+- Validation
+- MyBatis-Plus
+- MySQL Driver
+- Spring AI OpenAI Starter
+- Elasticsearch Java Client
+- Lombok
 
-| 工具 | 要求 | 当前验证版本 |
-| --- | --- | --- |
-| JDK | 17 | 17.0.8 |
-| Maven | 3.8+ | 3.9.15 |
-| Node.js | 20+，建议 22+ 或 24+ | 24.18.0 |
-| npm | 10+ | 11.16.0 |
+## 前端技术栈
 
-检查命令：
+- Vue 3
+- Vite
+- Element Plus
+- Axios
+- `@element-plus/icons-vue`
 
-```powershell
-java -version
-mvn -version
-node -v
-npm -v
-```
-
-## 后端启动方式
-
-进入后端目录：
+## 后端启动
 
 ```powershell
-cd /d G:\AI-law-creater\backend
-```
-
-安装依赖并运行测试：
-
-```powershell
-mvn test
-```
-
-启动后端服务：
-
-```powershell
+cd backend
 mvn spring-boot:run
 ```
 
-也可以先打包再启动：
+也可以先打包再运行：
 
 ```powershell
+cd backend
 mvn package -DskipTests
-java -jar target\rag-kb-demo-0.0.1-SNAPSHOT.jar
+java -jar target/legal-contract-assistant-0.0.1-SNAPSHOT.jar
 ```
 
-后端默认端口：
-
-```text
-http://localhost:8080
-```
-
-## 前端启动方式
-
-进入前端目录：
+## 前端启动
 
 ```powershell
-cd /d G:\AI-law-creater\frontend
+cd frontend
+npm.cmd install
+npm.cmd run dev
 ```
 
-安装依赖：
-
-```powershell
-npm install
-```
-
-启动前端开发服务：
-
-```powershell
-npm run dev
-```
-
-前端默认访问地址：
+默认访问地址：
 
 ```text
-http://127.0.0.1:5173/
+http://localhost:5173
 ```
 
-前端默认后端地址配置在：
-
-```text
-G:\AI-law-creater\frontend\.env
-```
-
-默认内容：
-
-```env
-VITE_API_BASE_URL=http://localhost:8080
-```
-
-## 健康检查接口
-
-后端健康检查接口：
-
-```http
-GET /api/health
-```
-
-直接访问：
-
-```text
-http://localhost:8080/api/health
-```
-
-PowerShell 验证命令：
+生产构建：
 
 ```powershell
-Invoke-RestMethod http://localhost:8080/api/health
+cd frontend
+npm.cmd run build
 ```
 
-预期返回类似：
+测试：
+
+```powershell
+cd frontend
+npm.cmd test
+```
+
+后端管理员接口使用 `X-Admin-Token`，请求审计信息会写入后端日志，但不会记录令牌原文。
+
+## 健康检查
+
+后端接口：
+
+```text
+GET http://localhost:8080/api/health
+```
+
+预期返回：
 
 ```json
 {"status":"ok"}
 ```
 
-如果当前环境中后端返回 `{"status":"UP"}`，前端也已兼容显示为后端已连接。
-
-## 前端如何访问后端健康检查
-
-前端开发环境通过 Vite 代理访问后端：
+前端开发环境通过 Vite 代理访问：
 
 ```text
-http://127.0.0.1:5173/api/health
+GET http://localhost:5173/api/health
 ```
 
-验证命令：
+## 前后端跨域处理
+
+本项目同时做了两层处理，降低老师或队友本地运行时遇到 CORS 问题的概率。
+
+### 1. 前端开发代理
+
+`frontend/vite.config.js` 中配置：
+
+```js
+server: {
+  proxy: {
+    '/api': {
+      target: 'http://localhost:8080',
+      changeOrigin: true
+    }
+  }
+}
+```
+
+前端代码统一请求 `/api/health`。开发环境下浏览器访问的是 `localhost:5173`，Vite 会把 `/api` 请求转发给 `localhost:8080`，从而避开浏览器跨域限制。
+
+### 2. 后端 CORS
+
+`backend/src/main/java/com/laborlaw/ragkbdemo/config/WebMvcConfig.java` 中允许本地前端端口访问 `/api/**`：
+
+```java
+registry.addMapping("/api/**")
+        .allowedOrigins(
+                "http://localhost:5173",
+                "http://127.0.0.1:5173",
+                "http://localhost:4173",
+                "http://127.0.0.1:4173"
+        )
+        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+        .allowedHeaders("*");
+```
+
+如果以后前端端口变化，例如 Vite 自动切到 `5174`，需要把对应 origin 加到后端 CORS 白名单，或固定前端端口。
+
+## 环境变量
+
+后端默认可以在无真实外部服务的情况下启动健康检查。后续接入真实 RAG 能力时，建议配置：
 
 ```powershell
-Invoke-RestMethod http://127.0.0.1:5173/api/health
+$env:DB_URL="jdbc:mysql://localhost:3306/legal_contract_assistant?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai"
+$env:DB_USERNAME="root"
+$env:DB_PASSWORD="your_password"
+$env:OPENAI_API_KEY="your_api_key"
+$env:OPENAI_BASE_URL="https://your-openai-compatible-endpoint"
+$env:OPENAI_EMBEDDING_MODEL="Qwen/Qwen3-Embedding-4B"
+$env:ELASTICSEARCH_URIS="http://localhost:9200"
 ```
 
-页面右上角会显示后端连接状态：
-
-- 后端可访问：`后端服务已连接`
-- 后端不可访问：`后端服务未连接`
-
-## 常见启动问题
-
-### 1. 8080 端口被占用
-
-现象：后端启动失败，提示端口 `8080` 已被占用。
-
-查看占用进程：
+不要把真实密码、Token 或 API Key 写入 Git。
+管理员接口需要显式配置访问令牌。后端新配置使用 `ADMIN_ACCOUNTS`，前端使用其中一个账户的 token 配置 `VITE_ADMIN_API_TOKEN`。旧环境仍兼容 `ADMIN_API_TOKEN`：
 
 ```powershell
-netstat -ano | findstr :8080
+$env:ADMIN_ACCOUNTS="editor|replace-with-editor-token|KNOWLEDGE_READ,KNOWLEDGE_WRITE;reader|replace-with-reader-token|KNOWLEDGE_READ"
 ```
 
-结束对应进程，将 `<PID>` 替换为实际进程号：
+前端可以复制 `frontend/.env.example` 为本地环境文件，并填写 `editor` 或其他具有所需角色的账户 token。未配置后端令牌时，`/api/admin/**` 会返回 `503`；令牌缺失或不匹配时返回 `401`。
 
-```powershell
-taskkill /PID <PID> /F
-```
+## MySQL 初始化
 
-或者修改后端端口：
+后端默认连接：
 
 ```text
-G:\AI-law-creater\backend\src\main\resources\application.yml
+jdbc:mysql://localhost:3306/legal_contract_assistant
 ```
 
-示例：
-
-```yaml
-server:
-  port: 8081
-```
-
-如果修改了后端端口，也要同步修改前端配置：
+数据库初始化脚本：
 
 ```text
-G:\AI-law-creater\frontend\.env
+backend/src/main/resources/db/init.sql
 ```
 
-示例：
-
-```env
-VITE_API_BASE_URL=http://localhost:8081
-```
-
-修改 `.env` 后需要重启前端：
+MySQL 安装并启动后执行：
 
 ```powershell
-cd /d G:\AI-law-creater\frontend
-npm run dev
+mysql -u root -p < backend/src/main/resources/db/init.sql
 ```
 
-### 2. Node 版本不符合要求
-
-现象：`npm install` 或 `npm run dev` 报 Node 版本过低。
-
-检查版本：
-
-```powershell
-node -v
-npm -v
-```
-
-建议安装 Node.js 20+，推荐 22+ 或 24+。升级后重新执行：
-
-```powershell
-cd /d G:\AI-law-creater\frontend
-npm install
-npm run dev
-```
-
-### 3. Maven 依赖下载失败
-
-现象：`mvn test`、`mvn package` 或 `mvn spring-boot:run` 下载依赖失败。
-
-先确认网络可用，然后重试：
-
-```powershell
-cd /d G:\AI-law-creater\backend
-mvn -U clean test
-```
-
-如果是本地 Maven 缓存损坏，可以删除对应依赖目录后重试。例如删除某个失败依赖缓存：
-
-```powershell
-Remove-Item -Recurse -Force "$env:USERPROFILE\.m2\repository\失败依赖路径"
-mvn -U clean test
-```
-
-如果公司网络需要代理或私服，请检查 Maven 配置文件：
+更多说明见：
 
 ```text
-%USERPROFILE%\.m2\settings.xml
+docs/mysql-setup.md
 ```
 
-### 4. 前端无法访问后端接口
+## 已验证命令
 
-现象：页面显示 `后端服务未连接`。
-
-按顺序检查：
-
-1. 后端是否启动：
+后端：
 
 ```powershell
-Invoke-RestMethod http://localhost:8080/api/health
+cd backend
+mvn test
+mvn package -DskipTests
 ```
 
-2. 前端环境变量是否正确：
+前端：
 
 ```powershell
-Get-Content G:\AI-law-creater\frontend\.env
+cd frontend
+npm.cmd install
+npm.cmd run build
 ```
 
-应包含：
-
-```env
-VITE_API_BASE_URL=http://localhost:8080
-```
-
-3. 前端是否重启过：
-
-修改 `.env` 后必须重启前端：
-
-```powershell
-cd /d G:\AI-law-creater\frontend
-npm run dev
-```
-
-4. Vite 代理是否可访问：
-
-```powershell
-Invoke-RestMethod http://127.0.0.1:5173/api/health
-```
-
-如果第 1 步成功但第 4 步失败，通常是前端未重启或 Vite 代理配置未生效。
-
-## 快速启动顺序
-
-先启动后端：
-
-```powershell
-cd /d G:\AI-law-creater\backend
-mvn spring-boot:run
-```
-
-再启动前端：
-
-```powershell
-cd /d G:\AI-law-creater\frontend
-npm install
-npm run dev
-```
-
-访问前端：
+接口：
 
 ```text
-http://127.0.0.1:5173/
+GET /api/health -> {"status":"ok"}
 ```
+
+CORS 预检也已验证，后端会返回：
+
+```text
+Access-Control-Allow-Origin: http://localhost:5173
+Access-Control-Allow-Methods: GET,POST,PUT,DELETE,OPTIONS
+```
+
+## 常见问题
+
+### 8080 端口被占用
+
+表现：后端启动失败，提示 `Port 8080 was already in use`。
+
+处理方式一：关闭占用 8080 的旧后端进程。
+
+处理方式二：临时换端口启动：
+
+```powershell
+cd backend
+mvn spring-boot:run -Dspring-boot.run.arguments="--server.port=8081"
+```
+
+如果后端改为 8081，前端代理也要同步改为：
+
+```js
+target: 'http://localhost:8081'
+```
+
+### 前端无法访问后端接口
+
+优先检查：
+
+- 后端是否已启动。
+- `http://localhost:8080/api/health` 是否返回 `{"status":"ok"}`。
+- 前端是否通过 `http://localhost:5173` 访问，而不是直接打开 `index.html`。
+- `frontend/vite.config.js` 中代理目标端口是否和后端端口一致。
+- 后端 CORS 白名单是否包含当前前端 origin。
+
+### Node 版本不符合要求
+
+当前已验证 Node `v22.21.0` 可用。如果安装依赖失败，先检查：
+
+```powershell
+node --version
+npm.cmd --version
+```
+
+### Maven 依赖下载失败
+
+检查网络连接或 Maven 镜像源。首次构建会下载 Spring Boot、Spring AI、MyBatis-Plus、Elasticsearch 等依赖，耗时可能较长。
+
+### 未配置 OpenAI API Key
+
+当前骨架默认使用 `demo-key` 占位，方便健康检查和基础启动。真正调用大模型或 Embedding 接口时，必须通过环境变量配置真实 `OPENAI_API_KEY`。
+
+### 未配置 MySQL 或 Elasticsearch
+
+当前阶段只搭建工程骨架、前端原型和健康检查接口，尚未实现数据库或向量检索业务逻辑。后续实现相关接口时再启动并配置 MySQL、Elasticsearch。

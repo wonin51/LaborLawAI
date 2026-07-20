@@ -1,5 +1,7 @@
 package com.laborlaw.ragkbdemo.controller;
 
+import com.laborlaw.ragkbdemo.config.AdminAccountRegistry;
+
 import com.laborlaw.ragkbdemo.service.DbPingService;
 import com.laborlaw.ragkbdemo.mapper.KnowledgeDocumentMapper;
 import com.laborlaw.ragkbdemo.vo.DbPingVO;
@@ -8,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
@@ -16,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(DbPingController.class)
+@Import(AdminAccountRegistry.class)
 class DbPingControllerTest {
 
     @Autowired

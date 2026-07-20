@@ -1,5 +1,11 @@
+G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\config\AdminAccessInterceptor.java
+G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\config\AdminAccountRegistry.java
+G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\config\AdminAuditInterceptor.java
+G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\config\AdminPrincipal.java
+G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\config\AdminRole.java
 G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\config\MybatisPlusConfig.java
 G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\config\package-info.java
+G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\config\WebMvcConfig.java
 G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\controller\DbPingController.java
 G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\controller\GlobalExceptionHandler.java
 G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\controller\HealthController.java
@@ -12,6 +18,7 @@ G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\dto\KnowledgeDocu
 G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\dto\package-info.java
 G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\entity\KnowledgeDocument.java
 G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\entity\package-info.java
+G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\exception\AdminAuthException.java
 G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\mapper\KnowledgeDocumentMapper.java
 G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\mapper\package-info.java
 G:\AI-law-creater\backend\src\main\java\com\laborlaw\ragkbdemo\RagKbDemoApplication.java

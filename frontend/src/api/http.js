@@ -1,11 +1,30 @@
 import axios from 'axios'
 
-const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8080'
+const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL || ''
 const normalizedBaseUrl = configuredBaseUrl.replace(/\/$/, '')
+const adminToken = import.meta.env.VITE_ADMIN_API_TOKEN || ''
 
 const http = axios.create({
-  baseURL: import.meta.env.DEV ? '/api' : `${normalizedBaseUrl}/api`,
-  timeout: 5000
+  baseURL: normalizedBaseUrl,
+  timeout: 8000
+})
+
+http.interceptors.request.use(config => {
+  const requestUrl = String(config.url || '')
+  const isAdminRequest = requestUrl.startsWith('/api/admin/')
+
+  if (isAdminRequest && adminToken) {
+    if (config.headers && typeof config.headers.set === 'function') {
+      config.headers.set('X-Admin-Token', adminToken)
+    } else {
+      config.headers = {
+        ...(config.headers || {}),
+        'X-Admin-Token': adminToken
+      }
+    }
+  }
+
+  return config
 })
 
 http.interceptors.response.use(
@@ -19,6 +38,7 @@ http.interceptors.response.use(
 
       const error = new Error(body.message || '请求失败')
       error.responseBody = body
+      error.responseStatus = response.status
       return Promise.reject(error)
     }
 
@@ -27,5 +47,10 @@ http.interceptors.response.use(
   error => Promise.reject(error)
 )
 
+export async function getHealthStatus() {
+  const response = await http.get('/api/health')
+  return response
+}
+
 export default http
-export { configuredBaseUrl }
+export { configuredBaseUrl, adminToken }

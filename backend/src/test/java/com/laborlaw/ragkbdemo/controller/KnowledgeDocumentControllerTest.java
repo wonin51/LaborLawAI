@@ -1,5 +1,7 @@
 package com.laborlaw.ragkbdemo.controller;
 
+import com.laborlaw.ragkbdemo.config.AdminAccountRegistry;
+import com.laborlaw.ragkbdemo.config.WebMvcConfig;
 import com.laborlaw.ragkbdemo.dto.KnowledgeDocumentCreateDTO;
 import com.laborlaw.ragkbdemo.dto.KnowledgeDocumentPageQueryDTO;
 import com.laborlaw.ragkbdemo.dto.KnowledgeDocumentStatusUpdateDTO;
@@ -15,6 +17,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.context.annotation.Import;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,7 +38,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(KnowledgeDocumentController.class)
+@Import({WebMvcConfig.class, AdminAccountRegistry.class})
+@TestPropertySource(properties = "app.admin.accounts=editor|local-admin-token|KNOWLEDGE_READ,KNOWLEDGE_WRITE;reader|read-only-token|KNOWLEDGE_READ")
 class KnowledgeDocumentControllerTest {
+
+    private static final String ADMIN_TOKEN = "local-admin-token";
+    private static final String READ_ONLY_TOKEN = "read-only-token";
 
     @Autowired
     private MockMvc mockMvc;
@@ -46,11 +55,67 @@ class KnowledgeDocumentControllerTest {
     private KnowledgeDocumentMapper knowledgeDocumentMapper;
 
     @Test
+    @DisplayName("admin document endpoint rejects write operation for read-only role")
+    void rejectsWriteOperationForReadOnlyRole() throws Exception {
+        mockMvc.perform(post("/api/admin/knowledge/documents")
+                        .header("X-Admin-Token", READ_ONLY_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "title": "只读用户不应创建文档",
+                                  "document_type": "LAW"
+                                }
+                                """))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code").value(403))
+                .andExpect(jsonPath("$.message").value("Admin permission denied"));
+    }
+    @Test
+    @DisplayName("admin document endpoint rejects missing token")
+    void rejectsMissingAdminToken() throws Exception {
+        mockMvc.perform(get("/api/admin/knowledge/documents"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(401));
+    }
+
+    @Test
+    @DisplayName("admin document endpoint rejects invalid token")
+    void rejectsInvalidAdminToken() throws Exception {
+        mockMvc.perform(get("/api/admin/knowledge/documents")
+                        .header("X-Admin-Token", "wrong-token"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value(401));
+    }
+    @Test
+    @DisplayName("POST /api/admin/knowledge/documents returns unified error for malformed JSON")
+    void createDocumentReturnsUnifiedErrorForMalformedJson() throws Exception {
+        mockMvc.perform(post("/api/admin/knowledge/documents")
+                        .header("X-Admin-Token", ADMIN_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{invalid-json"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(400))
+                .andExpect(jsonPath("$.message").value("请求体格式不正确"));
+    }
+
+    @Test
+    @DisplayName("GET /api/admin/knowledge/documents/{id} hides unexpected backend errors")
+    void getDocumentHidesUnexpectedBackendErrors() throws Exception {
+        when(knowledgeDocumentService.getById(1L)).thenThrow(new IllegalStateException("database password leaked"));
+
+        mockMvc.perform(get("/api/admin/knowledge/documents/{id}", 1L)
+                        .header("X-Admin-Token", ADMIN_TOKEN))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.code").value(500))
+                .andExpect(jsonPath("$.message").value("服务内部错误"));
+    }
+    @Test
     @DisplayName("POST /api/admin/knowledge/documents creates document metadata")
     void createDocumentReturnsCreatedDocument() throws Exception {
         when(knowledgeDocumentService.create(any(KnowledgeDocumentCreateDTO.class))).thenReturn(sampleDocument());
 
         mockMvc.perform(post("/api/admin/knowledge/documents")
+                        .header("X-Admin-Token", ADMIN_TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -70,6 +135,7 @@ class KnowledgeDocumentControllerTest {
     @DisplayName("POST /api/admin/knowledge/documents returns validation error when title is missing")
     void createDocumentReturnsValidationErrorWhenTitleMissing() throws Exception {
         mockMvc.perform(post("/api/admin/knowledge/documents")
+                        .header("X-Admin-Token", ADMIN_TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -88,6 +154,7 @@ class KnowledgeDocumentControllerTest {
                 .thenReturn(new PageVO<>(List.of(sampleDocument()), 1L, 1L, 10L, 1L));
 
         mockMvc.perform(get("/api/admin/knowledge/documents")
+                        .header("X-Admin-Token", ADMIN_TOKEN)
                         .param("title", "劳动合同")
                         .param("document_type", "LAW")
                         .param("pageNo", "1")
@@ -103,7 +170,8 @@ class KnowledgeDocumentControllerTest {
     void getDocumentReturnsDetail() throws Exception {
         when(knowledgeDocumentService.getById(1L)).thenReturn(sampleDocument());
 
-        mockMvc.perform(get("/api/admin/knowledge/documents/{id}", 1L))
+        mockMvc.perform(get("/api/admin/knowledge/documents/{id}", 1L)
+                        .header("X-Admin-Token", ADMIN_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(0))
                 .andExpect(jsonPath("$.data.id").value(1))
@@ -115,7 +183,8 @@ class KnowledgeDocumentControllerTest {
     void getDocumentReturnsNotFoundWhenMissing() throws Exception {
         when(knowledgeDocumentService.getById(99L)).thenReturn(null);
 
-        mockMvc.perform(get("/api/admin/knowledge/documents/{id}", 99L))
+        mockMvc.perform(get("/api/admin/knowledge/documents/{id}", 99L)
+                        .header("X-Admin-Token", ADMIN_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(404))
                 .andExpect(jsonPath("$.message").value("Knowledge document not found"));
@@ -127,6 +196,7 @@ class KnowledgeDocumentControllerTest {
         when(knowledgeDocumentService.update(eq(1L), any(KnowledgeDocumentUpdateDTO.class))).thenReturn(sampleDocument());
 
         mockMvc.perform(put("/api/admin/knowledge/documents/{id}", 1L)
+                        .header("X-Admin-Token", ADMIN_TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -143,6 +213,7 @@ class KnowledgeDocumentControllerTest {
     @DisplayName("PUT /api/admin/knowledge/documents/{id} returns validation error when title is missing")
     void updateDocumentReturnsValidationErrorWhenTitleMissing() throws Exception {
         mockMvc.perform(put("/api/admin/knowledge/documents/{id}", 1L)
+                        .header("X-Admin-Token", ADMIN_TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -160,6 +231,7 @@ class KnowledgeDocumentControllerTest {
         when(knowledgeDocumentService.update(eq(99L), any(KnowledgeDocumentUpdateDTO.class))).thenReturn(null);
 
         mockMvc.perform(put("/api/admin/knowledge/documents/{id}", 99L)
+                        .header("X-Admin-Token", ADMIN_TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -177,7 +249,8 @@ class KnowledgeDocumentControllerTest {
     void deleteDocumentReturnsTrue() throws Exception {
         when(knowledgeDocumentService.deleteById(1L)).thenReturn(Boolean.TRUE);
 
-        mockMvc.perform(delete("/api/admin/knowledge/documents/{id}", 1L))
+        mockMvc.perform(delete("/api/admin/knowledge/documents/{id}", 1L)
+                        .header("X-Admin-Token", ADMIN_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(0))
                 .andExpect(jsonPath("$.data").value(true));
@@ -188,7 +261,8 @@ class KnowledgeDocumentControllerTest {
     void deleteDocumentReturnsNotFoundWhenMissing() throws Exception {
         when(knowledgeDocumentService.deleteById(99L)).thenReturn(null);
 
-        mockMvc.perform(delete("/api/admin/knowledge/documents/{id}", 99L))
+        mockMvc.perform(delete("/api/admin/knowledge/documents/{id}", 99L)
+                        .header("X-Admin-Token", ADMIN_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(404))
                 .andExpect(jsonPath("$.message").value("Knowledge document not found"));
@@ -199,7 +273,8 @@ class KnowledgeDocumentControllerTest {
     void headDocumentReturnsOkWhenExists() throws Exception {
         when(knowledgeDocumentService.exists(1L)).thenReturn(true);
 
-        mockMvc.perform(head("/api/admin/knowledge/documents/{id}", 1L))
+        mockMvc.perform(head("/api/admin/knowledge/documents/{id}", 1L)
+                        .header("X-Admin-Token", ADMIN_TOKEN))
                 .andExpect(status().isOk());
     }
 
@@ -208,7 +283,8 @@ class KnowledgeDocumentControllerTest {
     void headDocumentReturnsNotFoundWhenMissing() throws Exception {
         when(knowledgeDocumentService.exists(99L)).thenReturn(false);
 
-        mockMvc.perform(head("/api/admin/knowledge/documents/{id}", 99L))
+        mockMvc.perform(head("/api/admin/knowledge/documents/{id}", 99L)
+                        .header("X-Admin-Token", ADMIN_TOKEN))
                 .andExpect(status().isNotFound());
     }
 
@@ -242,6 +318,7 @@ class KnowledgeDocumentControllerTest {
         when(knowledgeDocumentService.updateStatus(eq(1L), any(KnowledgeDocumentStatusUpdateDTO.class))).thenReturn(published);
 
         mockMvc.perform(patch("/api/admin/knowledge/documents/{id}/status", 1L)
+                        .header("X-Admin-Token", ADMIN_TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
@@ -257,6 +334,7 @@ class KnowledgeDocumentControllerTest {
     @DisplayName("PATCH /api/admin/knowledge/documents/{id}/status returns validation error when status is missing")
     void patchStatusReturnsValidationErrorWhenStatusMissing() throws Exception {
         mockMvc.perform(patch("/api/admin/knowledge/documents/{id}/status", 1L)
+                        .header("X-Admin-Token", ADMIN_TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andExpect(status().isBadRequest())
@@ -270,6 +348,7 @@ class KnowledgeDocumentControllerTest {
         when(knowledgeDocumentService.updateStatus(eq(99L), any(KnowledgeDocumentStatusUpdateDTO.class))).thenReturn(null);
 
         mockMvc.perform(patch("/api/admin/knowledge/documents/{id}/status", 99L)
+                        .header("X-Admin-Token", ADMIN_TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
