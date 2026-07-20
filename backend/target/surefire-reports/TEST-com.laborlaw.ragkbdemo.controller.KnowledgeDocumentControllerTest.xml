@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.laborlaw.ragkbdemo.controller.HealthControllerTest" time="0.199" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.489" tests="17" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -63,9 +63,9 @@
     <property name="java.class.version" value="61.0"/>
     <property name="LOGGED_APPLICATION_NAME" value="[rag-kb-demo] "/>
   </properties>
-  <testcase name="healthReturnsUnifiedApiResponse" classname="com.laborlaw.ragkbdemo.controller.HealthControllerTest" time="0.011">
-    <system-out><![CDATA[2026-07-20T14:00:16.552+08:00  INFO 16372 --- [rag-kb-demo] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.laborlaw.ragkbdemo.controller.HealthControllerTest]: HealthControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2026-07-20T14:00:16.562+08:00  INFO 16372 --- [rag-kb-demo] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.laborlaw.ragkbdemo.RagKbDemoApplication for test class com.laborlaw.ragkbdemo.controller.HealthControllerTest
+  <testcase name="createDocumentReturnsValidationErrorWhenTitleMissing" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.131">
+    <system-out><![CDATA[2026-07-20T14:00:16.755+08:00  INFO 16372 --- [rag-kb-demo] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest]: KnowledgeDocumentControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-07-20T14:00:16.766+08:00  INFO 16372 --- [rag-kb-demo] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.laborlaw.ragkbdemo.RagKbDemoApplication for test class com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -76,12 +76,28 @@
 
  :: Spring Boot ::                (v3.5.3)
 
-2026-07-20T14:00:16.598+08:00  INFO 16372 --- [rag-kb-demo] [           main] c.l.r.controller.HealthControllerTest    : Starting HealthControllerTest using Java 17.0.8 with PID 16372 (started by 火狐 in G:\AI-law-creater\backend)
-2026-07-20T14:00:16.598+08:00  INFO 16372 --- [rag-kb-demo] [           main] c.l.r.controller.HealthControllerTest    : No active profile set, falling back to 1 default profile: "default"
-2026-07-20T14:00:16.730+08:00  INFO 16372 --- [rag-kb-demo] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2026-07-20T14:00:16.730+08:00  INFO 16372 --- [rag-kb-demo] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2026-07-20T14:00:16.730+08:00  INFO 16372 --- [rag-kb-demo] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
-2026-07-20T14:00:16.735+08:00  INFO 16372 --- [rag-kb-demo] [           main] c.l.r.controller.HealthControllerTest    : Started HealthControllerTest in 0.171 seconds (process running for 3.197)
+2026-07-20T14:00:16.789+08:00  INFO 16372 --- [rag-kb-demo] [           main] c.l.r.c.KnowledgeDocumentControllerTest  : Starting KnowledgeDocumentControllerTest using Java 17.0.8 with PID 16372 (started by 火狐 in G:\AI-law-creater\backend)
+2026-07-20T14:00:16.789+08:00  INFO 16372 --- [rag-kb-demo] [           main] c.l.r.c.KnowledgeDocumentControllerTest  : No active profile set, falling back to 1 default profile: "default"
+2026-07-20T14:00:16.964+08:00  INFO 16372 --- [rag-kb-demo] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-07-20T14:00:16.964+08:00  INFO 16372 --- [rag-kb-demo] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-07-20T14:00:16.964+08:00  INFO 16372 --- [rag-kb-demo] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2026-07-20T14:00:16.972+08:00  INFO 16372 --- [rag-kb-demo] [           main] c.l.r.c.KnowledgeDocumentControllerTest  : Started KnowledgeDocumentControllerTest in 0.201 seconds (process running for 3.433)
 ]]></system-out>
   </testcase>
+  <testcase name="getDocumentReturnsDetail" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.012"/>
+  <testcase name="pageDocumentsReturnsPageData" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.015"/>
+  <testcase name="patchStatusReturnsUpdatedDocument" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.009"/>
+  <testcase name="patchStatusReturnsNotFoundWhenMissing" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.006"/>
+  <testcase name="getDocumentReturnsNotFoundWhenMissing" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.005"/>
+  <testcase name="deleteDocumentReturnsTrue" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.006"/>
+  <testcase name="deleteDocumentReturnsNotFoundWhenMissing" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.004"/>
+  <testcase name="updateDocumentReturnsUpdatedDocument" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.012"/>
+  <testcase name="updateDocumentReturnsNotFoundWhenMissing" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.005"/>
+  <testcase name="patchStatusReturnsValidationErrorWhenStatusMissing" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.007"/>
+  <testcase name="headDocumentReturnsOkWhenExists" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.008"/>
+  <testcase name="headDocumentReturnsNotFoundWhenMissing" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.005"/>
+  <testcase name="updateDocumentReturnsValidationErrorWhenTitleMissing" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.005"/>
+  <testcase name="createDocumentReturnsCreatedDocument" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.005"/>
+  <testcase name="optionsItemReturnsAllowedMethods" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.013"/>
+  <testcase name="optionsCollectionReturnsAllowedMethods" classname="com.laborlaw.ragkbdemo.controller.KnowledgeDocumentControllerTest" time="0.003"/>
 </testsuite>

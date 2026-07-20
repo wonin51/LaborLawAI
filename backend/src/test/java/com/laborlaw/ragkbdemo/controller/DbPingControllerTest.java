@@ -1,6 +1,7 @@
 package com.laborlaw.ragkbdemo.controller;
 
 import com.laborlaw.ragkbdemo.service.DbPingService;
+import com.laborlaw.ragkbdemo.mapper.KnowledgeDocumentMapper;
 import com.laborlaw.ragkbdemo.vo.DbPingVO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,9 @@ class DbPingControllerTest {
 
     @MockBean
     private DbPingService dbPingService;
+
+    @MockBean
+    private KnowledgeDocumentMapper knowledgeDocumentMapper;
 
     @Test
     @DisplayName("GET /api/db/ping returns database timestamp when connection is available")
