@@ -1,5 +1,6 @@
 package com.laborlaw.ragkbdemo.controller;
 
+import com.laborlaw.ragkbdemo.vo.ApiResponse;
 import com.laborlaw.ragkbdemo.vo.HealthVO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthController {
 
     @GetMapping("/health")
-    public HealthVO health() {
-        return new HealthVO("ok");
+    public ApiResponse<HealthVO> health() {
+        return ApiResponse.success(new HealthVO("ok"));
     }
 }

@@ -18,11 +18,13 @@ class HealthControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @DisplayName("GET /api/health returns ok status")
-    void healthReturnsOk() throws Exception {
+    @DisplayName("GET /api/health returns unified ApiResponse with ok status")
+    void healthReturnsUnifiedApiResponse() throws Exception {
         mockMvc.perform(get("/api/health"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith("application/json"))
-                .andExpect(jsonPath("$.status").value("ok"));
+                .andExpect(jsonPath("$.code").value(0))
+                .andExpect(jsonPath("$.message").value("success"))
+                .andExpect(jsonPath("$.data.status").value("ok"));
     }
 }

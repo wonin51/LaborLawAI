@@ -78,8 +78,8 @@ async function refreshHealth() {
   healthText.value = '正在检查后端服务...'
 
   try {
-    const data = await getHealth()
-    const status = String(data?.status || '').toLowerCase()
+    const response = await getHealth()
+    const status = String(response?.data?.status || response?.status || '').toLowerCase()
     if (status === 'ok' || status === 'up') {
       healthStatus.value = 'ok'
       healthText.value = '后端服务已连接'
