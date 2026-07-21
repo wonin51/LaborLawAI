@@ -25,6 +25,23 @@ mybatis-plus:
 elasticsearch:
   uris: ${ELASTICSEARCH_URIS:http://localhost:9200}
 
+
+rag:
+  ai:
+    elasticsearch:
+      url: ${RAG_AI_ELASTICSEARCH_URL:http://server1.shanci.tech:60080/es/}
+      username: ${RAG_AI_ELASTICSEARCH_USERNAME:elastic}
+      password: ${RAG_AI_ELASTICSEARCH_PASSWORD:}
+    embedding:
+      base-url: ${RAG_AI_EMBEDDING_BASE_URL:http://localhost:11434/v1}
+      api-key: ${RAG_AI_EMBEDDING_API_KEY:}
+      model: ${RAG_AI_EMBEDDING_MODEL:Qwen/Qwen3-Embedding-4B}
+      dimension: ${RAG_AI_EMBEDDING_DIMENSION:2560}
+    chat:
+      base-url: ${RAG_AI_CHAT_BASE_URL:http://localhost:11434/v1}
+      api-key: ${RAG_AI_CHAT_API_KEY:}
+      model: ${RAG_AI_CHAT_MODEL:qwen2.5:7b}
+
 app:
   admin:
     accounts: ${ADMIN_ACCOUNTS:}

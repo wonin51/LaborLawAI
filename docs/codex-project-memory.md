@@ -210,3 +210,23 @@ Last updated: 2026-07-18
 - Verified the database has 25 tables. Imported row counts include `kb_document=10`, `kb_document_version=10`, `sys_account=1`, `qa_topic=10`; `kb_chunk_ref`, `qa_answer`, `qa_answer_citation`, and `qa_message` remain empty because the provided demo data only seeds knowledge documents and versions.
 - Verified key rows in `kb_document` and `kb_document_version` can be queried, and current-version constraints exist with `RESTRICT` delete rule.
 - Backend runtime should use environment variables for DB credentials instead of committing the local password to config files.
+
+## 2026-07-21 RAG AI connectivity backend
+
+- User requested backend integration for Elasticsearch, Embedding, and OpenAI-compatible chat connectivity.
+- Added `rag.ai` configuration in `backend/src/main/resources/application.yml` with environment-variable overrides for Elasticsearch URL/user/password, embedding base URL/API key/model/dimension, and chat base URL/API key/model.
+- Did not commit the provided Elasticsearch password; runtime should set `RAG_AI_ELASTICSEARCH_PASSWORD` externally.
+- Added `RagAiProperties`, `/api/ai/ping` controller, `AiPingService`, and VO records for per-component connectivity results.
+- `AiPingService` checks Elasticsearch via HTTP GET with optional Basic auth, embedding via POST `/embeddings` using default `qwen3-embedding:4b`, and chat via POST `/chat/completions`; API keys are only used in request headers and not logged.
+- Added controller and service tests. Service test uses a local lightweight HTTP server to verify requested paths and configured model names without calling real external services.
+- Verification: `cd backend && mvn test` passed with 38 tests; `mvn package -DskipTests` passed. Restored generated `backend/target` changes after verification.
+
+## 2026-07-21 RAG AI connectivity backend
+
+- User requested Spring Boot backend integration for Elasticsearch, Embedding, and OpenAI-compatible chat connectivity.
+- Added `rag.ai` settings to `backend/src/main/resources/application.yml` with environment-variable overrides for Elasticsearch URL/username/password, embedding base URL/api key/model/dimension, and chat base URL/api key/model. Do not store raw ES password or API keys in config.
+- Added `RagAiProperties`, `AiPingService`, `AiPingController`, `AiPingItemVO`, and `AiPingVO`.
+- New endpoint: `GET /api/ai/ping`, returning unified `ApiResponse` with `elasticsearch`, `embedding`, and `chat` item results. Each component returns independent ok/error status and clear message.
+- Embedding ping posts to `/embeddings` with model `qwen3-embedding:4b` by default. Chat ping posts to `/chat/completions` with OpenAI-compatible message payload. API keys are only sent in Authorization headers and are not logged.
+- Added controller and service tests for successful and partial-failure ping behavior.
+- Verification: `cd backend && mvn test` passed with 38 tests; `mvn package -DskipTests` passed. Restored generated `backend/target` changes after verification.
