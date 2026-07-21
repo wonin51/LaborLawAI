@@ -315,23 +315,23 @@ onMounted(() => {
       </template>
 
       <el-form :model="queryForm" inline class="knowledge-filter-form" label-width="120px">
-        <el-form-item label="标题（title）">
+        <el-form-item label="标题">
           <el-input v-model="queryForm.title" clearable placeholder="输入文档标题" />
         </el-form-item>
-        <el-form-item label="类型（document_type）">
+        <el-form-item label="类型">
           <el-select v-model="queryForm.document_type" clearable placeholder="选择文档类型">
             <el-option v-for="item in documentTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item label="状态（status）">
+        <el-form-item label="状态">
           <el-select v-model="queryForm.status" clearable placeholder="选择状态">
             <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item label="发布机构（issuing_authority）">
+        <el-form-item label="发布机构">
           <el-input v-model="queryForm.issuing_authority" clearable placeholder="输入发布机构" />
         </el-form-item>
-        <el-form-item label="辖区（jurisdiction_code）">
+        <el-form-item label="辖区">
           <el-input v-model="queryForm.jurisdiction_code" clearable placeholder="例如 CN" />
         </el-form-item>
         <el-form-item class="knowledge-filter-actions">
@@ -351,22 +351,22 @@ onMounted(() => {
       <div class="knowledge-table-wrap" v-loading="listLoading">
         <el-table :data="tableRows" stripe class="knowledge-table" empty-text="暂无文档">
           <el-table-column prop="id" label="文档ID" width="100" />
-          <el-table-column prop="public_id" label="对外编号（public_id）" min-width="180" show-overflow-tooltip />
-          <el-table-column prop="title" label="文档标题（title）" min-width="220" show-overflow-tooltip />
-          <el-table-column prop="document_type" label="文档类型（document_type）" width="190">
+          <el-table-column prop="public_id" label="对外编号" min-width="180" show-overflow-tooltip />
+          <el-table-column prop="title" label="文档标题" min-width="220" show-overflow-tooltip />
+          <el-table-column prop="document_type" label="文档类型" width="190">
             <template #default="scope">{{ documentTypeLabel(scope.row.document_type) }}</template>
           </el-table-column>
-          <el-table-column prop="issuing_authority" label="发布机构（issuing_authority）" min-width="200" show-overflow-tooltip />
-          <el-table-column prop="jurisdiction_code" label="辖区（jurisdiction_code）" width="180" />
-          <el-table-column prop="status" label="状态（status）" width="140">
+          <el-table-column prop="issuing_authority" label="发布机构" min-width="200" show-overflow-tooltip />
+          <el-table-column prop="jurisdiction_code" label="辖区" width="180" />
+          <el-table-column prop="status" label="状态" width="140">
             <template #default="scope">
               <el-tag :type="statusTagType(scope.row.status)" effect="plain">{{ statusLabel(scope.row.status) }}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="created_at" label="创建时间（created_at）" min-width="180">
+          <el-table-column prop="created_at" label="创建时间" min-width="180">
             <template #default="scope">{{ formatDateTime(scope.row.created_at) }}</template>
           </el-table-column>
-          <el-table-column prop="updated_at" label="更新时间（updated_at）" min-width="180">
+          <el-table-column prop="updated_at" label="更新时间" min-width="180">
             <template #default="scope">{{ formatDateTime(scope.row.updated_at) }}</template>
           </el-table-column>
           <el-table-column label="操作" width="360" fixed="right">
@@ -413,30 +413,30 @@ onMounted(() => {
     <el-dialog v-model="createDialogVisible" title="新增知识库文档" width="760px" destroy-on-close>
       <el-form ref="createFormRef" :model="createForm" :rules="documentFormRules" label-width="170px" class="knowledge-create-form">
         <div class="knowledge-form-grid">
-          <el-form-item label="文档标题（title）" prop="title">
+          <el-form-item label="文档标题" prop="title">
             <el-input v-model="createForm.title" placeholder="请输入文档标题" />
           </el-form-item>
-          <el-form-item label="文档类型（document_type）" prop="document_type">
+          <el-form-item label="文档类型" prop="document_type">
             <el-select v-model="createForm.document_type" placeholder="请选择文档类型">
               <el-option v-for="item in documentTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
-          <el-form-item label="发布机构（issuing_authority）">
+          <el-form-item label="发布机构">
             <el-input v-model="createForm.issuing_authority" placeholder="请输入发布机构" />
           </el-form-item>
-          <el-form-item label="来源链接（canonical_source_url）">
+          <el-form-item label="来源链接">
             <el-input v-model="createForm.canonical_source_url" placeholder="请输入权威来源链接" />
           </el-form-item>
-          <el-form-item label="辖区（jurisdiction_code）">
+          <el-form-item label="辖区">
             <el-input v-model="createForm.jurisdiction_code" placeholder="例如 CN" />
           </el-form-item>
-          <el-form-item label="适用范围（scope_text）">
+          <el-form-item label="适用范围">
             <el-input v-model="createForm.scope_text" placeholder="请输入适用范围说明" />
           </el-form-item>
-          <el-form-item label="权威等级（authority_level）">
+          <el-form-item label="权威等级">
             <el-input-number v-model="createForm.authority_level" :min="0" :max="1000" controls-position="right" />
           </el-form-item>
-          <el-form-item label="状态（status）">
+          <el-form-item label="状态">
             <el-select v-model="createForm.status" placeholder="请选择状态">
               <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
@@ -456,30 +456,30 @@ onMounted(() => {
       <div v-loading="editLoading">
         <el-form ref="editFormRef" :model="editForm" :rules="documentFormRules" label-width="170px" class="knowledge-create-form">
           <div class="knowledge-form-grid">
-            <el-form-item label="文档标题（title）" prop="title">
+            <el-form-item label="文档标题" prop="title">
               <el-input v-model="editForm.title" placeholder="请输入文档标题" />
             </el-form-item>
-            <el-form-item label="文档类型（document_type）" prop="document_type">
+            <el-form-item label="文档类型" prop="document_type">
               <el-select v-model="editForm.document_type" placeholder="请选择文档类型">
                 <el-option v-for="item in documentTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </el-form-item>
-            <el-form-item label="发布机构（issuing_authority）">
+            <el-form-item label="发布机构">
               <el-input v-model="editForm.issuing_authority" placeholder="请输入发布机构" />
             </el-form-item>
-            <el-form-item label="来源链接（canonical_source_url）">
+            <el-form-item label="来源链接">
               <el-input v-model="editForm.canonical_source_url" placeholder="请输入权威来源链接" />
             </el-form-item>
-            <el-form-item label="辖区（jurisdiction_code）">
+            <el-form-item label="辖区">
               <el-input v-model="editForm.jurisdiction_code" placeholder="例如 CN" />
             </el-form-item>
-            <el-form-item label="适用范围（scope_text）">
+            <el-form-item label="适用范围">
               <el-input v-model="editForm.scope_text" placeholder="请输入适用范围说明" />
             </el-form-item>
-            <el-form-item label="权威等级（authority_level）">
+            <el-form-item label="权威等级">
               <el-input-number v-model="editForm.authority_level" :min="0" :max="1000" controls-position="right" />
             </el-form-item>
-            <el-form-item label="状态（status）">
+            <el-form-item label="状态">
               <el-select v-model="editForm.status" placeholder="请选择状态">
                 <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -501,17 +501,17 @@ onMounted(() => {
         <template v-if="detailDocument">
           <el-descriptions :column="2" border class="knowledge-detail-descriptions">
             <el-descriptions-item label="文档ID">{{ detailDocument.id }}</el-descriptions-item>
-            <el-descriptions-item label="对外编号（public_id）">{{ detailDocument.public_id }}</el-descriptions-item>
-            <el-descriptions-item label="文档标题（title）">{{ detailDocument.title }}</el-descriptions-item>
-            <el-descriptions-item label="文档类型（document_type）">{{ documentTypeLabel(detailDocument.document_type) }}</el-descriptions-item>
-            <el-descriptions-item label="发布机构（issuing_authority）">{{ detailDocument.issuing_authority || '-' }}</el-descriptions-item>
-            <el-descriptions-item label="辖区（jurisdiction_code）">{{ detailDocument.jurisdiction_code || '-' }}</el-descriptions-item>
-            <el-descriptions-item label="适用范围（scope_text）" :span="2">{{ detailDocument.scope_text || '-' }}</el-descriptions-item>
-            <el-descriptions-item label="来源链接（canonical_source_url）" :span="2">{{ detailDocument.canonical_source_url || '-' }}</el-descriptions-item>
-            <el-descriptions-item label="权威等级（authority_level）">{{ detailDocument.authority_level ?? '-' }}</el-descriptions-item>
-            <el-descriptions-item label="状态（status）">{{ statusLabel(detailDocument.status) }}</el-descriptions-item>
-            <el-descriptions-item label="创建时间（created_at）">{{ formatDateTime(detailDocument.created_at) }}</el-descriptions-item>
-            <el-descriptions-item label="更新时间（updated_at）">{{ formatDateTime(detailDocument.updated_at) }}</el-descriptions-item>
+            <el-descriptions-item label="对外编号">{{ detailDocument.public_id }}</el-descriptions-item>
+            <el-descriptions-item label="文档标题">{{ detailDocument.title }}</el-descriptions-item>
+            <el-descriptions-item label="文档类型">{{ documentTypeLabel(detailDocument.document_type) }}</el-descriptions-item>
+            <el-descriptions-item label="发布机构">{{ detailDocument.issuing_authority || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="辖区">{{ detailDocument.jurisdiction_code || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="适用范围" :span="2">{{ detailDocument.scope_text || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="来源链接" :span="2">{{ detailDocument.canonical_source_url || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="权威等级">{{ detailDocument.authority_level ?? '-' }}</el-descriptions-item>
+            <el-descriptions-item label="状态">{{ statusLabel(detailDocument.status) }}</el-descriptions-item>
+            <el-descriptions-item label="创建时间">{{ formatDateTime(detailDocument.created_at) }}</el-descriptions-item>
+            <el-descriptions-item label="更新时间">{{ formatDateTime(detailDocument.updated_at) }}</el-descriptions-item>
           </el-descriptions>
         </template>
       </div>

@@ -11,6 +11,7 @@ import {
   Warning
 } from '@element-plus/icons-vue'
 import { getHealthStatus } from './api/http'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import KnowledgeDocsView from './views/KnowledgeDocsView.vue'
 import KnowledgeSourcesView from './views/KnowledgeSourcesView.vue'
 import QaHistoryView from './views/QaHistoryView.vue'
@@ -98,6 +99,7 @@ onMounted(checkBackend)
 </script>
 
 <template>
+  <el-config-provider :locale="zhCn">
   <div class="app-shell">
     <aside class="side-nav">
       <div class="brand">
@@ -286,4 +288,5 @@ onMounted(checkBackend)
       </section>
     </main>
   </div>
+  </el-config-provider>
 </template>

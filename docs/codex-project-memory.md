@@ -193,3 +193,11 @@ Last updated: 2026-07-18
 - Created `Changes.md` with a 2026-07-21 documentation change entry.
 - Updated README backend startup section with prerequisites, database initialization options, environment variables, `mvn spring-boot:run`, health-check curl, tests, package, and JAR run commands.
 - Updated README frontend startup section with Node/npm prerequisites, `.env` setup, `npm.cmd install`, `npm.cmd run dev`, default `http://localhost:5173` URL, tests, build, and preview commands.
+
+## 2026-07-21 KnowledgeDocs Chinese UI cleanup
+
+- User reported Knowledge Docs management showed labels like `标题（title）` and Element Plus pagination English text (`Total`, `/page`, `Go to`).
+- Updated `frontend/src/views/KnowledgeDocsView.vue` labels to remove database field names in parentheses, leaving Chinese-only labels in filter form, table columns, create/edit forms, and detail dialog.
+- Wrapped `App.vue` root with `el-config-provider` using Element Plus zh-cn locale and registered `ElConfigProvider` in `frontend/src/main.js`, so pagination text is Chinese in the actual app.
+- Updated `KnowledgeDocsView.test.js` and `App.test.js` to assert field-name suffixes and English pagination text are not visible.
+- Verification: `cd frontend && npm test` passed with 4 files / 20 tests; `npm run build` passed with existing Rollup PURE-comment warnings. Restored generated `frontend/dist` and `.vite` changes after build.

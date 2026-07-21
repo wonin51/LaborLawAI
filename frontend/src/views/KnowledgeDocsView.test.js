@@ -33,8 +33,11 @@ describe('KnowledgeDocsView', () => {
     expect(wrapper.text()).toContain('新增文档')
     expect(wrapper.find('table').exists()).toBe(true)
 
-    for (const field of ['title', 'document_type', 'status', 'issuing_authority', 'jurisdiction_code']) {
-      expect(wrapper.text()).toContain(field)
+    for (const label of ['\u6807\u9898', '\u7c7b\u578b', '\u72b6\u6001', '\u53d1\u5e03\u673a\u6784', '\u8f96\u533a']) {
+      expect(wrapper.text()).toContain(label)
+    }
+    for (const fieldLabel of ['\uff08title\uff09', '\uff08document_type\uff09', '\uff08status\uff09', '\uff08issuing_authority\uff09', '\uff08jurisdiction_code\uff09']) {
+      expect(wrapper.text()).not.toContain(fieldLabel)
     }
   })
 
@@ -48,17 +51,29 @@ describe('KnowledgeDocsView', () => {
     await wrapper.findAll('button').find((button) => button.text().includes('新增文档')).trigger('click')
 
     expect(wrapper.text()).toContain('新增知识库文档')
-    for (const field of [
-      'title',
-      'document_type',
-      'issuing_authority',
-      'canonical_source_url',
-      'jurisdiction_code',
-      'scope_text',
-      'authority_level',
-      'status'
+    for (const label of [
+      '\u6587\u6863\u6807\u9898',
+      '\u6587\u6863\u7c7b\u578b',
+      '\u53d1\u5e03\u673a\u6784',
+      '\u6765\u6e90\u94fe\u63a5',
+      '\u8f96\u533a',
+      '\u9002\u7528\u8303\u56f4',
+      '\u6743\u5a01\u7b49\u7ea7',
+      '\u72b6\u6001'
     ]) {
-      expect(wrapper.text()).toContain(field)
+      expect(wrapper.text()).toContain(label)
+    }
+    for (const fieldLabel of [
+      '\uff08title\uff09',
+      '\uff08document_type\uff09',
+      '\uff08issuing_authority\uff09',
+      '\uff08canonical_source_url\uff09',
+      '\uff08jurisdiction_code\uff09',
+      '\uff08scope_text\uff09',
+      '\uff08authority_level\uff09',
+      '\uff08status\uff09'
+    ]) {
+      expect(wrapper.text()).not.toContain(fieldLabel)
     }
   })
 

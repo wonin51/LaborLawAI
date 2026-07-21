@@ -97,5 +97,8 @@ describe('App', () => {
 
     expect(wrapper.text()).toContain('知识库文档管理')
     expect(wrapper.text()).toContain('新增文档')
+    expect(wrapper.text()).not.toContain('Total')
+    expect(wrapper.text()).not.toContain('/page')
+    expect(wrapper.text()).not.toContain('Go to')
   })
 })
