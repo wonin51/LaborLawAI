@@ -201,3 +201,12 @@ Last updated: 2026-07-18
 - Wrapped `App.vue` root with `el-config-provider` using Element Plus zh-cn locale and registered `ElConfigProvider` in `frontend/src/main.js`, so pagination text is Chinese in the actual app.
 - Updated `KnowledgeDocsView.test.js` and `App.test.js` to assert field-name suffixes and English pagination text are not visible.
 - Verification: `cd frontend && npm test` passed with 4 files / 20 tests; `npm run build` passed with existing Rollup PURE-comment warnings. Restored generated `frontend/dist` and `.vite` changes after build.
+
+## 2026-07-21 Local MySQL database import
+
+- User asked to import data into the local MySQL database using their local database password. Do not record the raw password.
+- Created/recreated `legal_contract_assistant` with utf8mb4 and imported `backend/db/init.sql` plus `backend/db/demo-data.sql`.
+- MySQL 8 rejected two composite current-version foreign keys because `ON DELETE SET NULL` included non-null primary key columns. Updated `backend/db/init.sql` to use `ON DELETE RESTRICT` for `fk_doc_current_version` and `fk_prompt_current_version`.
+- Verified the database has 25 tables. Imported row counts include `kb_document=10`, `kb_document_version=10`, `sys_account=1`, `qa_topic=10`; `kb_chunk_ref`, `qa_answer`, `qa_answer_citation`, and `qa_message` remain empty because the provided demo data only seeds knowledge documents and versions.
+- Verified key rows in `kb_document` and `kb_document_version` can be queried, and current-version constraints exist with `RESTRICT` delete rule.
+- Backend runtime should use environment variables for DB credentials instead of committing the local password to config files.

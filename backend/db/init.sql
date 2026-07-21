@@ -595,14 +595,14 @@ ALTER TABLE `kb_document`
     ADD CONSTRAINT `fk_doc_current_version`
     FOREIGN KEY (`current_version_id`, `id`)
     REFERENCES `kb_document_version` (`id`, `document_id`)
-    ON DELETE SET NULL;
+    ON DELETE RESTRICT;
 
 -- 6.2 ai_prompt.current_version_id 引用 ai_prompt_version
 ALTER TABLE `ai_prompt`
     ADD CONSTRAINT `fk_prompt_current_version`
     FOREIGN KEY (`current_version_id`, `id`)
     REFERENCES `ai_prompt_version` (`id`, `prompt_id`)
-    ON DELETE SET NULL;
+    ON DELETE RESTRICT;
 
 -- 6.3 qa_answer_citation 复合外键
 ALTER TABLE `qa_answer_citation`
