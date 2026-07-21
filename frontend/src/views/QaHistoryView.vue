@@ -212,7 +212,7 @@ onMounted(() => {
             </div>
           </template>
           <div v-loading="recordListLoading">
-            <el-table :data="recordTableRows" stripe empty-text="暂无问答记录">
+            <el-table :data="recordTableRows" @row-click="openRecordDetail" stripe empty-text="暂无问答记录">
               <el-table-column prop="id" label="ID" width="80" />
               <el-table-column prop="question" label="问题内容" min-width="260" show-overflow-tooltip />
               <el-table-column prop="conclusion_summary" label="结论摘要" min-width="200" show-overflow-tooltip />
@@ -282,7 +282,7 @@ onMounted(() => {
             </div>
           </template>
           <div v-loading="citationListLoading">
-            <el-table :data="citationTableRows" stripe empty-text="暂无引用依据">
+            <el-table :data="citationTableRows" @row-click="openCitationDetail" stripe empty-text="暂无引用依据">
               <el-table-column prop="id" label="ID" width="80" />
               <el-table-column prop="claim_id" label="关键结论ID" width="100" />
               <el-table-column prop="source_title_snapshot" label="来源标题" min-width="180" show-overflow-tooltip />

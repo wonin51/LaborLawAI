@@ -174,3 +174,22 @@ Last updated: 2026-07-18
 - Fixed WebMvc slice test pollution by moving `@MapperScan("com.laborlaw.ragkbdemo.mapper")` from `RagKbDemoApplication` to `MybatisPlusConfig`; full app still loads mapper scan via normal configuration, while MVC slice tests no longer instantiate mapper factory beans without MyBatis session factory.
 - Verification: `cd backend && mvn test` passed with 35 tests, 0 failures, 0 errors, 0 skipped. Maven still emits existing `@MockBean` deprecation warnings.
 - Running Maven modifies tracked `backend/target` artifacts due existing repository hygiene issue; those generated changes were restored after verification.
+
+## 2026-07-21 Frontend knowledge query pages
+
+- User requested wiring four read-only query APIs into frontend: `kb_document`, `kb_chunk_ref`, `qa_answer`, `qa_answer_citation`.
+- Existing files already present: `frontend/src/api/knowledgeSources.js`, `frontend/src/api/qaHistory.js`, `frontend/src/views/KnowledgeSourcesView.vue`, `frontend/src/views/QaHistoryView.vue`, and `App.vue` imports/routes for `sources` and `history`.
+- Added row-click detail behavior to all four Element Plus tables: documents, chunks, QA records, citations. Kept existing Chinese detail buttons.
+- Renamed chunk detail dialog title from `分片详情` to `知识分片详情` for clearer Chinese UI.
+- Added tests:
+  - `KnowledgeSourcesView.test.js`: tabs, Chinese labels, list data, filters/pagination API params, row-click detail dialogs, no `标题(title)` display.
+  - `QaHistoryView.test.js`: tabs, Chinese labels, list data, filters/pagination API params, row-click detail dialogs, no `标题(title)` display.
+  - Updated `App.test.js` to verify `sources` and `history` render real pages instead of placeholders.
+- Verification: `cd frontend && npm test` passed with 4 test files and 20 tests. `npm run build` passed; existing Rollup PURE-comment warnings remain. Restored generated `frontend/dist` changes after build because dist is still tracked in this repository.
+
+## 2026-07-21 README startup documentation
+
+- User requested creating `Changes.md` under `G:\LaborLawAI` and updating `README.md` with concrete backend/frontend startup steps.
+- Created `Changes.md` with a 2026-07-21 documentation change entry.
+- Updated README backend startup section with prerequisites, database initialization options, environment variables, `mvn spring-boot:run`, health-check curl, tests, package, and JAR run commands.
+- Updated README frontend startup section with Node/npm prerequisites, `.env` setup, `npm.cmd install`, `npm.cmd run dev`, default `http://localhost:5173` URL, tests, build, and preview commands.

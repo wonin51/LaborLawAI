@@ -235,7 +235,7 @@ onMounted(() => {
             </div>
           </template>
           <div v-loading="docListLoading">
-            <el-table :data="docTableRows" stripe empty-text="暂无文档">
+            <el-table :data="docTableRows" @row-click="openDocDetail" stripe empty-text="暂无文档">
               <el-table-column prop="id" label="ID" width="80" />
               <el-table-column prop="title" label="文档标题" min-width="200" show-overflow-tooltip />
               <el-table-column prop="document_type" label="文档类型" width="140">
@@ -310,7 +310,7 @@ onMounted(() => {
             </div>
           </template>
           <div v-loading="chunkListLoading">
-            <el-table :data="chunkTableRows" stripe empty-text="暂无分片">
+            <el-table :data="chunkTableRows" @row-click="openChunkDetail" stripe empty-text="暂无分片">
               <el-table-column prop="id" label="ID" width="80" />
               <el-table-column prop="chunk_key" label="片段键" min-width="180" show-overflow-tooltip />
               <el-table-column prop="document_version_id" label="文档版本ID" width="120" />
@@ -368,7 +368,7 @@ onMounted(() => {
     </el-dialog>
 
     <!-- 分片详情弹窗 -->
-    <el-dialog v-model="chunkDetailDialogVisible" title="分片详情" width="760px" destroy-on-close>
+    <el-dialog v-model="chunkDetailDialogVisible" title="知识分片详情" width="760px" destroy-on-close>
       <div v-loading="chunkDetailLoading">
         <el-descriptions v-if="chunkDetail" :column="2" border>
           <el-descriptions-item label="分片ID">{{ chunkDetail.id }}</el-descriptions-item>

@@ -36,48 +36,190 @@ proj1/
 
 ## 后端启动
 
+以下命令均假设当前项目路径为 `G:\LaborLawAI`，并在 PowerShell 中执行。
+
+### 1. 准备 Java 和 Maven
+
+后端需要：
+
+- JDK 17
+- Maven 3.8+
+- MySQL 8.x（如只验证健康检查和部分 Mock 测试，可先不连接真实数据库）
+
+检查版本：
+
 ```powershell
-cd backend
+java -version
+mvn -version
+```
+
+### 2. 初始化数据库（首次运行需要）
+
+如果本机 MySQL 已启动，并且 root 用户可登录，可以执行：
+
+```powershell
+cd G:\LaborLawAI
+mysql -u root -p < backend/db/init.sql
+```
+
+如果只想使用轻量旧版初始化脚本，也可以执行：
+
+```powershell
+cd G:\LaborLawAI
+mysql -u root -p < backend/src/main/resources/db/init.sql
+```
+
+注意：`backend/db/init.sql` 是完整表结构脚本，包含 `DROP TABLE`，不要直接用于已有生产数据环境。
+
+### 3. 配置后端环境变量
+
+开发环境可以先使用默认值启动。若需要连接自己的 MySQL、模型服务或管理员接口，请在启动前设置：
+
+```powershell
+$env:DB_URL="jdbc:mysql://localhost:3306/legal_contract_assistant?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai"
+$env:DB_USERNAME="root"
+$env:DB_PASSWORD="your_password"
+$env:OPENAI_API_KEY="your_api_key"
+$env:OPENAI_BASE_URL="https://your-openai-compatible-endpoint"
+$env:OPENAI_EMBEDDING_MODEL="Qwen/Qwen3-Embedding-4B"
+$env:ELASTICSEARCH_URIS="http://localhost:9200"
+$env:ADMIN_ACCOUNTS="editor|replace-with-editor-token|KNOWLEDGE_READ,KNOWLEDGE_WRITE;reader|replace-with-reader-token|KNOWLEDGE_READ"
+```
+
+不要把真实密码、Token 或 API Key 写入 Git。
+
+### 4. 启动后端开发服务
+
+```powershell
+cd G:\LaborLawAI\backend
 mvn spring-boot:run
 ```
 
-也可以先打包再运行：
+启动成功后，后端默认监听：
+
+```text
+http://localhost:8080
+```
+
+### 5. 验证后端是否启动成功
+
+新开一个 PowerShell 窗口执行：
 
 ```powershell
-cd backend
+curl.exe "http://localhost:8080/api/health"
+```
+
+预期返回统一响应结构，`code=0` 表示成功。
+
+### 6. 后端测试和打包
+
+运行测试：
+
+```powershell
+cd G:\LaborLawAI\backend
+mvn test
+```
+
+打包：
+
+```powershell
+cd G:\LaborLawAI\backend
 mvn package -DskipTests
+```
+
+打包后运行 JAR：
+
+```powershell
+cd G:\LaborLawAI\backend
 java -jar target/legal-contract-assistant-0.0.1-SNAPSHOT.jar
 ```
 
 ## 前端启动
 
+以下命令均假设当前项目路径为 `G:\LaborLawAI`，并在 PowerShell 中执行。
+
+### 1. 准备 Node.js 和 npm
+
+建议使用 Node.js 20+。检查版本：
+
 ```powershell
-cd frontend
+node -v
+npm -v
+```
+
+### 2. 配置前端环境变量
+
+可以复制示例环境文件：
+
+```powershell
+cd G:\LaborLawAI\frontend
+Copy-Item .env.example .env -Force
+```
+
+常用配置项：
+
+```text
+VITE_API_BASE_URL=http://localhost:8080
+VITE_ADMIN_API_TOKEN=replace-with-editor-token
+```
+
+说明：
+
+- 普通只读接口，如 `/api/knowledge/documents`、`/api/qa/records`，当前不需要登录权限控制。
+- 管理员接口 `/api/admin/**` 如需访问，需要与后端 `ADMIN_ACCOUNTS` 中某个账号的 token 保持一致。
+
+### 3. 安装前端依赖
+
+```powershell
+cd G:\LaborLawAI\frontend
 npm.cmd install
+```
+
+如果依赖已经安装过，也可以跳过本步骤。
+
+### 4. 启动前端开发服务
+
+```powershell
+cd G:\LaborLawAI\frontend
 npm.cmd run dev
 ```
 
-默认访问地址：
+启动成功后，浏览器访问：
 
 ```text
 http://localhost:5173
 ```
 
-生产构建：
+前端开发服务会通过 Vite 代理把 `/api` 请求转发到后端 `http://localhost:8080`。
+
+### 5. 前端测试和生产构建
+
+运行测试：
 
 ```powershell
-cd frontend
-npm.cmd run build
-```
-
-测试：
-
-```powershell
-cd frontend
+cd G:\LaborLawAI\frontend
 npm.cmd test
 ```
 
-后端管理员接口使用 `X-Admin-Token`，请求审计信息会写入后端日志，但不会记录令牌原文。
+生产构建：
+
+```powershell
+cd G:\LaborLawAI\frontend
+npm.cmd run build
+```
+
+预览生产构建结果：
+
+```powershell
+cd G:\LaborLawAI\frontend
+npm.cmd run preview
+```
+
+预览地址通常为：
+
+```text
+http://localhost:4173
+```
 
 ## 健康检查
 
