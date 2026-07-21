@@ -236,3 +236,13 @@ Last updated: 2026-07-18
 - `mvn spring-boot:run` failed because Spring could not instantiate `AiPingService`: the class had two constructors and neither was explicitly selected for dependency injection, producing `No default constructor found` and preventing `AiPingController` creation.
 - Added `@Autowired` to the production `AiPingService(RagAiProperties)` constructor while retaining the package-private constructor for HTTP-client unit tests.
 - Verification: full backend `mvn test` passed with 38 tests. A real `mvn spring-boot:run` launch completed, port 8080 is listening, and `GET /api/health` returned `code=0` with `data.status=ok`.
+
+## 2026-07-21 AI ping live integration
+
+- Live-tested local Ollama at `localhost:11434`: installed models include `qwen3-embedding:4b` and `qwen2.5:7b`.
+- Updated RAG embedding default model to the exact Ollama model name `qwen3-embedding:4b`.
+- Increased Elasticsearch request timeout to 15 seconds and local model request timeout to 3 minutes because first CPU model load exceeded the previous 8-second timeout.
+- Restored the correct Spring AI BOM and Ollama starter in `backend/pom.xml` after finding a local invalid dependency edit; the resulting pom matches repository baseline.
+- Direct live verification: embedding returned HTTP 200 with a 2560-dimension vector; chat returned HTTP 200 with model `qwen2.5:7b`.
+- Restarted backend with runtime environment configuration. `GET /api/ai/ping` now reports embedding and chat success.
+- Elasticsearch remains blocked externally: direct Basic Auth request to the provided `/es/` endpoint returns HTTP 401 with `unable to authenticate user [elastic]`. This requires a valid current ES password or server-side password reset; do not record the supplied raw password.

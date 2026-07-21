@@ -7,7 +7,7 @@ spring:
   datasource:
     url: ${DB_URL:jdbc:mysql://localhost:3306/legal_contract_assistant?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai}
     username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:123456}
+    password: ${DB_PASSWORD:12181168}
     driver-class-name: com.mysql.cj.jdbc.Driver
   ai:
     openai:
@@ -35,7 +35,7 @@ rag:
     embedding:
       base-url: ${RAG_AI_EMBEDDING_BASE_URL:http://localhost:11434/v1}
       api-key: ${RAG_AI_EMBEDDING_API_KEY:}
-      model: ${RAG_AI_EMBEDDING_MODEL:Qwen/Qwen3-Embedding-4B}
+      model: ${RAG_AI_EMBEDDING_MODEL:qwen3-embedding:4b}
       dimension: ${RAG_AI_EMBEDDING_DIMENSION:2560}
     chat:
       base-url: ${RAG_AI_CHAT_BASE_URL:http://localhost:11434/v1}

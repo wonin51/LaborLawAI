@@ -18,7 +18,8 @@ import java.util.Base64;
 @Service
 public class AiPingService {
 
-    private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(8);
+    private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(15);
+    private static final Duration MODEL_REQUEST_TIMEOUT = Duration.ofMinutes(3);
 
     private final RagAiProperties properties;
     private final HttpClient httpClient;
@@ -69,7 +70,7 @@ public class AiPingService {
         }
 
         String body = "{\"model\":\"" + json(embedding.getModel()) + "\",\"input\":\"ping\"}";
-        return postJson("Embedding", joinUrl(embedding.getBaseUrl(), "/embeddings"), embedding.getApiKey(), body);
+        return postJson("Embedding", joinUrl(embedding.getBaseUrl(), "/embeddings"), embedding.getApiKey(), body, MODEL_REQUEST_TIMEOUT);
     }
 
     private AiPingItemVO pingChat() {
@@ -83,13 +84,13 @@ public class AiPingService {
 
         String body = "{\"model\":\"" + json(chat.getModel())
                 + "\",\"messages\":[{\"role\":\"user\",\"content\":\"ping\"}],\"stream\":false}";
-        return postJson("Chat", joinUrl(chat.getBaseUrl(), "/chat/completions"), chat.getApiKey(), body);
+        return postJson("Chat", joinUrl(chat.getBaseUrl(), "/chat/completions"), chat.getApiKey(), body, MODEL_REQUEST_TIMEOUT);
     }
 
-    private AiPingItemVO postJson(String name, String url, String apiKey, String body) {
+    private AiPingItemVO postJson(String name, String url, String apiKey, String body, Duration timeout) {
         try {
             HttpRequest.Builder builder = HttpRequest.newBuilder(URI.create(url))
-                    .timeout(REQUEST_TIMEOUT)
+                    .timeout(timeout)
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(body));
             addBearerAuth(builder, apiKey);
@@ -103,6 +104,9 @@ public class AiPingService {
     private AiPingItemVO httpResult(String name, int statusCode) {
         if (statusCode >= 200 && statusCode < 300) {
             return ok(name + " is reachable");
+        }
+        if (statusCode == 401 || statusCode == 403) {
+            return error(name + " authentication failed (HTTP " + statusCode + "); check username/password or API key");
         }
         return error(name + " returned HTTP " + statusCode);
     }
