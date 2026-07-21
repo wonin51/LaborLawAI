@@ -5,7 +5,9 @@ G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\config\AdminPrincipal
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\config\AdminRole.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\config\MybatisPlusConfig.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\config\package-info.java
+G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\config\RagAiProperties.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\config\WebMvcConfig.java
+G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\controller\AiPingController.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\controller\DbPingController.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\controller\GlobalExceptionHandler.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\controller\HealthController.java
@@ -37,12 +39,15 @@ G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\mapper\QaAnswerCitati
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\mapper\QaAnswerMapper.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\mapper\QaMessageMapper.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\RagKbDemoApplication.java
+G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\service\AiPingService.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\service\DbPingService.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\service\KnowledgeDocumentService.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\service\KnowledgeSourceService.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\service\package-info.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\service\QaCitationService.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\service\QaRecordService.java
+G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\vo\AiPingItemVO.java
+G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\vo\AiPingVO.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\vo\ApiResponse.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\vo\DbPingVO.java
 G:\LaborLawAI\backend\src\main\java\com\laborlaw\ragkbdemo\vo\HealthVO.java
