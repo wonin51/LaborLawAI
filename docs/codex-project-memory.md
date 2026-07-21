@@ -154,3 +154,23 @@ Last updated: 2026-07-18
 - 删除使用确认弹窗，成功后自动刷新当前分页。
 - 状态下拉使用 PATCH 状态接口，失败时不直接修改列表数据。
 - 前端测试扩展到编辑、删除、状态更新，当前 10 个测试通过。
+
+## 2026-07-21 Risk Review Update
+
+- User asked to inspect `G:\LaborLawAI` and write potential project risks into `项目风险问题分析.md`.
+- Updated `项目风险问题分析.md` with a fresh current-state review covering Git-tracked generated artifacts, local env/auth files, backend test failure, public QA/knowledge endpoints, divergent DB scripts, RBAC limitations, validation gaps, delete/index lifecycle risks, missing CI, frontend size, and demo-only UI risks.
+- Verification evidence collected:
+  - `git ls-files` still tracks `frontend/node_modules` (11712 files), `backend/target` (63 files), `frontend/dist` (1 file), `.npm-global`, `.npm-cache`, `.lark-auth`, `.idea`, `.vscode`, and local env/config files.
+  - Running validation initially modified tracked `backend/target` and `frontend/dist`, confirming generated artifact tracking risk; those generated changes were restored with `git restore -- backend/target frontend/dist` before editing docs.
+  - `frontend`: `npm audit --omit=dev` and `npm audit` both reported 0 vulnerabilities; `npm test` passed with 2 test files and 10 tests; `npm run build` succeeded but output large CSS/main JS sizes and Rollup PURE-comment warnings.
+  - `backend`: `mvn test` failed with ApplicationContext errors because WebMvc slice tests load scanned MyBatis mappers without `sqlSessionFactory/sqlSessionTemplate`.
+- Do not record raw local passwords, tokens, QR auth values, or secrets when continuing this risk work.
+
+## 2026-07-21 Read-only backend query APIs
+
+- User requested paginated read-only endpoints for `kb_document`, `kb_chunk_ref`, `qa_answer`, and `qa_answer_citation` using MyBatis-Plus, DTO/Entity/VO separation, `ApiResponse`, `page_no`/`page_size`, id-desc ordering, and QA record question assembly via `qa_message.content_redacted`.
+- Existing backend source already had the four public read-only controllers/services/DTOs/VOs: `/api/knowledge/documents`, `/api/knowledge/chunk-refs`, `/api/qa/records`, `/api/qa/citations`.
+- Added `backend/src/test/java/com/laborlaw/ragkbdemo/controller/ReadOnlyQueryControllerTest.java` covering all four endpoints, unified `code=0` responses, JSON field names, pagination params, filters, and `question` field in QA record VO.
+- Fixed WebMvc slice test pollution by moving `@MapperScan("com.laborlaw.ragkbdemo.mapper")` from `RagKbDemoApplication` to `MybatisPlusConfig`; full app still loads mapper scan via normal configuration, while MVC slice tests no longer instantiate mapper factory beans without MyBatis session factory.
+- Verification: `cd backend && mvn test` passed with 35 tests, 0 failures, 0 errors, 0 skipped. Maven still emits existing `@MockBean` deprecation warnings.
+- Running Maven modifies tracked `backend/target` artifacts due existing repository hygiene issue; those generated changes were restored after verification.
