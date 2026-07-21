@@ -230,3 +230,9 @@ Last updated: 2026-07-18
 - Embedding ping posts to `/embeddings` with model `qwen3-embedding:4b` by default. Chat ping posts to `/chat/completions` with OpenAI-compatible message payload. API keys are only sent in Authorization headers and are not logged.
 - Added controller and service tests for successful and partial-failure ping behavior.
 - Verification: `cd backend && mvn test` passed with 38 tests; `mvn package -DskipTests` passed. Restored generated `backend/target` changes after verification.
+
+## 2026-07-21 Backend startup constructor fix
+
+- `mvn spring-boot:run` failed because Spring could not instantiate `AiPingService`: the class had two constructors and neither was explicitly selected for dependency injection, producing `No default constructor found` and preventing `AiPingController` creation.
+- Added `@Autowired` to the production `AiPingService(RagAiProperties)` constructor while retaining the package-private constructor for HTTP-client unit tests.
+- Verification: full backend `mvn test` passed with 38 tests. A real `mvn spring-boot:run` launch completed, port 8080 is listening, and `GET /api/health` returned `code=0` with `data.status=ok`.

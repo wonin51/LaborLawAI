@@ -3,6 +3,7 @@ package com.laborlaw.ragkbdemo.service;
 import com.laborlaw.ragkbdemo.config.RagAiProperties;
 import com.laborlaw.ragkbdemo.vo.AiPingItemVO;
 import com.laborlaw.ragkbdemo.vo.AiPingVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -22,6 +23,7 @@ public class AiPingService {
     private final RagAiProperties properties;
     private final HttpClient httpClient;
 
+    @Autowired
     public AiPingService(RagAiProperties properties) {
         this(properties, HttpClient.newBuilder().connectTimeout(REQUEST_TIMEOUT).build());
     }
