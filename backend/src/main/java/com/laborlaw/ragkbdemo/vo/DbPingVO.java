@@ -1,15 +1,32 @@
 package com.laborlaw.ragkbdemo.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class DbPingVO {
 
     private String timestamp;
 
     private String status;
+
+    public DbPingVO() {
+    }
+
+    public DbPingVO(String timestamp, String status) {
+        this.timestamp = timestamp;
+        this.status = status;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

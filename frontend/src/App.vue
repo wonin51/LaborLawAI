@@ -12,6 +12,8 @@ import {
 } from '@element-plus/icons-vue'
 import { getHealthStatus } from './api/http'
 import KnowledgeDocsView from './views/KnowledgeDocsView.vue'
+import KnowledgeSourcesView from './views/KnowledgeSourcesView.vue'
+import QaHistoryView from './views/QaHistoryView.vue'
 
 const activeView = ref('consult')
 const health = ref({ status: 'checking', text: '正在检查后端服务' })
@@ -270,6 +272,10 @@ onMounted(checkBackend)
           </div>
         </section>
       </section>
+
+      <KnowledgeSourcesView v-else-if="activeView === 'sources'" />
+
+      <QaHistoryView v-else-if="activeView === 'history'" />
 
       <KnowledgeDocsView v-else-if="activeView === 'admin'" />
 

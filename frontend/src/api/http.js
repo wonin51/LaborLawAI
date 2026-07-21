@@ -9,10 +9,12 @@ const http = axios.create({
   timeout: 8000
 })
 
+// 请求拦截器：统一处理参数
 http.interceptors.request.use(config => {
   const requestUrl = String(config.url || '')
   const isAdminRequest = requestUrl.startsWith('/api/admin/')
 
+  // 1. 处理 Admin Token
   if (isAdminRequest && adminToken) {
     if (config.headers && typeof config.headers.set === 'function') {
       config.headers.set('X-Admin-Token', adminToken)
@@ -24,9 +26,28 @@ http.interceptors.request.use(config => {
     }
   }
 
+  // 2. 统一处理分页参数：pageNo → page_no, pageSize → page_size
+  if (config.method === 'get' && config.params) {
+    const newParams = { ...config.params }
+    
+    // 如果存在 pageNo 且没有 page_no，则转换
+    if ('pageNo' in newParams && !('page_no' in newParams)) {
+      newParams.page_no = newParams.pageNo
+      delete newParams.pageNo
+    }
+    
+    if ('pageSize' in newParams && !('page_size' in newParams)) {
+      newParams.page_size = newParams.pageSize
+      delete newParams.pageSize
+    }
+    
+    config.params = newParams
+  }
+
   return config
 })
 
+// 响应拦截器
 http.interceptors.response.use(
   response => {
     const body = response.data
