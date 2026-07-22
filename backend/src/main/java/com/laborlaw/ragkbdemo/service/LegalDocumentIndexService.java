@@ -1,9 +1,11 @@
 package com.laborlaw.ragkbdemo.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.laborlaw.ragkbdemo.entity.KnowledgeDocument;
 import com.laborlaw.ragkbdemo.entity.LegalChunk;
 import com.laborlaw.ragkbdemo.entity.LegalDocument;
 import com.laborlaw.ragkbdemo.exception.ApiOperationException;
+import com.laborlaw.ragkbdemo.mapper.KnowledgeDocumentMapper;
 import com.laborlaw.ragkbdemo.mapper.LegalChunkMapper;
 import com.laborlaw.ragkbdemo.mapper.LegalDocumentMapper;
 import com.laborlaw.ragkbdemo.vo.LegalDocumentIndexResultVO;
@@ -32,14 +34,17 @@ public class LegalDocumentIndexService {
     private static final String STATUS_INDEX_FAILED = "index_failed";
     private static final String DOCUMENT_DISABLED = "disabled";
 
+    private final KnowledgeDocumentMapper knowledgeDocumentMapper;
     private final LegalDocumentMapper legalDocumentMapper;
     private final LegalChunkMapper legalChunkMapper;
     private final EsIndexService esIndexService;
 
     public LegalDocumentIndexService(
+            KnowledgeDocumentMapper knowledgeDocumentMapper,
             LegalDocumentMapper legalDocumentMapper,
             LegalChunkMapper legalChunkMapper,
             EsIndexService esIndexService) {
+        this.knowledgeDocumentMapper = knowledgeDocumentMapper;
         this.legalDocumentMapper = legalDocumentMapper;
         this.legalChunkMapper = legalChunkMapper;
         this.esIndexService = esIndexService;
@@ -47,19 +52,19 @@ public class LegalDocumentIndexService {
 
     @Transactional(rollbackFor = Exception.class)
     public LegalDocumentIndexResultVO index(Long id) {
-        LegalDocument document = legalDocumentMapper.selectById(id);
-        if (document == null) {
+        IndexSource source = resolveSource(id);
+        if (source == null) {
             throw new ApiOperationException(404, "\u6cd5\u5f8b\u6587\u6863\u4e0d\u5b58\u5728");
         }
-        if (DOCUMENT_DISABLED.equalsIgnoreCase(normalize(document.getStatus()))) {
+        if (DOCUMENT_DISABLED.equalsIgnoreCase(normalize(source.effectiveStatus()))) {
             throw new ApiOperationException(400, "\u6587\u6863\u5df2\u7981\u7528\uff0c\u7981\u6b62\u7d22\u5f15");
         }
 
-        if (hasIndexedChunk(id)) {
-            return summarize(id, STATUS_INDEXED);
+        if (hasIndexedChunk(source)) {
+            return summarize(source, STATUS_INDEXED);
         }
 
-        String rawText = document.getRawText();
+        String rawText = source.rawText();
         if (!StringUtils.hasText(rawText)) {
             throw new ApiOperationException(400, "raw_text\u4e0d\u80fd\u4e3a\u7a7a");
         }
@@ -71,7 +76,7 @@ public class LegalDocumentIndexService {
         int failedCount = 0;
 
         for (EsIndexService.LegalKnowledgeChunk chunk : chunks) {
-            LegalChunk legalChunk = buildChunk(document, chunk);
+            LegalChunk legalChunk = buildChunk(source, chunk);
 
             try {
                 legalChunkMapper.insert(legalChunk);
@@ -83,7 +88,7 @@ public class LegalDocumentIndexService {
             try {
                 List<Double> vector = truncateVector(esIndexService.embedText(chunk.content()));
                 String esDocId = String.valueOf(legalChunk.getId());
-                esIndexService.indexDocument(EsIndexService.DEFAULT_INDEX_NAME, esDocId, buildEsPayload(document, legalChunk, vector));
+                esIndexService.indexDocument(EsIndexService.DEFAULT_INDEX_NAME, esDocId, buildEsPayload(source, legalChunk, vector));
                 legalChunk.setEsDocId(esDocId);
                 legalChunk.setStatus(STATUS_INDEXED);
                 legalChunkMapper.updateById(legalChunk);
@@ -96,49 +101,66 @@ public class LegalDocumentIndexService {
         }
 
         String finalStatus = failedCount == 0 ? STATUS_INDEXED : STATUS_INDEX_FAILED;
-        document.setStatus(finalStatus);
-        legalDocumentMapper.updateById(document);
+        updateSourceStatus(source, finalStatus);
 
         return buildResult(id, chunks.size(), indexedCount, failedCount, finalStatus);
     }
 
-    private boolean hasIndexedChunk(Long documentId) {
+    private IndexSource resolveSource(Long id) {
+        KnowledgeDocument knowledgeDocument = knowledgeDocumentMapper.selectById(id);
+        if (knowledgeDocument != null) {
+            return buildKnowledgeSource(knowledgeDocument);
+        }
+
+        LegalDocument legalDocument = legalDocumentMapper.selectById(id);
+        if (legalDocument != null) {
+            return buildLegacySource(legalDocument);
+        }
+
+        return null;
+    }
+
+    private boolean hasIndexedChunk(IndexSource source) {
         return legalChunkMapper.selectCount(new LambdaQueryWrapper<LegalChunk>()
-                .eq(LegalChunk::getDocumentId, documentId)
+                .eq(LegalChunk::getDocumentId, source.documentId())
+                .eq(StringUtils.hasText(source.groupCode()), LegalChunk::getGroupCode, source.groupCode())
                 .eq(LegalChunk::getStatus, STATUS_INDEXED)) > 0;
     }
 
-    private LegalDocumentIndexResultVO summarize(Long documentId, String status) {
+    private LegalDocumentIndexResultVO summarize(IndexSource source, String status) {
         int chunkCount = Math.toIntExact(legalChunkMapper.selectCount(new LambdaQueryWrapper<LegalChunk>()
-                .eq(LegalChunk::getDocumentId, documentId)));
+                .eq(LegalChunk::getDocumentId, source.documentId())
+                .eq(StringUtils.hasText(source.groupCode()), LegalChunk::getGroupCode, source.groupCode())));
         int indexedCount = Math.toIntExact(legalChunkMapper.selectCount(new LambdaQueryWrapper<LegalChunk>()
-                .eq(LegalChunk::getDocumentId, documentId)
+                .eq(LegalChunk::getDocumentId, source.documentId())
+                .eq(StringUtils.hasText(source.groupCode()), LegalChunk::getGroupCode, source.groupCode())
                 .eq(LegalChunk::getStatus, STATUS_INDEXED)));
         int failedCount = Math.toIntExact(legalChunkMapper.selectCount(new LambdaQueryWrapper<LegalChunk>()
-                .eq(LegalChunk::getDocumentId, documentId)
+                .eq(LegalChunk::getDocumentId, source.documentId())
+                .eq(StringUtils.hasText(source.groupCode()), LegalChunk::getGroupCode, source.groupCode())
                 .eq(LegalChunk::getStatus, STATUS_FAILED)));
-        return buildResult(documentId, chunkCount, indexedCount, failedCount, status);
+        return buildResult(source.documentId(), chunkCount, indexedCount, failedCount, status);
     }
 
-    private LegalChunk buildChunk(LegalDocument document, EsIndexService.LegalKnowledgeChunk chunk) {
+    private LegalChunk buildChunk(IndexSource source, EsIndexService.LegalKnowledgeChunk chunk) {
         LegalChunk legalChunk = new LegalChunk();
-        legalChunk.setGroupCode(document.getGroupCode());
-        legalChunk.setDocumentId(document.getId());
+        legalChunk.setGroupCode(source.groupCode());
+        legalChunk.setDocumentId(source.documentId());
         legalChunk.setChunkIndex(chunk.chunkIndex());
         legalChunk.setArticleNo(chunk.articleNo());
         legalChunk.setSectionTitle(chunk.sectionTitle());
-        legalChunk.setTopicTags(resolveTopicTags(document.getTopicTags(), chunk.topicTags()));
+        legalChunk.setTopicTags(resolveTopicTags(source.topicTags(), chunk.topicTags()));
         legalChunk.setContent(chunk.content());
         legalChunk.setContentHash(sha256(chunk.content()));
-        legalChunk.setSourceUrl(document.getSourceUrl());
-        legalChunk.setAuthorityLevel(mapAuthorityLevel(document.getDocType()));
-        legalChunk.setEffectiveStatus(document.getEffectiveStatus());
+        legalChunk.setSourceUrl(source.sourceUrl());
+        legalChunk.setAuthorityLevel(source.authorityLevel());
+        legalChunk.setEffectiveStatus(source.effectiveStatus());
         legalChunk.setStatus(STATUS_PENDING);
         legalChunk.setCreatedAt(LocalDateTime.now());
         return legalChunk;
     }
 
-    private Map<String, Object> buildEsPayload(LegalDocument document, LegalChunk legalChunk, List<Double> vector) {
+    private Map<String, Object> buildEsPayload(IndexSource source, LegalChunk legalChunk, List<Double> vector) {
         Map<String, Object> payload = new LinkedHashMap<>();
         payload.put("id", legalChunk.getId());
         payload.put("group_code", legalChunk.getGroupCode());
@@ -148,7 +170,7 @@ public class LegalDocumentIndexService {
         payload.put("topic_tags", splitTopicTags(legalChunk.getTopicTags()));
         payload.put("content", legalChunk.getContent());
         payload.put("content_vector", vector);
-        payload.put("source_title", document.getSourceTitle());
+        payload.put("source_title", source.sourceTitle());
         payload.put("source_url", legalChunk.getSourceUrl());
         payload.put("authority_level", legalChunk.getAuthorityLevel());
         payload.put("effective_status", legalChunk.getEffectiveStatus());
@@ -196,6 +218,51 @@ public class LegalDocumentIndexService {
         };
     }
 
+    private IndexSource buildKnowledgeSource(KnowledgeDocument document) {
+        return new IndexSource(
+                true,
+                document.getId(),
+                firstNonBlank(document.getPublicId(), String.valueOf(document.getId())),
+                document.getTitle(),
+                document.getCanonicalSourceUrl(),
+                document.getAuthorityLevel() == null ? "" : String.valueOf(document.getAuthorityLevel()),
+                document.getScopeText(),
+                normalize(document.getStatus()),
+                joinNonEmpty(document.getTitle(), document.getScopeText())
+        );
+    }
+
+    private IndexSource buildLegacySource(LegalDocument document) {
+        return new IndexSource(
+                false,
+                document.getId(),
+                normalize(document.getGroupCode()),
+                document.getSourceTitle(),
+                document.getSourceUrl(),
+                mapAuthorityLevel(document.getDocType()),
+                document.getTopicTags(),
+                normalize(document.getEffectiveStatus()),
+                document.getRawText()
+        );
+    }
+
+    private void updateSourceStatus(IndexSource source, String status) {
+        if (source.knowledgeDocument()) {
+            KnowledgeDocument document = knowledgeDocumentMapper.selectById(source.documentId());
+            if (document != null) {
+                document.setStatus(status);
+                knowledgeDocumentMapper.updateById(document);
+            }
+            return;
+        }
+
+        LegalDocument document = legalDocumentMapper.selectById(source.documentId());
+        if (document != null) {
+            document.setStatus(status);
+            legalDocumentMapper.updateById(document);
+        }
+    }
+
     private List<Double> truncateVector(List<Double> vector) {
         if (vector == null || vector.isEmpty()) {
             return List.of();
@@ -219,5 +286,28 @@ public class LegalDocumentIndexService {
 
     private String normalize(String value) {
         return value == null ? "" : value.trim();
+    }
+
+    private String firstNonBlank(String first, String second) {
+        return StringUtils.hasText(first) ? first.trim() : normalize(second);
+    }
+
+    private String joinNonEmpty(String... values) {
+        return Arrays.stream(values)
+                .filter(StringUtils::hasText)
+                .map(String::trim)
+                .collect(Collectors.joining("\n\n"));
+    }
+
+    private record IndexSource(
+            boolean knowledgeDocument,
+            Long documentId,
+            String groupCode,
+            String sourceTitle,
+            String sourceUrl,
+            String authorityLevel,
+            String topicTags,
+            String effectiveStatus,
+            String rawText) {
     }
 }

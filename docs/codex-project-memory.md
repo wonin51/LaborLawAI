@@ -109,6 +109,7 @@ Last updated: 2026-07-22
 - Local development now has a default admin account config `editor|local-dev-admin-token|KNOWLEDGE_READ,KNOWLEDGE_WRITE`, so `/api/admin/**` no longer returns 503 simply because admin accounts were omitted. Override with `ADMIN_ACCOUNTS` for real use.
 - User later requested the default ES chunk index name to be `legal_chunk_index_g5`; `EsIndexService.DEFAULT_INDEX_NAME` now uses that value.
 - Added reusable `EsIndexService.splitLegalDocument(rawText)`, returning `LegalKnowledgeChunk` records with `chunkIndex`, `articleNo`, `sectionTitle`, `topicTags`, and `content`. It skips blank paragraphs, recognizes article headings like `第X条`, section headings like `第X章/节/编/部`, falls back to natural paragraph ordering, and splits long chunks to stay within 1200 characters.
+- Root-cause fix for index 404: the front-end knowledge document list writes to `kb_document`, while the original index service only queried `legal_document`. `LegalDocumentIndexService` now resolves `kb_document` first and falls back to `legal_document`; `legal_chunk.group_code` is used to keep the two source namespaces separate.
 
 ## Frontend Status
 

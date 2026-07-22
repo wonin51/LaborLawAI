@@ -25,12 +25,15 @@ const documentTypeOptions = [
 const statusOptions = [
   { label: 'DRAFT', value: 'DRAFT' },
   { label: 'PUBLISHED', value: 'PUBLISHED' },
+  { label: 'INDEXED', value: 'indexed' },
   { label: 'DISABLED', value: 'DISABLED' }
 ]
 
 const statusTagTypeMap = {
   DRAFT: 'info',
   PUBLISHED: 'success',
+  indexed: 'success',
+  INDEXED: 'success',
   DISABLED: 'danger'
 }
 
