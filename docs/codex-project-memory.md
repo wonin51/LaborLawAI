@@ -1,6 +1,6 @@
 # Codex Project Memory
 
-Last updated: 2026-07-18
+Last updated: 2026-07-22
 
 ## Project
 
@@ -95,6 +95,20 @@ Last updated: 2026-07-18
   - `qa_session`
   - `qa_feedback`
 - Backend was temporarily started on port `8081` while MySQL was running; `GET /api/health` returned `{"status":"ok"}`.
+
+## 2026-07-22 Elasticsearch chunk index init
+
+- User requested `POST /api/es/init-index` to initialize a legal chunk Elasticsearch index with a configurable index name and default demo name `legal_chunk_index`.
+- Added `EsIndexService` and `EsIndexController` with unified `ApiResponse<String>` output.
+- Behavior: if the index already exists, the service returns `索引已存在`; otherwise it creates the index and returns `索引创建成功`.
+- Mapping covers `id`, `group_code`, `document_id`, `article_no`, `section_title`, `topic_tags`, `content`, `content_vector`, `source_title`, `source_url`, `authority_level`, `effective_status`, and `created_at`.
+- `content_vector` uses `dense_vector` with dimensions taken from `rag.ai.embedding.dimension` and capped at `2048` so index creation, writes, and later retrieval can stay aligned on one dimension.
+- Added controller and service tests for both the create and already-exists paths.
+- Runtime verification on 2026-07-22 showed the provided Elasticsearch endpoint still returns HTTP 401 with the current credentials state; the app now surfaces this as HTTP 503 with a clear `ApiResponse` message instead of a generic 500.
+- Elasticsearch config now reads only `RAG_AI_ELASTICSEARCH_URL`, `RAG_AI_ELASTICSEARCH_USERNAME`, and `RAG_AI_ELASTICSEARCH_PASSWORD`; the current default endpoint is `http://server1.shanci.tech:60080/es/`.
+- Local development now has a default admin account config `editor|local-dev-admin-token|KNOWLEDGE_READ,KNOWLEDGE_WRITE`, so `/api/admin/**` no longer returns 503 simply because admin accounts were omitted. Override with `ADMIN_ACCOUNTS` for real use.
+- User later requested the default ES chunk index name to be `legal_chunk_index_g5`; `EsIndexService.DEFAULT_INDEX_NAME` now uses that value.
+- Added reusable `EsIndexService.splitLegalDocument(rawText)`, returning `LegalKnowledgeChunk` records with `chunkIndex`, `articleNo`, `sectionTitle`, `topicTags`, and `content`. It skips blank paragraphs, recognizes article headings like `第X条`, section headings like `第X章/节/编/部`, falls back to natural paragraph ordering, and splits long chunks to stay within 1200 characters.
 
 ## Frontend Status
 
@@ -246,3 +260,32 @@ Last updated: 2026-07-18
 - Direct live verification: embedding returned HTTP 200 with a 2560-dimension vector; chat returned HTTP 200 with model `qwen2.5:7b`.
 - Restarted backend with runtime environment configuration. `GET /api/ai/ping` now reports embedding and chat success.
 - Elasticsearch remains blocked externally: direct Basic Auth request to the provided `/es/` endpoint returns HTTP 401 with `unable to authenticate user [elastic]`. This requires a valid current ES password or server-side password reset; do not record the supplied raw password.
+
+## 2026-07-22 Legal document indexing endpoint
+
+- Current workspace: `C:\Users\35275\Documents\Codex\LaborLawAI`.
+- Added a dedicated legal indexing flow at `POST /api/legal-documents/{id}/index` with unified `ApiResponse`.
+- New persistence models and mappers:
+  - `legal_document`
+  - `legal_chunk`
+- `LegalDocumentIndexService` now handles the full flow: load document, reject `disabled`, reuse existing indexed chunks, split `raw_text`, create pending chunk rows, generate embeddings, truncate vectors to the ES dimension cap, write to Elasticsearch, and update chunk/document status.
+- `EsIndexService` now exposes reusable `embedText(...)` and `indexDocument(...)` helpers in addition to index initialization and chunk splitting.
+- Added DDL for `legal_document` and `legal_chunk` to both backend init scripts so the new endpoint has a clear local-dev schema entry point.
+- Added tests for the controller, service, and ES HTTP behavior.
+- Verification: `cd backend && mvn test` passed with 50 tests, 0 failures, 0 errors, 0 skipped.
+
+## 2026-07-22 Frontend legal document indexing action
+
+- Added a single-row `生成知识索引` action to the legal document list page.
+- The action calls `POST /api/legal-documents/{id}/index` via `generateLegalDocumentIndex(id)`.
+- The clicked row shows a loading state through `indexingDocumentId` to prevent duplicate clicks.
+- On success, the page shows `知识索引生成成功` and opens a compact `知识索引结果` dialog.
+- The result dialog shows only `document_id`, `chunk_count`, `indexed_count`, `failed_count`, and `status`, plus the fixed note `该法律文档已经转换为知识分片，并写入 Elasticsearch。`; it does not render vector content.
+- Failure uses the backend error message from the API wrapper.
+- Added `KnowledgeDocsIndexing.test.js` covering the success dialog and backend-error display.
+- Verification: `cd frontend && npm.cmd test` passed with 5 files / 22 tests; `npm.cmd run build` passed with the existing Rollup PURE-comment warnings.
+
+## 2026-07-22 Interface documentation
+
+- Added `docs/legal-indexing-api.md` as the handoff document for the ES init, legal chunk split, single-document indexing, front-end indexing action, and AI ping flows.
+- The doc summarizes the four prompt-driven changes, required runtime configuration, and the final user-facing behavior after the changes are applied.

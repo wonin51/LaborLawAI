@@ -1,10 +1,11 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { CirclePlus, Delete, Edit, Refresh, Search, View } from '@element-plus/icons-vue'
+import { CirclePlus, Delete, DocumentChecked, Edit, Refresh, Search, View } from '@element-plus/icons-vue'
 import {
   createKnowledgeDocument,
   deleteKnowledgeDocument,
+  generateLegalDocumentIndex,
   getKnowledgeDocumentDetail,
   getKnowledgeDocuments,
   normalizeKnowledgeDocumentPage,
@@ -44,11 +45,14 @@ const editLoading = ref(false)
 const detailLoading = ref(false)
 const deletingDocumentId = ref(null)
 const statusUpdatingId = ref(null)
+const indexingDocumentId = ref(null)
 const createDialogVisible = ref(false)
 const editDialogVisible = ref(false)
 const detailDialogVisible = ref(false)
+const indexResultDialogVisible = ref(false)
 const editingDocumentId = ref(null)
 const detailDocument = ref(null)
+const indexResult = ref(createIndexResult())
 const tableRows = ref([])
 const pagination = reactive({
   pageNo: 1,
@@ -82,6 +86,16 @@ function createDocumentForm() {
     scope_text: '',
     authority_level: 100,
     status: 'DRAFT'
+  }
+}
+
+function createIndexResult() {
+  return {
+    document_id: null,
+    chunk_count: 0,
+    indexed_count: 0,
+    failed_count: 0,
+    status: '-'
   }
 }
 
@@ -263,6 +277,29 @@ async function handleStatusChange(row, nextStatus) {
   }
 }
 
+async function handleGenerateIndex(row) {
+  if (!row?.id || indexingDocumentId.value) return
+
+  indexingDocumentId.value = row.id
+  try {
+    const result = await generateLegalDocumentIndex(row.id)
+    indexResult.value = {
+      document_id: result?.document_id ?? row.id,
+      chunk_count: result?.chunk_count ?? 0,
+      indexed_count: result?.indexed_count ?? 0,
+      failed_count: result?.failed_count ?? 0,
+      status: result?.status || '-'
+    }
+    indexResultDialogVisible.value = true
+    ElMessage.success('知识索引生成成功')
+    await loadDocuments(pagination.pageNo, pagination.pageSize)
+  } catch (error) {
+    ElMessage.error(error?.message || '生成知识索引失败')
+  } finally {
+    indexingDocumentId.value = null
+  }
+}
+
 async function openDetail(row) {
   detailDialogVisible.value = true
   detailLoading.value = true
@@ -383,6 +420,13 @@ onMounted(() => {
                 >
                   <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
+                <el-button
+                  link
+                  type="primary"
+                  :icon="DocumentChecked"
+                  :loading="indexingDocumentId === scope.row.id"
+                  @click="handleGenerateIndex(scope.row)"
+                >生成知识索引</el-button>
                 <el-button
                   link
                   type="danger"
@@ -514,6 +558,25 @@ onMounted(() => {
             <el-descriptions-item label="更新时间">{{ formatDateTime(detailDocument.updated_at) }}</el-descriptions-item>
           </el-descriptions>
         </template>
+      </div>
+    </el-dialog>
+
+    <el-dialog v-model="indexResultDialogVisible" title="知识索引结果" width="760px" destroy-on-close>
+      <div class="knowledge-detail-wrap">
+        <el-alert
+          title="该法律文档已经转换为知识分片，并写入 Elasticsearch。"
+          type="info"
+          :closable="false"
+          show-icon
+          class="knowledge-index-alert"
+        />
+        <el-descriptions :column="2" border class="knowledge-detail-descriptions">
+          <el-descriptions-item label="document_id">{{ indexResult.document_id ?? '-' }}</el-descriptions-item>
+          <el-descriptions-item label="chunk_count">{{ indexResult.chunk_count }}</el-descriptions-item>
+          <el-descriptions-item label="indexed_count">{{ indexResult.indexed_count }}</el-descriptions-item>
+          <el-descriptions-item label="failed_count">{{ indexResult.failed_count }}</el-descriptions-item>
+          <el-descriptions-item label="status">{{ indexResult.status }}</el-descriptions-item>
+        </el-descriptions>
       </div>
     </el-dialog>
   </section>

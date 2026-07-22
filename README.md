@@ -83,7 +83,10 @@ $env:OPENAI_API_KEY="your_api_key"
 $env:OPENAI_BASE_URL="https://your-openai-compatible-endpoint"
 $env:OPENAI_EMBEDDING_MODEL="Qwen/Qwen3-Embedding-4B"
 $env:ELASTICSEARCH_URIS="http://localhost:9200"
-$env:ADMIN_ACCOUNTS="editor|replace-with-editor-token|KNOWLEDGE_READ,KNOWLEDGE_WRITE;reader|replace-with-reader-token|KNOWLEDGE_READ"
+$env:RAG_AI_ELASTICSEARCH_URL="http://server1.shanci.tech:60080/es/"
+$env:RAG_AI_ELASTICSEARCH_USERNAME="elastic"
+$env:RAG_AI_ELASTICSEARCH_PASSWORD="your_es_password"
+$env:ADMIN_ACCOUNTS="editor|local-dev-admin-token|KNOWLEDGE_READ,KNOWLEDGE_WRITE;reader|replace-with-reader-token|KNOWLEDGE_READ"
 ```
 
 不要把真实密码、Token 或 API Key 写入 Git。
@@ -160,7 +163,7 @@ Copy-Item .env.example .env -Force
 
 ```text
 VITE_API_BASE_URL=http://localhost:8080
-VITE_ADMIN_API_TOKEN=replace-with-editor-token
+VITE_ADMIN_API_TOKEN=local-dev-admin-token
 ```
 
 说明：
@@ -292,16 +295,19 @@ $env:OPENAI_API_KEY="your_api_key"
 $env:OPENAI_BASE_URL="https://your-openai-compatible-endpoint"
 $env:OPENAI_EMBEDDING_MODEL="Qwen/Qwen3-Embedding-4B"
 $env:ELASTICSEARCH_URIS="http://localhost:9200"
+$env:RAG_AI_ELASTICSEARCH_URL="http://server1.shanci.tech:60080/es/"
+$env:RAG_AI_ELASTICSEARCH_USERNAME="elastic"
+$env:RAG_AI_ELASTICSEARCH_PASSWORD="your_es_password"
 ```
 
 不要把真实密码、Token 或 API Key 写入 Git。
 管理员接口需要显式配置访问令牌。后端新配置使用 `ADMIN_ACCOUNTS`，前端使用其中一个账户的 token 配置 `VITE_ADMIN_API_TOKEN`。旧环境仍兼容 `ADMIN_API_TOKEN`：
 
 ```powershell
-$env:ADMIN_ACCOUNTS="editor|replace-with-editor-token|KNOWLEDGE_READ,KNOWLEDGE_WRITE;reader|replace-with-reader-token|KNOWLEDGE_READ"
+$env:ADMIN_ACCOUNTS="editor|local-dev-admin-token|KNOWLEDGE_READ,KNOWLEDGE_WRITE;reader|replace-with-reader-token|KNOWLEDGE_READ"
 ```
 
-前端可以复制 `frontend/.env.example` 为本地环境文件，并填写 `editor` 或其他具有所需角色的账户 token。未配置后端令牌时，`/api/admin/**` 会返回 `503`；令牌缺失或不匹配时返回 `401`。
+前端可以复制 `frontend/.env.example` 为本地环境文件，并填写 `editor` 或其他具有所需角色的账户 token。后端本地默认提供 `editor|local-dev-admin-token|KNOWLEDGE_READ,KNOWLEDGE_WRITE`；令牌缺失或不匹配时返回 `401`。
 
 ## MySQL 初始化
 

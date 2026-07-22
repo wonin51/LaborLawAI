@@ -1,4 +1,4 @@
--- 设置客户端字符集
+﻿-- 设置客户端字符集
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -394,6 +394,46 @@ CREATE TABLE `kb_chunk_ref` (
     CONSTRAINT `fk_chunk_version` FOREIGN KEY (`document_version_id`) REFERENCES `kb_document_version` (`id`) ON DELETE CASCADE,
     CONSTRAINT `fk_chunk_job` FOREIGN KEY (`ingestion_job_id`, `document_version_id`) REFERENCES `kb_ingestion_job` (`id`, `document_version_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='片段引用表';
+
+DROP TABLE IF EXISTS `legal_document`;
+CREATE TABLE `legal_document` (
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `group_code` VARCHAR(64) DEFAULT NULL COMMENT '小组编码',
+    `source_title` VARCHAR(255) DEFAULT NULL COMMENT '来源标题',
+    `source_url` VARCHAR(1024) DEFAULT NULL COMMENT '来源URL',
+    `doc_type` VARCHAR(64) DEFAULT NULL COMMENT '文档类型',
+    `topic_tags` VARCHAR(500) DEFAULT NULL COMMENT '主题标签',
+    `effective_status` VARCHAR(64) DEFAULT NULL COMMENT '效力状态',
+    `status` VARCHAR(32) NOT NULL DEFAULT 'draft' COMMENT '状态',
+    `raw_text` MEDIUMTEXT NOT NULL COMMENT '原始正文',
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+    `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_legal_document_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='法律文档表';
+
+DROP TABLE IF EXISTS `legal_chunk`;
+CREATE TABLE `legal_chunk` (
+    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `group_code` VARCHAR(64) DEFAULT NULL COMMENT '小组编码',
+    `document_id` BIGINT UNSIGNED NOT NULL COMMENT '法律文档ID',
+    `chunk_index` INT NOT NULL COMMENT '分片序号',
+    `article_no` VARCHAR(64) DEFAULT NULL COMMENT '条款号',
+    `section_title` VARCHAR(255) DEFAULT NULL COMMENT '章节标题',
+    `topic_tags` VARCHAR(500) DEFAULT NULL COMMENT '主题标签',
+    `content` MEDIUMTEXT NOT NULL COMMENT '分片正文',
+    `content_hash` CHAR(64) NOT NULL COMMENT '内容哈希',
+    `source_url` VARCHAR(1024) DEFAULT NULL COMMENT '来源URL',
+    `authority_level` VARCHAR(32) DEFAULT NULL COMMENT '来源权威等级',
+    `effective_status` VARCHAR(64) DEFAULT NULL COMMENT '效力状态',
+    `status` VARCHAR(32) NOT NULL DEFAULT 'pending' COMMENT '状态',
+    `es_doc_id` VARCHAR(128) DEFAULT NULL COMMENT 'ES文档ID',
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) COMMENT '创建时间',
+    `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3) COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY `idx_legal_chunk_document` (`document_id`),
+    KEY `idx_legal_chunk_status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='法律知识片段表';
 
 -- ============================================================
 -- 4. 反馈与质量域 (3张表)

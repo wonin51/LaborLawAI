@@ -1,6 +1,8 @@
 package com.laborlaw.ragkbdemo.controller;
 
 import com.laborlaw.ragkbdemo.exception.AdminAuthException;
+import com.laborlaw.ragkbdemo.exception.ApiOperationException;
+import com.laborlaw.ragkbdemo.exception.EsOperationException;
 import com.laborlaw.ragkbdemo.vo.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +46,20 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AdminAuthException.class)
     public ResponseEntity<ApiResponse<Void>> handleAdminAuth(AdminAuthException ex) {
+        HttpStatus status = HttpStatus.valueOf(ex.getStatusCode());
+        return ResponseEntity.status(status)
+                .body(ApiResponse.error(ex.getStatusCode(), ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(EsOperationException.class)
+    public ResponseEntity<ApiResponse<Void>> handleEsOperation(EsOperationException ex) {
+        HttpStatus status = HttpStatus.valueOf(ex.getStatusCode());
+        return ResponseEntity.status(status)
+                .body(ApiResponse.error(ex.getStatusCode(), ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(ApiOperationException.class)
+    public ResponseEntity<ApiResponse<Void>> handleApiOperation(ApiOperationException ex) {
         HttpStatus status = HttpStatus.valueOf(ex.getStatusCode());
         return ResponseEntity.status(status)
                 .body(ApiResponse.error(ex.getStatusCode(), ex.getMessage(), null));

@@ -31,6 +31,41 @@ CREATE TABLE IF NOT EXISTS kb_chunk (
     ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS legal_document (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  group_code VARCHAR(64) NULL,
+  source_title VARCHAR(255) NULL,
+  source_url VARCHAR(500) NULL,
+  doc_type VARCHAR(64) NULL,
+  topic_tags VARCHAR(500) NULL,
+  effective_status VARCHAR(64) NULL,
+  status VARCHAR(32) NOT NULL DEFAULT 'draft',
+  raw_text MEDIUMTEXT NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS legal_chunk (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  group_code VARCHAR(64) NULL,
+  document_id BIGINT NOT NULL,
+  chunk_index INT NOT NULL,
+  article_no VARCHAR(64) NULL,
+  section_title VARCHAR(255) NULL,
+  topic_tags VARCHAR(500) NULL,
+  content MEDIUMTEXT NOT NULL,
+  content_hash CHAR(64) NOT NULL,
+  source_url VARCHAR(500) NULL,
+  authority_level VARCHAR(32) NULL,
+  effective_status VARCHAR(64) NULL,
+  status VARCHAR(32) NOT NULL DEFAULT 'pending',
+  es_doc_id VARCHAR(128) NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  KEY idx_legal_chunk_document (document_id),
+  KEY idx_legal_chunk_status (status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS qa_session (
   id BIGINT PRIMARY KEY AUTO_INCREMENT,
   user_label VARCHAR(128) NULL,

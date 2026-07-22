@@ -24,6 +24,10 @@ export function updateKnowledgeDocumentStatus(id, status) {
   return http.patch(`/api/admin/knowledge/documents/${encodeURIComponent(id)}/status`, { status })
 }
 
+export function generateLegalDocumentIndex(id) {
+  return http.post(`/api/legal-documents/${encodeURIComponent(id)}/index`)
+}
+
 export function normalizeKnowledgeDocumentPage(payload) {
   const data = payload || {}
   const records = Array.isArray(data.records)

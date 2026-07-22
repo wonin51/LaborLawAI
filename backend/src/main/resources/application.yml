@@ -44,5 +44,5 @@ rag:
 
 app:
   admin:
-    accounts: ${ADMIN_ACCOUNTS:}
+    accounts: ${ADMIN_ACCOUNTS:editor|local-dev-admin-token|KNOWLEDGE_READ,KNOWLEDGE_WRITE}
     token: ${ADMIN_API_TOKEN:}
