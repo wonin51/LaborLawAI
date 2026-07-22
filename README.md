@@ -82,7 +82,9 @@ $env:DB_PASSWORD="your_password"
 $env:OPENAI_API_KEY="your_api_key"
 $env:OPENAI_BASE_URL="https://your-openai-compatible-endpoint"
 $env:OPENAI_EMBEDDING_MODEL="Qwen/Qwen3-Embedding-4B"
-$env:ELASTICSEARCH_URIS="http://localhost:9200"
+# 旧版/本地直连 ES 才需要这一项。9200 只是 Elasticsearch 默认 HTTP 端口，不是本项目的 RAG 访问地址。
+# 如果你没有单独启动本地 ES，这一项可以不配。
+# $env:ELASTICSEARCH_URIS="http://localhost:9200"
 $env:RAG_AI_ELASTICSEARCH_URL="http://server1.shanci.tech:60080/es/"
 $env:RAG_AI_ELASTICSEARCH_USERNAME="elastic"
 $env:RAG_AI_ELASTICSEARCH_PASSWORD="your_es_password"
@@ -294,7 +296,9 @@ $env:DB_PASSWORD="your_password"
 $env:OPENAI_API_KEY="your_api_key"
 $env:OPENAI_BASE_URL="https://your-openai-compatible-endpoint"
 $env:OPENAI_EMBEDDING_MODEL="Qwen/Qwen3-Embedding-4B"
-$env:ELASTICSEARCH_URIS="http://localhost:9200"
+# 旧版/本地直连 ES 才需要这一项。9200 只是 Elasticsearch 默认 HTTP 端口，不是本项目的 RAG 访问地址。
+# 如果你没有单独启动本地 ES，这一项可以不配。
+# $env:ELASTICSEARCH_URIS="http://localhost:9200"
 $env:RAG_AI_ELASTICSEARCH_URL="http://server1.shanci.tech:60080/es/"
 $env:RAG_AI_ELASTICSEARCH_USERNAME="elastic"
 $env:RAG_AI_ELASTICSEARCH_PASSWORD="your_es_password"
@@ -416,4 +420,8 @@ npm.cmd --version
 
 ### 未配置 MySQL 或 Elasticsearch
 
-当前阶段只搭建工程骨架、前端原型和健康检查接口，尚未实现数据库或向量检索业务逻辑。后续实现相关接口时再启动并配置 MySQL、Elasticsearch。
+当前项目已经接入了 MySQL 和 Elasticsearch 相关能力，但运行哪些接口取决于你是否把环境变量和数据库初始化好：
+
+- 未配置 MySQL：文档查询、索引生成等涉及数据库读写的接口会失败。
+- 未配置 Elasticsearch：`/api/es/init-index`、`/api/legal-documents/{id}/index` 和 `/api/ai/ping` 的 ES 检查会失败。
+- 只启动本地开发页面时，`http://localhost:8080/api/health` 仍可用于确认后端是否起来。
